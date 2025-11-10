@@ -1,0 +1,5 @@
+[
+  { "id": 1, "name": "Stari grad", "city": "Beograd", "description": "Istorijski deo grada." },
+  { "id": 2, "name": "Nacionalni muzej", "city": "Novi Sad", "description": "Veliki muzej sa stalnom postavkom." },
+  { "id": 3, "name": "Planinski izlet", "city": "Kopaonik", "description": "Popularna planinska destinacija." }
+]

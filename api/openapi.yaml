@@ -1,0 +1,50 @@
+openapi: 3.0.0
+info:
+  title: Turistička aplikacija API
+  version: 0.1.0
+servers:
+  - url: http://localhost:3000
+paths:
+  /api/attractions:
+    get:
+      summary: Lista turističkih atrakcija
+      responses:
+        '200':
+          description: Lista atrakcija
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Attraction'
+  /api/attractions/{id}:
+    get:
+      summary: Detalji atrakcije po ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Atrakcija
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Attraction'
+        '404':
+          description: Nije pronađeno
+components:
+  schemas:
+    Attraction:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        city:
+          type: string
+        description:
+          type: string
