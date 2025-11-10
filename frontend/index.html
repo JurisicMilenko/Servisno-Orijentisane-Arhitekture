@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Turistička aplikacija — Frontend demo</title>
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+  <main>
+    <h1>Turistička aplikacija — Frontend demo</h1>
+
+    <section id="login">
+      <h2>Login</h2>
+      <form id="loginForm">
+        <label>Username<br><input type="text" id="loginUsername" required></label>
+        <label>Password<br><input type="password" id="loginPassword" required></label>
+        <div style="display:flex;gap:8px;margin-top:8px">
+          <button type="submit">Login</button>
+          <button type="button" id="showRegister">Register</button>
+        </div>
+      </form>
+      <pre id="loginResult"></pre>
+    </section>
+
+    <section id="register" style="display:none">
+      <h2>Register</h2>
+      <form id="registerForm">
+        <label>Username<br><input type="text" id="regUsername" required></label>
+        <label>Email<br><input type="email" id="regEmail"></label>
+        <label>Password<br><input type="password" id="regPassword" required></label>
+        <label>Role<br>
+          <select id="regRole">
+            <option value="tourist">Tourist</option>
+            <option value="guide">Guide</option>
+          </select>
+        </label>
+        <label>First name<br><input type="text" id="regFirst"></label>
+        <label>Last name<br><input type="text" id="regLast"></label>
+        <label>Avatar URL<br><input type="text" id="regAvatar"></label>
+        <label>Bio<br><textarea id="regBio"></textarea></label>
+        <label>Motto<br><input type="text" id="regMotto"></label>
+        <div style="display:flex;gap:8px;margin-top:8px">
+          <button type="submit">Register</button>
+          <button type="button" id="hideRegister">Back to Login</button>
+        </div>
+      </form>
+      <pre id="registerResult"></pre>
+    </section>
+
+    <section id="info">
+      <h2>Info</h2>
+      <p>Backend base URL: <code id="apiBase">http://localhost:3000</code></p>
+      <p>After login a token will be shown. You can copy it and use it to call protected endpoints (if implemented).</p>
+    </section>
+  </main>
+
+  <script src="./js/register.js"></script>
+</body>
+</html>

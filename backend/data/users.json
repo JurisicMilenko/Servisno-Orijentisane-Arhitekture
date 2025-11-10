@@ -1,0 +1,18 @@
+[
+  {
+    "id": 1,
+    "username": "test"
+  },
+  {
+    "id": 2,
+    "username": "test1",
+    "passwordHash": "$2b$10$WVKJpiaVheOvayROWE3.9O7Ade6IGTXu/ixawcYsZe68rjd4wjKrm",
+    "email": "email@gmail.com",
+    "role": "tourist",
+    "first_name": "test",
+    "last_name": "test",
+    "avatar_url": "test",
+    "bio": "test",
+    "motto": "test"
+  }
+]
