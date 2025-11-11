@@ -4,17 +4,36 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Home — Turistička aplikacija</title>
-  <link rel="stylesheet" href="./style.css">
+  <!-- Prevent caching during development -->
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="0" />
+  <link rel="stylesheet" href="./style.css?v=20251111">
 </head>
 <body>
-  <main>
-    <h1>Home</h1>
-    <button id="logout">Logout</button>
-    <section id="profile">
-      <h2>Your profile</h2>
-      <div id="profileContent">Loading...</div>
+  <!-- Navigation Bar -->
+  <nav class="navbar">
+    <div class="navbar-container">
+      <div class="navbar-brand">
+        <h1>🌍 Turistička Aplikacija</h1>
+      </div>
+      <div class="navbar-menu">
+        <button id="userDetailsBtn" class="nav-link">👤 Moj Profil</button>
+        <button id="logoutBtn" class="nav-link logout-btn">Logout</button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <section id="adsList" class="ads-section">
+      <h2>Dostupni Oglasi</h2>
+      <div class="ads-container" id="adsContainer">
+        <p style="text-align: center; color: #999;">Nema dostupnih oglasa</p>
+      </div>
     </section>
   </main>
-  <script src="./js/home.js"></script>
+
+  <script src="./js/home.js?v=20251111" defer></script>
 </body>
 </html>

@@ -4,7 +4,11 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Turistička aplikacija — Frontend demo</title>
-  <link rel="stylesheet" href="./style.css">
+  <!-- Prevent caching during development -->
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="0" />
+  <link rel="stylesheet" href="./style.css?v=20251111">
 </head>
 <body>
   <main>
@@ -55,6 +59,18 @@
     </section>
   </main>
 
-  <script src="./js/register.js"></script>
+  <script>
+    // Force a cache-busting query param on first load if absent
+    (function() {
+      try {
+        if (!location.search.match(/(^|[?&])v=/)) {
+          var ts = Date.now();
+          // use replace so back button doesn't keep original cached URL
+          location.replace(location.pathname + '?v=' + ts);
+        }
+      } catch (e) { /* ignore */ }
+    })();
+  </script>
+  <script src="./js/register.js?v=20251111" defer></script>
 </body>
 </html>

@@ -8,5 +8,7 @@ router.post('/login', controller.login);
 
 // protected: get my profile
 router.get('/me', authenticate, controller.me);
+// update own profile
+router.put('/me', authenticate, controller.updateProfile);
 
 module.exports = router;

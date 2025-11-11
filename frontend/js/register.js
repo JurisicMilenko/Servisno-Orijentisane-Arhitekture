@@ -1,4 +1,4 @@
-const API_BASE = document.getElementById('apiBase').textContent || 'http://localhost:3000';
+const API_BASE = 'http://localhost:4000';
 
 function jsonResponse(res) {
   return res.text().then(t => {
@@ -56,9 +56,10 @@ loginForm.addEventListener('submit', async (e) => {
     const j = await jsonResponse(res);
     loginResult.textContent = JSON.stringify(j, null, 2);
     if (res.ok && j && j.body && j.body.token) {
-      // save token and redirect to home
+      // save token and redirect to home with cache busting
       localStorage.setItem('token', j.body.token);
-      window.location.href = './home.html';
+      const ts = Date.now();
+      window.location.href = `./home.html?v=${ts}`;
     }
   } catch (err) {
     loginResult.textContent = 'Error: ' + err.message;

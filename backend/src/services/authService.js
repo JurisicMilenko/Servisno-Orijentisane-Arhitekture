@@ -14,7 +14,7 @@ exports.register = async ({ username, password, email, role, first_name, last_na
 
 exports.login = async ({ username, password }) => {
   const user = await userModel.findByUsername(username);
-  if (!user) throw new Error('invalid credentials');
+  if (!user || !user.passwordHash) throw new Error('invalid credentials');
   const ok = await bcrypt.compare(password, user.passwordHash);
   if (!ok) throw new Error('invalid credentials');
   const token = jwt.sign({ sub: user.id, username: user.username }, JWT_SECRET, { expiresIn: '2h' });
@@ -30,4 +30,11 @@ exports.getProfile = async (id) => {
     return all.find(u => u.id === id);
   }
   return null;
+};
+
+exports.updateProfile = async (id, payload) => {
+  if (!userModel.update) throw new Error('update not supported by user model');
+  // ensure id type matches stored id format
+  const updated = await userModel.update(id, payload);
+  return updated;
 };

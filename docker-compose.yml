@@ -1,0 +1,93 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:15
+    environment:
+      POSTGRES_DB: soa_demo
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      # initialize DB with schema from backend
+      - ./backend/data/schema.sql:/docker-entrypoint-initdb.d/schema.sql:ro
+    networks:
+      - soa-net
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    environment:
+      NODE_ENV: production
+      PORT: 3000
+      PGHOST: postgres
+      PGUSER: postgres
+      PGPASSWORD: postgres
+      PGDATABASE: soa_demo
+      PGPORT: 5432
+      JWT_SECRET: change-me-in-prod
+    volumes:
+      - ./backend/data:/usr/src/app/data
+    depends_on:
+      - postgres
+    networks:
+      - soa-net
+
+  stakeholders:
+    build:
+      context: ./stakeholders
+      dockerfile: Dockerfile
+    environment:
+      NODE_ENV: production
+      PORT: 3001
+    networks:
+      - soa-net
+
+  blog:
+    build:
+      context: ./blog
+      dockerfile: Dockerfile
+    environment:
+      NODE_ENV: production
+      PORT: 3002
+    networks:
+      - soa-net
+
+  gateway:
+    build:
+      context: ./gateway
+      dockerfile: Dockerfile
+    environment:
+      NODE_ENV: production
+      PORT: 4000
+      AUTH_SERVICE_URL: http://backend:3000
+      ATTRACTIONS_SERVICE_URL: http://backend:3000
+      STAKEHOLDERS_SERVICE_URL: http://stakeholders:3001
+      BLOG_SERVICE_URL: http://blog:3002
+    ports:
+      - '4000:4000'
+    depends_on:
+      - backend
+      - stakeholders
+      - blog
+    networks:
+      - soa-net
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - '8080:80'
+    environment:
+      API_BASE: http://localhost:4000
+    networks:
+      - soa-net
+
+volumes:
+  postgres_data:
+
+networks:
+  soa-net:
+    driver: bridge

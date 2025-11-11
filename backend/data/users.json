@@ -1,10 +1,6 @@
 [
   {
     "id": 1,
-    "username": "test"
-  },
-  {
-    "id": 2,
     "username": "test1",
     "passwordHash": "$2b$10$WVKJpiaVheOvayROWE3.9O7Ade6IGTXu/ixawcYsZe68rjd4wjKrm",
     "email": "email@gmail.com",
@@ -14,5 +10,29 @@
     "avatar_url": "test",
     "bio": "test",
     "motto": "test"
+  },
+  {
+    "id": 2,
+    "username": "test123",
+    "passwordHash": "$2b$10$ngT8uGvgtIS/84dvBlxm3O.mqQmtovuXwFQPs0FaOF7/QVGihXrxy",
+    "email": "test@gmial.com",
+    "role": "tourist",
+    "first_name": "test",
+    "last_name": "t",
+    "avatar_url": "test",
+    "bio": "test",
+    "motto": "t"
+  },
+  {
+    "id": 3,
+    "username": "testuser_$(date +%s)",
+    "passwordHash": "$2b$10$JwAduJR6.GVah4aNysSRNuP2IBLfFCDs/YKIqT35G4eOMeM0Rrw3K",
+    "email": "t@e.st",
+    "role": "tourist",
+    "first_name": null,
+    "last_name": null,
+    "avatar_url": null,
+    "bio": null,
+    "motto": null
   }
 ]
