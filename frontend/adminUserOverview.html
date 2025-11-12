@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Admin - Pregled Korisnika</title>
+  <!-- Prevent caching during development -->
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="0" />
+  <link rel="stylesheet" href="./style.css?v=20251112">
+</head>
+<body>
+  <!-- Navigation Bar -->
+  <nav class="navbar">
+    <div class="navbar-container">
+      <div class="navbar-brand">
+        <h1>🌍 Turistička Aplikacija - Admin</h1>
+      </div>
+      <div class="navbar-menu">
+        <button id="homeBtn" class="nav-link">🏠 Početna</button>
+        <button id="logoutBtn" class="nav-link logout-btn">Logout</button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <div class="admin-container">
+      <h2>Pregled Svih Korisnika</h2>
+      <p class="admin-info">Kao administrator, možete pregledati sve korisnike i blokirati njihove naloge.</p>
+      
+      <div id="errorMessage" class="error-message" style="display:none;"></div>
+      
+      <table id="usersTable" class="users-table">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Username</th>
+            <th>Email</th>
+            <th>Role</th>
+            <th>Status</th>
+            <th>Ime</th>
+            <th>Prezime</th>
+            <th>Akcija</th>
+          </tr>
+        </thead>
+        <tbody id="usersTableBody">
+          <tr>
+            <td colspan="8" style="text-align:center; padding:20px;">Učitavanje...</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </main>
+
+  <script src="./js/adminUserOverview.js?v=20251112" defer></script>
+</body>
+</html>

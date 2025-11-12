@@ -7,6 +7,7 @@ CREATE TABLE IF NOT EXISTS users (
   password_hash TEXT NOT NULL,
   email VARCHAR(255),
   role VARCHAR(50) DEFAULT 'tourist',
+  status VARCHAR(20) DEFAULT 'ACTIVE',
   first_name VARCHAR(150),
   last_name VARCHAR(150),
   avatar_url TEXT,

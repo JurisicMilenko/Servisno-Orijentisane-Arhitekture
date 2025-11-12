@@ -1,4 +1,5 @@
 const API_BASE = 'http://localhost:3000';
+const STAKEHOLDERS_BASE = 'http://localhost:3001';
 
 const token = localStorage.getItem('token');
 
@@ -10,6 +11,7 @@ console.log('[userDetails.js] Token found');
 
 // Navigation
 const homeBtn = document.getElementById('homeBtn');
+const adminBtn = document.getElementById('adminBtn');
 const logoutBtn = document.getElementById('logoutBtn');
 
 console.log('[userDetails.js] homeBtn:', homeBtn);
@@ -23,6 +25,12 @@ homeBtn?.addEventListener('click', () => {
   console.log('[userDetails.js] Home clicked');
   const ts = Date.now();
   window.location.href = `./home.html?v=${ts}`;
+});
+
+adminBtn?.addEventListener('click', () => {
+  console.log('[userDetails.js] Admin Panel clicked');
+  const ts = Date.now();
+  window.location.href = `./adminUserOverview.html?v=${ts}`;
 });
 
 logoutBtn?.addEventListener('click', () => {
@@ -74,9 +82,14 @@ async function loadUserProfile() {
 
     currentUser = data;
 
+    // Show admin button if user is admin
+    if (data.role === 'admin' && adminBtn) {
+      adminBtn.style.display = 'inline-block';
+    }
+
     // Update profile display
     profileUsername.textContent = data.username;
-    profileRole.textContent = data.role === 'guide' ? 'Vodič' : 'Turist';
+    profileRole.textContent = data.role === 'guide' ? 'Vodič' : (data.role === 'admin' ? 'Administrator' : 'Turist');
     profileEmail.textContent = data.email || '-';
     profileFirstName.textContent = data.first_name || '-';
     profileLastName.textContent = data.last_name || '-';
@@ -132,7 +145,9 @@ profileEditForm.addEventListener('submit', async (ev) => {
     editMessage.textContent = 'Čuva se...';
     editMessage.className = '';
     
-    const res = await fetch(`${API_BASE}/api/auth/me`, {
+    // Use stakeholders service for profile update
+    const userId = currentUser.id;
+    const res = await fetch(`${STAKEHOLDERS_BASE}/api/stakeholders/users/${userId}`, {
       method: 'PUT',
       headers: {
         'Authorization': 'Bearer ' + token,

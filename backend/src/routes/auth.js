@@ -11,4 +11,8 @@ router.get('/me', authenticate, controller.me);
 // update own profile
 router.put('/me', authenticate, controller.updateProfile);
 
+// Admin routes
+router.get('/users', authenticate, controller.listUsers);
+router.patch('/users/:id/status', authenticate, controller.banUser);
+
 module.exports = router;

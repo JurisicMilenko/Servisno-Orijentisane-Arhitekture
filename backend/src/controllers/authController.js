@@ -53,3 +53,33 @@ exports.updateProfile = async (req, res) => {
     res.status(400).json({ error: err.message });
   }
 };
+
+// Admin: list all users
+exports.listUsers = async (req, res) => {
+  try {
+    const userRole = req.user && req.user.role;
+    if (userRole !== 'admin') return res.status(403).json({ error: 'forbidden: admin only' });
+    const users = await service.getAllUsers();
+    res.json(users);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
+// Admin: ban/unban user
+exports.banUser = async (req, res) => {
+  try {
+    const userRole = req.user && req.user.role;
+    if (userRole !== 'admin') return res.status(403).json({ error: 'forbidden: admin only' });
+    const targetId = parseInt(req.params.id, 10);
+    const { status } = req.body; // expected: "BANNED" or "ACTIVE"
+    if (!status || !['ACTIVE','BANNED'].includes(status)) {
+      return res.status(400).json({ error: 'status must be ACTIVE or BANNED' });
+    }
+    const updated = await service.setUserStatus(targetId, status);
+    if (!updated) return res.status(404).json({ error: 'user not found' });
+    res.json(updated);
+  } catch (err) {
+    res.status(400).json({ error: err.message });
+  }
+};

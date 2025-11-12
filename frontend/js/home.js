@@ -10,6 +10,7 @@ console.log('[home.js] Token found, loading page...');
 
 // Navigation
 const userDetailsBtn = document.getElementById('userDetailsBtn');
+const adminBtn = document.getElementById('adminBtn');
 const logoutBtn = document.getElementById('logoutBtn');
 
 console.log('[home.js] userDetailsBtn:', userDetailsBtn);
@@ -19,10 +20,35 @@ if (!userDetailsBtn || !logoutBtn) {
   console.error('[home.js] ERROR: Navigation buttons not found!');
 }
 
+// Check if user is admin and show admin button
+async function checkAdminRole() {
+  try {
+    const res = await fetch(`${API_BASE}/api/auth/me`, {
+      headers: { 'Authorization': 'Bearer ' + token }
+    });
+    if (res.status === 200) {
+      const user = await res.json();
+      if (user.role === 'admin' && adminBtn) {
+        adminBtn.style.display = 'inline-block';
+      }
+    }
+  } catch (err) {
+    console.error('[home.js] Error checking admin role:', err);
+  }
+}
+
+checkAdminRole();
+
 userDetailsBtn?.addEventListener('click', () => {
   console.log('[home.js] Moj Profil clicked');
   const ts = Date.now();
   window.location.href = `./userDetails.html?v=${ts}`;
+});
+
+adminBtn?.addEventListener('click', () => {
+  console.log('[home.js] Admin Panel clicked');
+  const ts = Date.now();
+  window.location.href = `./adminUserOverview.html?v=${ts}`;
 });
 
 logoutBtn?.addEventListener('click', () => {

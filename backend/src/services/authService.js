@@ -17,7 +17,11 @@ exports.login = async ({ username, password }) => {
   if (!user || !user.passwordHash) throw new Error('invalid credentials');
   const ok = await bcrypt.compare(password, user.passwordHash);
   if (!ok) throw new Error('invalid credentials');
-  const token = jwt.sign({ sub: user.id, username: user.username }, JWT_SECRET, { expiresIn: '2h' });
+  const token = jwt.sign({ 
+    sub: user.id, 
+    username: user.username, 
+    role: user.role || 'tourist' 
+  }, JWT_SECRET, { expiresIn: '2h' });
   return token;
 };
 
@@ -36,5 +40,23 @@ exports.updateProfile = async (id, payload) => {
   if (!userModel.update) throw new Error('update not supported by user model');
   // ensure id type matches stored id format
   const updated = await userModel.update(id, payload);
+  return updated;
+};
+
+exports.getAllUsers = async () => {
+  if (!userModel.getAll) throw new Error('getAll not supported by user model');
+  const users = await userModel.getAll();
+  // remove passwordHash from each
+  return users.map(u => {
+    const safe = { ...u };
+    delete safe.passwordHash;
+    return safe;
+  });
+};
+
+exports.setUserStatus = async (id, status) => {
+  if (!userModel.update) throw new Error('update not supported by user model');
+  const updated = await userModel.update(id, { status });
+  if (updated) delete updated.passwordHash;
   return updated;
 };

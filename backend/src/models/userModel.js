@@ -20,26 +20,31 @@ if (USE_PG) {
   const pool = new Pool(poolConfig);
 
   exports.findByUsername = async (username) => {
-    const res = await pool.query('SELECT id, username, password_hash, email, role, first_name, last_name, avatar_url, bio, motto FROM users WHERE username = $1 LIMIT 1', [username]);
+    const res = await pool.query('SELECT id, username, password_hash, email, role, status, first_name, last_name, avatar_url, bio, motto FROM users WHERE username = $1 LIMIT 1', [username]);
     if (!res.rows.length) return null;
     const r = res.rows[0];
-    return { id: r.id, username: r.username, passwordHash: r.password_hash, email: r.email, role: r.role, first_name: r.first_name, last_name: r.last_name, avatar_url: r.avatar_url, bio: r.bio, motto: r.motto };
+    return { id: r.id, username: r.username, passwordHash: r.password_hash, email: r.email, role: r.role, status: r.status, first_name: r.first_name, last_name: r.last_name, avatar_url: r.avatar_url, bio: r.bio, motto: r.motto };
   };
 
   exports.findById = async (id) => {
-    const res = await pool.query('SELECT id, username, password_hash, email, role, first_name, last_name, avatar_url, bio, motto FROM users WHERE id = $1 LIMIT 1', [id]);
+    const res = await pool.query('SELECT id, username, password_hash, email, role, status, first_name, last_name, avatar_url, bio, motto FROM users WHERE id = $1 LIMIT 1', [id]);
     if (!res.rows.length) return null;
     const r = res.rows[0];
-    return { id: r.id, username: r.username, passwordHash: r.password_hash, email: r.email, role: r.role, first_name: r.first_name, last_name: r.last_name, avatar_url: r.avatar_url, bio: r.bio, motto: r.motto };
+    return { id: r.id, username: r.username, passwordHash: r.password_hash, email: r.email, role: r.role, status: r.status, first_name: r.first_name, last_name: r.last_name, avatar_url: r.avatar_url, bio: r.bio, motto: r.motto };
+  };
+
+  exports.getAll = async () => {
+    const res = await pool.query('SELECT id, username, email, role, status, first_name, last_name, avatar_url, bio, motto FROM users ORDER BY id');
+    return res.rows.map(r => ({ id: r.id, username: r.username, email: r.email, role: r.role, status: r.status, first_name: r.first_name, last_name: r.last_name, avatar_url: r.avatar_url, bio: r.bio, motto: r.motto }));
   };
 
   exports.create = async ({ username, passwordHash, email, role, first_name, last_name, avatar_url, bio, motto }) => {
     const res = await pool.query(
-      'INSERT INTO users (username, password_hash, email, role, first_name, last_name, avatar_url, bio, motto) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9) RETURNING id, username, email, role, first_name, last_name, avatar_url, bio, motto',
-      [username, passwordHash, email || null, role || 'tourist', first_name || null, last_name || null, avatar_url || null, bio || null, motto || null]
+      'INSERT INTO users (username, password_hash, email, role, status, first_name, last_name, avatar_url, bio, motto) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10) RETURNING id, username, email, role, status, first_name, last_name, avatar_url, bio, motto',
+      [username, passwordHash, email || null, role || 'tourist', 'ACTIVE', first_name || null, last_name || null, avatar_url || null, bio || null, motto || null]
     );
     const r = res.rows[0];
-    return { id: r.id, username: r.username, email: r.email, role: r.role, first_name: r.first_name, last_name: r.last_name, avatar_url: r.avatar_url, bio: r.bio, motto: r.motto, passwordHash };
+    return { id: r.id, username: r.username, email: r.email, role: r.role, status: r.status, first_name: r.first_name, last_name: r.last_name, avatar_url: r.avatar_url, bio: r.bio, motto: r.motto, passwordHash };
   };
 
   exports.update = async (id, payload) => {
@@ -54,11 +59,11 @@ if (USE_PG) {
     }
     if (!fields.length) return await exports.findById(id);
     values.push(id);
-    const q = `UPDATE users SET ${fields.join(', ')} WHERE id = $${idx} RETURNING id, username, email, role, first_name, last_name, avatar_url, bio, motto, password_hash`;
+    const q = `UPDATE users SET ${fields.join(', ')} WHERE id = $${idx} RETURNING id, username, email, role, status, first_name, last_name, avatar_url, bio, motto, password_hash`;
     const res = await pool.query(q, values);
     if (!res.rows.length) return null;
     const r = res.rows[0];
-    return { id: r.id, username: r.username, passwordHash: r.password_hash, email: r.email, role: r.role, first_name: r.first_name, last_name: r.last_name, avatar_url: r.avatar_url, bio: r.bio, motto: r.motto };
+    return { id: r.id, username: r.username, passwordHash: r.password_hash, email: r.email, role: r.role, status: r.status, first_name: r.first_name, last_name: r.last_name, avatar_url: r.avatar_url, bio: r.bio, motto: r.motto };
   };
 
   exports._pool = pool; // exported for possible use (e.g., migrations)
@@ -100,7 +105,7 @@ if (USE_PG) {
   exports.create = ({ username, passwordHash, email, role, first_name, last_name, avatar_url, bio, motto }) => {
     const users = loadUsers();
     const id = users.length ? Math.max(...users.map(u => u.id)) + 1 : 1;
-    const user = { id, username, passwordHash, email: email || null, role: role || 'tourist', first_name: first_name || null, last_name: last_name || null, avatar_url: avatar_url || null, bio: bio || null, motto: motto || null };
+    const user = { id, username, passwordHash, email: email || null, role: role || 'tourist', status: 'ACTIVE', first_name: first_name || null, last_name: last_name || null, avatar_url: avatar_url || null, bio: bio || null, motto: motto || null };
     users.push(user);
     persist(users);
     return user;
@@ -111,7 +116,7 @@ if (USE_PG) {
     const idx = users.findIndex(u => u.id === id || String(u.id) === String(id));
     if (idx === -1) return null;
     const user = users[idx];
-    const allowed = ['email','first_name','last_name','avatar_url','bio','motto','role','passwordHash'];
+    const allowed = ['email','first_name','last_name','avatar_url','bio','motto','role','passwordHash','status'];
     for (const k of Object.keys(payload)) {
       if (allowed.includes(k)) user[k] = payload[k];
     }

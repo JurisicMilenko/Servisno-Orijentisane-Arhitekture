@@ -5,6 +5,7 @@
     "passwordHash": "$2b$10$WVKJpiaVheOvayROWE3.9O7Ade6IGTXu/ixawcYsZe68rjd4wjKrm",
     "email": "email@gmail.com",
     "role": "tourist",
+    "status": "ACTIVE",
     "first_name": "test",
     "last_name": "test",
     "avatar_url": "test",
@@ -17,9 +18,10 @@
     "passwordHash": "$2b$10$ngT8uGvgtIS/84dvBlxm3O.mqQmtovuXwFQPs0FaOF7/QVGihXrxy",
     "email": "test@gmial.com",
     "role": "tourist",
+    "status": "ACTIVE",
     "first_name": "test",
-    "last_name": "t",
-    "avatar_url": "test",
+    "last_name": "t22",
+    "avatar_url": "",
     "bio": "test",
     "motto": "t"
   },
@@ -29,10 +31,24 @@
     "passwordHash": "$2b$10$JwAduJR6.GVah4aNysSRNuP2IBLfFCDs/YKIqT35G4eOMeM0Rrw3K",
     "email": "t@e.st",
     "role": "tourist",
+    "status": "BANNED",
     "first_name": null,
     "last_name": null,
     "avatar_url": null,
     "bio": null,
     "motto": null
+  },
+  {
+    "id": 4,
+    "username": "admin",
+    "passwordHash": "$2b$10$TReSvgJoAzx9JRzRd9ATVOBsA8GlFKUNgeCFXHqhqckNE46EExMH6",
+    "email": "admin@turisticka-app.com",
+    "role": "admin",
+    "status": "ACTIVE",
+    "first_name": "Admin",
+    "last_name": "Administrator",
+    "avatar_url": "https://ui-avatars.com/api/?name=Admin&background=667eea&color=fff&size=150",
+    "bio": "Glavni administrator sistema turisticke aplikacije :D ",
+    "motto": "Keeping the system running smoothly"
   }
 ]

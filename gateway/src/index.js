@@ -33,7 +33,15 @@ app.use('/api/attractions', createProxyMiddleware({
 app.use('/api/stakeholders', createProxyMiddleware({
   target: STAKEHOLDERS_SERVICE,
   changeOrigin: true,
-  logLevel: 'info'
+  logLevel: 'info',
+  onProxyReq: (proxyReq, req, res) => {
+    // Forward user role from JWT token if authenticated
+    if (req.headers.authorization) {
+      // In production, decode JWT and extract role, then add as header
+      // For now, we'll let stakeholders service handle auth via shared logic
+      // or you can decode token here and add x-user-role header
+    }
+  }
 }));
 
 // Proxy /api/blog to blog service

@@ -8,6 +8,13 @@ app.use(express.json());
 
 const PORT = process.env.PORT || 3001;
 
+// Import routes
+const usersRouter = require('./routes/users');
+
+// Mount routes
+app.use('/api/stakeholders/users', usersRouter);
+
+// Legacy stakeholders endpoints (can be removed or kept for other stakeholder data)
 // In-memory sample data
 let stakeholders = [
   { id: 1, username: 'guide1', role: 'guide', first_name: 'Marko', last_name: 'Markovic', bio: 'Planinski vodič' },
