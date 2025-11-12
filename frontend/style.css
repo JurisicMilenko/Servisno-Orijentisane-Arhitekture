@@ -518,3 +518,262 @@ body {
     gap: 0.5rem;
   }
 }
+
+/* Tour Create Page */
+.tour-create-container {
+  max-width: 800px;
+  margin: 2rem auto;
+  background: white;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.tour-create-container h2 {
+  color: #667eea;
+  margin-bottom: 0.5rem;
+}
+
+.info-text {
+  color: #666;
+  margin-bottom: 2rem;
+  font-size: 0.95rem;
+}
+
+.tour-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.tour-form .form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  color: #333;
+}
+
+.tour-form .form-group input,
+.tour-form .form-group select,
+.tour-form .form-group textarea {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 1rem;
+  font-family: inherit;
+}
+
+.tour-form .form-group textarea {
+  resize: vertical;
+}
+
+.tour-form .form-group small {
+  display: block;
+  margin-top: 0.25rem;
+  color: #666;
+  font-size: 0.85rem;
+}
+
+.message {
+  padding: 1rem;
+  border-radius: 4px;
+  margin-bottom: 1.5rem;
+  font-weight: 500;
+}
+
+.message.info {
+  background-color: #e3f2fd;
+  color: #1976d2;
+  border-left: 4px solid #1976d2;
+}
+
+.message.success {
+  background-color: #e8f5e9;
+  color: #2e7d32;
+  border-left: 4px solid #2e7d32;
+}
+
+.message.error {
+  background-color: #ffebee;
+  color: #c62828;
+  border-left: 4px solid #c62828;
+}
+
+.tour-created-info {
+  background: #f0f7ff;
+  border: 2px solid #667eea;
+  border-radius: 8px;
+  padding: 2rem;
+  text-align: center;
+}
+
+.tour-created-info h3 {
+  color: #2e7d32;
+  margin-bottom: 1rem;
+}
+
+.tour-created-info p {
+  margin-bottom: 0.5rem;
+  color: #666;
+}
+
+/* Tour Details Page */
+.tour-detail-header {
+  background: white;
+  border-radius: 12px;
+  padding: 2rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.tour-detail-header h1 {
+  font-size: 2rem;
+  color: #333;
+  margin-bottom: 1rem;
+}
+
+.tour-price {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #2e7d32;
+  margin-left: 1rem;
+}
+
+.tour-info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.info-card {
+  background: white;
+  border-radius: 8px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  text-align: center;
+}
+
+.info-label {
+  font-size: 0.9rem;
+  color: #666;
+  margin-bottom: 0.5rem;
+}
+
+.info-value {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #333;
+}
+
+.tour-section {
+  background: white;
+  border-radius: 12px;
+  padding: 2rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.tour-section h3 {
+  font-size: 1.25rem;
+  color: #667eea;
+  margin-bottom: 1rem;
+}
+
+.tour-description {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: #555;
+  white-space: pre-wrap;
+}
+
+.tour-metadata {
+  color: #666;
+  font-size: 0.95rem;
+}
+
+.tour-metadata p {
+  margin-bottom: 0.5rem;
+}
+
+.tour-metadata strong {
+  color: #333;
+}
+
+/* Key Points */
+.key-point-card {
+  background: #f8f9fa;
+  border: 1px solid #dee2e6;
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin-bottom: 1rem;
+  transition: all 0.3s ease;
+}
+
+.key-point-card:hover {
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  transform: translateY(-2px);
+}
+
+.key-point-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.key-point-number {
+  background: #667eea;
+  color: white;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+
+.key-point-header h4 {
+  font-size: 1.1rem;
+  color: #333;
+  margin: 0;
+}
+
+.key-point-description {
+  color: #555;
+  line-height: 1.5;
+  margin-bottom: 0.75rem;
+}
+
+.key-point-coordinates {
+  font-size: 0.9rem;
+  color: #666;
+  margin-bottom: 0.75rem;
+}
+
+.key-point-image {
+  margin-top: 1rem;
+}
+
+.key-point-image img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.info-text {
+  color: #666;
+  font-style: italic;
+  text-align: center;
+  padding: 1rem;
+}
+
+.error-text {
+  color: #c62828;
+  text-align: center;
+  padding: 1rem;
+}

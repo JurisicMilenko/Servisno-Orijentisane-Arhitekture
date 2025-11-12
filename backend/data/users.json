@@ -50,5 +50,18 @@
     "avatar_url": "https://ui-avatars.com/api/?name=Admin&background=667eea&color=fff&size=150",
     "bio": "Glavni administrator sistema turisticke aplikacije :D ",
     "motto": "Keeping the system running smoothly"
+  },
+  {
+    "id": 5,
+    "username": "guide",
+    "passwordHash": "$2b$10$CZFwms.BGfnE2q/Qu/TnMOWbEfh1vFXqE8rUyMbXW3BaE8QlHBWz6",
+    "email": "guide@turisticka-app.com",
+    "role": "guide",
+    "status": "ACTIVE",
+    "first_name": "Marko",
+    "last_name": "Vodic",
+    "avatar_url": "https://ui-avatars.com/api/?name=Guide&background=4caf50&color=fff&size=150",
+    "bio": "Profesionalni turistički vodič sa 10 godina iskustva.",
+    "motto": "Svaka tura je nova avantura!"
   }
 ]

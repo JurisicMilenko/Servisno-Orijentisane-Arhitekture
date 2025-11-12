@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="sr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+  <title>Detalji Ture</title>
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+  <div class="container">
+    <nav class="navbar">
+      <h2>🗺️ Detalji Ture</h2>
+      <div class="navbar-menu">
+        <button id="backBtn" class="nav-link">⬅️ Nazad</button>
+        <button id="homeBtn" class="nav-link">🏠 Početna</button>
+      </div>
+    </nav>
+
+    <div id="messageArea" class="message"></div>
+
+    <div id="tourContent" style="display:none;">
+      <!-- Tour Header -->
+      <div class="tour-detail-header">
+        <h1 id="tourName"></h1>
+        <div class="tour-meta">
+          <span id="tourStatus" class="status-badge"></span>
+          <span class="tour-price" id="tourPrice"></span>
+        </div>
+      </div>
+
+      <!-- Tour Info Grid -->
+      <div class="tour-info-grid">
+        <div class="info-card">
+          <div class="info-label">📍 Težina</div>
+          <div class="info-value" id="tourDifficulty"></div>
+        </div>
+        <div class="info-card">
+          <div class="info-label">⏱️ Trajanje</div>
+          <div class="info-value" id="tourDuration"></div>
+        </div>
+        <div class="info-card">
+          <div class="info-label">📏 Distanca</div>
+          <div class="info-value" id="tourDistance"></div>
+        </div>
+        <div class="info-card">
+          <div class="info-label">📍 Kontrolne Tačke</div>
+          <div class="info-value" id="keyPointsCount"></div>
+        </div>
+      </div>
+
+      <!-- Description -->
+      <div class="tour-section">
+        <h3>📝 Opis</h3>
+        <p id="tourDescription" class="tour-description"></p>
+      </div>
+
+      <!-- Tags -->
+      <div class="tour-section" id="tagsSection" style="display:none;">
+        <h3>🏷️ Oznake</h3>
+        <div id="tourTags" class="tour-tags"></div>
+      </div>
+
+      <!-- Key Points Section -->
+      <div class="tour-section">
+        <h3>📍 Kontrolne Tačke</h3>
+        <button id="showKeyPointsBtn" class="btn btn-primary">
+          <span id="keyPointsToggle">Prikaži</span> Kontrolne Tačke
+        </button>
+        <div id="keyPointsContainer" style="display:none; margin-top: 20px;">
+          <div id="keyPointsList"></div>
+        </div>
+      </div>
+
+      <!-- Tour Metadata -->
+      <div class="tour-section">
+        <h3>ℹ️ Dodatne Informacije</h3>
+        <div class="tour-metadata">
+          <p><strong>Autor ID:</strong> <span id="authorId"></span></p>
+          <p><strong>Kreirana:</strong> <span id="createdAt"></span></p>
+          <p><strong>Poslednja izmena:</strong> <span id="updatedAt"></span></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="./js/tourDetails.js"></script>
+</body>
+</html>

@@ -3,12 +3,12 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Home — Turistička aplikacija</title>
+  <title>Moje Ture</title>
   <!-- Prevent caching during development -->
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
   <meta http-equiv="Pragma" content="no-cache" />
   <meta http-equiv="Expires" content="0" />
-  <link rel="stylesheet" href="./style.css?v=20251111">
+  <link rel="stylesheet" href="./style.css?v=20251112">
 </head>
 <body>
   <!-- Navigation Bar -->
@@ -18,10 +18,9 @@
         <h1>🌍 Turistička Aplikacija</h1>
       </div>
       <div class="navbar-menu">
-        <button id="userDetailsBtn" class="nav-link">👤 Moj Profil</button>
-        <button id="myToursBtn" class="nav-link" style="display:none;">📋 Moje Ture</button>
-        <button id="createTourBtn" class="nav-link" style="display:none;">➕ Kreiraj Turu</button>
-        <button id="adminBtn" class="nav-link" style="display:none;">⚙️ Admin Panel</button>
+        <button id="homeBtn" class="nav-link">🏠 Početna</button>
+        <button id="createTourBtn" class="nav-link">➕ Kreiraj Turu</button>
+        <button id="profileBtn" class="nav-link">👤 Profil</button>
         <button id="logoutBtn" class="nav-link logout-btn">Logout</button>
       </div>
     </div>
@@ -29,14 +28,18 @@
 
   <!-- Main Content -->
   <main class="main-content">
-    <section id="adsList" class="ads-section">
-      <h2>Dostupni Oglasi</h2>
-      <div class="ads-container" id="adsContainer">
-        <p style="text-align: center; color: #999;">Nema dostupnih oglasa</p>
+    <div class="tours-container">
+      <h2>Moje Ture</h2>
+      <p class="info-text">Pregled svih tura koje ste kreirali</p>
+      
+      <div id="message" class="message" style="display:none;"></div>
+      
+      <div id="toursGrid" class="tours-grid">
+        <p style="text-align: center; color: #999;">Učitavanje...</p>
       </div>
-    </section>
+    </div>
   </main>
 
-  <script src="./js/home.js?v=20251111" defer></script>
+  <script src="./js/myTours.js?v=20251112" defer></script>
 </body>
 </html>

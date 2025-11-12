@@ -10,6 +10,8 @@ console.log('[home.js] Token found, loading page...');
 
 // Navigation
 const userDetailsBtn = document.getElementById('userDetailsBtn');
+const myToursBtn = document.getElementById('myToursBtn');
+const createTourBtn = document.getElementById('createTourBtn');
 const adminBtn = document.getElementById('adminBtn');
 const logoutBtn = document.getElementById('logoutBtn');
 
@@ -28,8 +30,20 @@ async function checkAdminRole() {
     });
     if (res.status === 200) {
       const user = await res.json();
+      console.log('[home.js] User data:', user);
+      console.log('[home.js] User role:', user.role);
+      console.log('[home.js] createTourBtn element:', createTourBtn);
+      
       if (user.role === 'admin' && adminBtn) {
         adminBtn.style.display = 'inline-block';
+      }
+      if (user.role === 'guide' && createTourBtn) {
+        console.log('[home.js] Showing Create Tour button for guide');
+        createTourBtn.style.display = 'inline-block';
+      }
+      if (user.role === 'guide' && myToursBtn) {
+        console.log('[home.js] Showing My Tours button for guide');
+        myToursBtn.style.display = 'inline-block';
       }
     }
   } catch (err) {
@@ -43,6 +57,18 @@ userDetailsBtn?.addEventListener('click', () => {
   console.log('[home.js] Moj Profil clicked');
   const ts = Date.now();
   window.location.href = `./userDetails.html?v=${ts}`;
+});
+
+myToursBtn?.addEventListener('click', () => {
+  console.log('[home.js] Moje Ture clicked');
+  const ts = Date.now();
+  window.location.href = `./myTours.html?v=${ts}`;
+});
+
+createTourBtn?.addEventListener('click', () => {
+  console.log('[home.js] Kreiraj Turu clicked');
+  const ts = Date.now();
+  window.location.href = `./createTour.html?v=${ts}`;
 });
 
 adminBtn?.addEventListener('click', () => {
