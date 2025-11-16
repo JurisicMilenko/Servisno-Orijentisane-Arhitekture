@@ -1,0 +1,35 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Controllers\Author\**" />
+    <Compile Remove="Controllers\Tourist\**" />
+    <Content Remove="Controllers\Author\**" />
+    <Content Remove="Controllers\Tourist\**" />
+    <EmbeddedResource Remove="Controllers\Author\**" />
+    <EmbeddedResource Remove="Controllers\Tourist\**" />
+    <None Remove="Controllers\Author\**" />
+    <None Remove="Controllers\Tourist\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.11">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="9.0.6" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\BuildingBlocks\Explorer.BuildingBlocks.Core\Explorer.BuildingBlocks.Core.csproj" />
+    <ProjectReference Include="..\BuildingBlocks\Explorer.BuildingBlocks.Infrastructure\Explorer.BuildingBlocks.Infrastructure.csproj" />
+    <ProjectReference Include="..\Modules\Stakeholders\Explorer.Stakeholders.API\Explorer.Stakeholders.API.csproj" />
+    <ProjectReference Include="..\Modules\Stakeholders\Explorer.Stakeholders.Infrastructure\Explorer.Stakeholders.Infrastructure.csproj" />
+  </ItemGroup>
+
+</Project>
