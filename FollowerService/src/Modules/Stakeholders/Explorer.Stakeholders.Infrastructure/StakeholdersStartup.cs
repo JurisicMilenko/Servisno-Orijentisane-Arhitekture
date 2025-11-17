@@ -17,15 +17,23 @@ public static class StakeholdersStartup
     public static IServiceCollection ConfigureStakeholdersModule(this IServiceCollection services)
     {
         services.AddAutoMapper(typeof(StakeholderProfile).Assembly);
+
+        // Neo4j Followers Graph Registration
+        services.AddSingleton(new FollowersContext("bolt://localhost:7687", "neo4j", "password"));
+
         SetupCore(services);
         SetupInfrastructure(services);
+
         return services;
     }
-    
+
     private static void SetupCore(IServiceCollection services)
     {
         services.AddScoped<IAuthenticationService, AuthenticationService>();
         services.AddScoped<ITokenGenerator, JwtGenerator>();
+
+        // Followers application service
+        services.AddScoped<IFollowersService, FollowersService>();
     }
 
     private static void SetupInfrastructure(IServiceCollection services)
@@ -33,10 +41,13 @@ public static class StakeholdersStartup
         services.AddScoped<IPersonRepository, PersonDbRepository>();
         services.AddScoped<IUserRepository, UserDbRepository>();
 
+        // Followers repository
+        services.AddScoped<IFollowersRepository, FollowersDbRepository>();
+
         var dataSourceBuilder = new NpgsqlDataSourceBuilder(DbConnectionStringBuilder.Build("stakeholders"));
         dataSourceBuilder.EnableDynamicJson();
         var dataSource = dataSourceBuilder.Build();
-        
+
         services.AddDbContext<StakeholdersContext>(opt =>
             opt.UseNpgsql(dataSource,
                 x => x.MigrationsHistoryTable("__EFMigrationsHistory", "stakeholders")));
