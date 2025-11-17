@@ -41,7 +41,7 @@ exports.getTour = async (req, res) => {
 // Create tour
 exports.createTour = async (req, res) => {
   try {
-    const { name, description, difficulty, tags } = req.body;
+    const { name, description, difficulty, tags, duration, distance } = req.body;
     
     if (!name || !description) {
       return res.status(400).json({ error: 'Name and description are required' });
@@ -60,6 +60,14 @@ exports.createTour = async (req, res) => {
       tags,
       authorId
     };
+    
+    // Add duration and distance if provided
+    if (duration !== undefined) {
+      tourData.duration = duration;
+    }
+    if (distance !== undefined) {
+      tourData.distance = distance;
+    }
     
     const tour = await tourService.createTour(tourData);
     res.status(201).json(tour);

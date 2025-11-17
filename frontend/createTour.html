@@ -62,11 +62,7 @@
         <div class="form-group">
           <label for="tourDuration">Trajanje (sati)</label>
           <input type="number" id="tourDuration" name="duration" min="0" step="0.5" placeholder="Npr. 2.5">
-        </div>
-
-        <div class="form-group">
-          <label for="tourDistance">Udaljenost (km)</label>
-          <input type="number" id="tourDistance" name="distance" min="0" step="0.1" placeholder="Npr. 5.2">
+          <small>Koliko vremena je potrebno da se tura završi</small>
         </div>
 
         <div class="form-actions">
@@ -78,9 +74,9 @@
       <div id="tourCreatedInfo" class="tour-created-info" style="display:none;">
         <h3>✓ Tura Uspješno Kreirana!</h3>
         <p>Status: <strong>Draft</strong> | Cena: <strong>0</strong></p>
-        <p>Sada možete dodati ključne tačke na mapi.</p>
+        <p>Sada možete dodati kontrolne tačke na mapi.</p>
         <div class="form-actions">
-          <button id="addKeyPointsBtn" class="btn btn-primary">Dodaj Ključne Tačke</button>
+          <button id="addKeyPointsBtn" class="btn btn-primary">📍 Dodaj Kontrolne Tačke na Mapi</button>
           <button id="viewMyToursBtn" class="btn btn-secondary">Moje Ture</button>
         </div>
       </div>

@@ -97,10 +97,14 @@ createTourForm.addEventListener('submit', async (ev) => {
     name: formData.get('name'),
     description: formData.get('description'),
     difficulty: formData.get('difficulty'),
-    tags: tags,
-    duration: formData.get('duration') ? parseFloat(formData.get('duration')) : 0,
-    distance: formData.get('distance') ? parseFloat(formData.get('distance')) : 0
+    tags: tags
   };
+  
+  // Only add duration if provided
+  const durationValue = formData.get('duration');
+  if (durationValue && parseFloat(durationValue) > 0) {
+    body.duration = parseFloat(durationValue);
+  }
 
   try {
     showMessage('Kreiranje ture...', 'info');
@@ -134,11 +138,10 @@ createTourForm.addEventListener('submit', async (ev) => {
   }
 });
 
-// Add key points button (placeholder - implement later)
+// Add key points button
 addKeyPointsBtn?.addEventListener('click', () => {
   if (createdTourId) {
-    // TODO: Navigate to map page for adding key points
-    showMessage('Funkcionalnost za dodavanje ključnih tačaka dolazi uskoro', 'info');
+    window.location.href = `./manageKeyPoints.html?id=${createdTourId}`;
   }
 });
 
@@ -146,8 +149,9 @@ addKeyPointsBtn?.addEventListener('click', () => {
 viewMyToursBtn?.addEventListener('click', () => {
   // TODO: Navigate to my tours page
   const ts = Date.now();
-  window.location.href = `./home.html?v=${ts}`;
+  window.location.href = `./myTours.html?v=${ts}`;
 });
+
 
 // Initial check
 checkGuideRole();

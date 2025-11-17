@@ -8,6 +8,21 @@
   <meta http-equiv="Expires" content="0">
   <title>Detalji Ture</title>
   <link rel="stylesheet" href="./style.css">
+  
+  <!-- Leaflet CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+    crossorigin=""/>
+  
+  <style>
+    #tourMap {
+      height: 450px;
+      width: 100%;
+      border-radius: 8px;
+      margin-top: 1rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+  </style>
 </head>
 <body>
   <div class="container">
@@ -66,9 +81,17 @@
       <!-- Key Points Section -->
       <div class="tour-section">
         <h3>📍 Kontrolne Tačke</h3>
-        <button id="showKeyPointsBtn" class="btn btn-primary">
-          <span id="keyPointsToggle">Prikaži</span> Kontrolne Tačke
+        <button id="showMapBtn" class="btn btn-primary" style="margin-right: 0.5rem;">
+          <span id="mapToggle">Prikaži</span> Mapu
         </button>
+        <button id="showKeyPointsBtn" class="btn btn-secondary">
+          <span id="keyPointsToggle">Prikaži</span> Listu
+        </button>
+        
+        <div id="mapContainer" style="display:none; margin-top: 20px;">
+          <div id="tourMap"></div>
+        </div>
+        
         <div id="keyPointsContainer" style="display:none; margin-top: 20px;">
           <div id="keyPointsList"></div>
         </div>
@@ -85,6 +108,11 @@
       </div>
     </div>
   </div>
+
+  <!-- Leaflet JS -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+    crossorigin=""></script>
 
   <script src="./js/tourDetails.js"></script>
 </body>

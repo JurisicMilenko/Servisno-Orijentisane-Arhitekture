@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="sr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+  <title>Upravljanje Kontrolnim Tačkama</title>
+  <link rel="stylesheet" href="./style.css">
+  
+  <!-- Leaflet CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+    crossorigin=""/>
+  
+  <style>
+    #map {
+      height: 500px;
+      width: 100%;
+      border-radius: 8px;
+      margin-bottom: 2rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    
+    .key-points-list {
+      display: grid;
+      gap: 1rem;
+    }
+    
+    .key-point-item {
+      background: white;
+      border: 1px solid #dee2e6;
+      border-radius: 8px;
+      padding: 1rem;
+      display: flex;
+      align-items: start;
+      gap: 1rem;
+    }
+    
+    .key-point-item:hover {
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    
+    .key-point-number {
+      background: #667eea;
+      color: white;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+      flex-shrink: 0;
+    }
+    
+    .key-point-content {
+      flex: 1;
+    }
+    
+    .key-point-content h4 {
+      margin: 0 0 0.5rem 0;
+      color: #333;
+    }
+    
+    .key-point-content p {
+      margin: 0 0 0.5rem 0;
+      color: #666;
+      font-size: 0.9rem;
+    }
+    
+    .key-point-coords {
+      font-size: 0.85rem;
+      color: #999;
+    }
+    
+    .key-point-actions {
+      display: flex;
+      gap: 0.5rem;
+      flex-shrink: 0;
+    }
+    
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0,0,0,0.5);
+    }
+    
+    .modal-content {
+      background-color: white;
+      margin: 5% auto;
+      padding: 2rem;
+      border-radius: 12px;
+      width: 90%;
+      max-width: 500px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+    }
+    
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+    }
+    
+    .modal-header h3 {
+      margin: 0;
+      color: #667eea;
+    }
+    
+    .close {
+      font-size: 2rem;
+      font-weight: bold;
+      color: #999;
+      cursor: pointer;
+      line-height: 1;
+    }
+    
+    .close:hover {
+      color: #333;
+    }
+    
+    .instructions {
+      background: #e3f2fd;
+      border-left: 4px solid #2196f3;
+      padding: 1rem;
+      border-radius: 4px;
+      margin-bottom: 1.5rem;
+    }
+    
+    .instructions p {
+      margin: 0;
+      color: #1565c0;
+    }
+    
+    .map-container {
+      background: white;
+      border-radius: 12px;
+      padding: 1.5rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      margin-bottom: 2rem;
+    }
+    
+    .map-container h3 {
+      margin: 0 0 1rem 0;
+      color: #667eea;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <nav class="navbar">
+      <h2>📍 Upravljanje Kontrolnim Tačkama</h2>
+      <div class="navbar-menu">
+        <button id="backBtn" class="nav-link">⬅️ Nazad</button>
+        <button id="homeBtn" class="nav-link">🏠 Početna</button>
+      </div>
+    </nav>
+
+    <div id="messageArea" class="message"></div>
+
+    <div id="tourInfo" style="display:none;">
+      <div style="background: white; border-radius: 12px; padding: 1.5rem; margin-bottom: 2rem; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+        <h2 id="tourName" style="margin: 0 0 0.5rem 0;"></h2>
+        <p id="tourDescription" style="margin: 0; color: #666;"></p>
+      </div>
+
+      <div class="instructions">
+        <p>💡 <strong>Instrukcije:</strong> Kliknite na mapu da dodate novu kontrolnu tačku. Možete dodavati, izmeniti ili brisati postojeće tačke.</p>
+      </div>
+
+      <div class="map-container">
+        <h3>🗺️ Mapa</h3>
+        <div id="map"></div>
+      </div>
+
+      <div style="background: white; border-radius: 12px; padding: 1.5rem; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+        <h3 style="color: #667eea; margin-bottom: 1rem;">📍 Kontrolne Tačke (<span id="keyPointsCount">0</span>)</h3>
+        <div id="keyPointsList" class="key-points-list"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal for adding/editing key point -->
+  <div id="keyPointModal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 id="modalTitle">Dodaj Kontrolnu Tačku</h3>
+        <span class="close" onclick="closeModal()">&times;</span>
+      </div>
+      
+      <form id="keyPointForm">
+        <input type="hidden" id="keyPointId">
+        <input type="hidden" id="keyPointLat">
+        <input type="hidden" id="keyPointLng">
+        
+        <div class="form-group">
+          <label for="keyPointName">Naziv *</label>
+          <input type="text" id="keyPointName" required placeholder="Npr. Stari Grad">
+        </div>
+
+        <div class="form-group">
+          <label for="keyPointDescription">Opis</label>
+          <textarea id="keyPointDescription" rows="3" placeholder="Kratak opis kontrolne tačke..."></textarea>
+        </div>
+
+        <div class="form-group">
+          <label>Koordinate</label>
+          <p style="color: #666; font-size: 0.9rem; margin: 0;">
+            Lat: <span id="displayLat">-</span>, Lng: <span id="displayLng">-</span>
+          </p>
+        </div>
+
+        <div class="form-group">
+          <label for="keyPointImage">URL Slike (opciono)</label>
+          <input type="url" id="keyPointImage" placeholder="https://example.com/image.jpg">
+        </div>
+
+        <div class="form-actions">
+          <button type="submit" class="btn btn-primary">Sačuvaj</button>
+          <button type="button" class="btn btn-secondary" onclick="closeModal()">Otkaži</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Leaflet JS -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+    crossorigin=""></script>
+  
+  <script src="./js/manageKeyPoints.js"></script>
+</body>
+</html>

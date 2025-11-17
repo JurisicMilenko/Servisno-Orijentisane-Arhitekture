@@ -1,5 +1,42 @@
 const Tour = require('../models/Tour');
 
+// Haversine formula to calculate distance between two points on Earth
+function calculateDistance(lat1, lon1, lat2, lon2) {
+  const R = 6371; // Earth's radius in kilometers
+  const dLat = (lat2 - lat1) * Math.PI / 180;
+  const dLon = (lon2 - lon1) * Math.PI / 180;
+  const a = 
+    Math.sin(dLat/2) * Math.sin(dLat/2) +
+    Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+    Math.sin(dLon/2) * Math.sin(dLon/2);
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+  return R * c; // Distance in kilometers
+}
+
+// Calculate total distance for a tour based on key points
+function calculateTourDistance(keyPoints) {
+  if (!keyPoints || keyPoints.length < 2) {
+    return 0;
+  }
+  
+  // Sort by order
+  const sorted = [...keyPoints].sort((a, b) => (a.order || 0) - (b.order || 0));
+  
+  let totalDistance = 0;
+  for (let i = 0; i < sorted.length - 1; i++) {
+    const current = sorted[i];
+    const next = sorted[i + 1];
+    totalDistance += calculateDistance(
+      current.latitude,
+      current.longitude,
+      next.latitude,
+      next.longitude
+    );
+  }
+  
+  return Math.round(totalDistance * 100) / 100; // Round to 2 decimal places
+}
+
 // Get all tours (optionally filtered by status)
 exports.getAllTours = async (filters = {}) => {
   try {
@@ -45,7 +82,9 @@ exports.createTour = async (data) => {
       tags: data.tags || [],
       status: 'draft',
       price: 0,
-      keyPoints: []
+      keyPoints: [],
+      duration: data.duration || null,
+      distance: 0
     });
     
     await tour.save();
@@ -68,7 +107,7 @@ exports.updateTour = async (id, data) => {
     if (data.tags !== undefined) tour.tags = data.tags;
     if (data.price !== undefined) tour.price = data.price;
     if (data.duration !== undefined) tour.duration = data.duration;
-    if (data.distance !== undefined) tour.distance = data.distance;
+    // distance is auto-calculated from key points, not manually set
     
     await tour.save();
     return tour;
@@ -113,10 +152,11 @@ exports.addKeyPoint = async (tourId, keyPointData) => {
       latitude: keyPointData.latitude,
       longitude: keyPointData.longitude,
       imageUrl: keyPointData.imageUrl || null,
-      order: tour.keyPoints.length
+      order: keyPointData.order || tour.keyPoints.length
     };
     
     tour.keyPoints.push(keyPoint);
+    tour.distance = calculateTourDistance(tour.keyPoints);
     await tour.save();
     
     return tour.keyPoints[tour.keyPoints.length - 1];
@@ -141,6 +181,7 @@ exports.updateKeyPoint = async (tourId, keyPointId, data) => {
     if (data.imageUrl !== undefined) keyPoint.imageUrl = data.imageUrl;
     if (data.order !== undefined) keyPoint.order = data.order;
     
+    tour.distance = calculateTourDistance(tour.keyPoints);
     await tour.save();
     return keyPoint;
   } catch (err) {
@@ -155,6 +196,7 @@ exports.deleteKeyPoint = async (tourId, keyPointId) => {
     if (!tour) return null;
     
     tour.keyPoints.pull(keyPointId);
+    tour.distance = calculateTourDistance(tour.keyPoints);
     await tour.save();
     
     return true;

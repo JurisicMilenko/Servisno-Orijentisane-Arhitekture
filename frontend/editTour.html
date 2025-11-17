@@ -1,0 +1,279 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Izmeni Turu</title>
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="0" />
+  <link rel="stylesheet" href="./style.css?v=20251112">
+  
+  <!-- Leaflet CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+    crossorigin=""/>
+  
+  <style>
+    #map {
+      height: 400px;
+      width: 100%;
+      border-radius: 8px;
+      margin-top: 1rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    
+    .key-points-section {
+      background: #f8f9fa;
+      border-radius: 8px;
+      padding: 1rem;
+      margin-top: 1rem;
+    }
+    
+    .key-points-list {
+      display: grid;
+      gap: 0.75rem;
+      margin-top: 1rem;
+    }
+    
+    .key-point-item {
+      background: white;
+      border: 1px solid #dee2e6;
+      border-radius: 6px;
+      padding: 0.75rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    
+    .key-point-number {
+      background: #667eea;
+      color: white;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+      font-size: 0.9rem;
+      flex-shrink: 0;
+    }
+    
+    .key-point-content {
+      flex: 1;
+    }
+    
+    .key-point-content h5 {
+      margin: 0 0 0.25rem 0;
+      font-size: 0.95rem;
+      color: #333;
+    }
+    
+    .key-point-content p {
+      margin: 0;
+      font-size: 0.85rem;
+      color: #666;
+    }
+    
+    .key-point-actions {
+      display: flex;
+      gap: 0.5rem;
+    }
+    
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0,0,0,0.5);
+    }
+    
+    .modal-content {
+      background-color: white;
+      margin: 3% auto;
+      padding: 2rem;
+      border-radius: 12px;
+      width: 90%;
+      max-width: 500px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+      max-height: 85vh;
+      overflow-y: auto;
+    }
+    
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+    }
+    
+    .modal-header h3 {
+      margin: 0;
+      color: #667eea;
+    }
+    
+    .close {
+      font-size: 2rem;
+      font-weight: bold;
+      color: #999;
+      cursor: pointer;
+      line-height: 1;
+    }
+    
+    .close:hover {
+      color: #333;
+    }
+    
+    .section-divider {
+      border: 0;
+      border-top: 2px solid #e9ecef;
+      margin: 2rem 0;
+    }
+    
+    .map-instructions {
+      background: #e3f2fd;
+      border-left: 4px solid #2196f3;
+      padding: 0.75rem 1rem;
+      border-radius: 4px;
+      margin-bottom: 1rem;
+      font-size: 0.9rem;
+      color: #1565c0;
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar">
+    <div class="navbar-container">
+      <div class="navbar-brand">
+        <h1>🌍 Turistička Aplikacija</h1>
+      </div>
+      <div class="navbar-menu">
+        <button id="homeBtn" class="nav-link">🏠 Početna</button>
+        <button id="myToursBtn" class="nav-link">📋 Moje Ture</button>
+        <button id="logoutBtn" class="nav-link logout-btn">Logout</button>
+      </div>
+    </div>
+  </nav>
+
+  <main class="main-content">
+    <div class="tour-create-container">
+      <h2>✏️ Izmeni Turu</h2>
+      
+      <div id="message" class="message" style="display:none;"></div>
+      
+      <form id="editTourForm" class="tour-form">
+        <div class="form-group">
+          <label for="tourName">Naziv Ture *</label>
+          <input type="text" id="tourName" name="name" required placeholder="Naziv ture">
+        </div>
+
+        <div class="form-group">
+          <label for="tourDescription">Opis Ture *</label>
+          <textarea id="tourDescription" name="description" rows="5" required placeholder="Detaljan opis ture..."></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="tourDifficulty">Težina</label>
+          <select id="tourDifficulty" name="difficulty">
+            <option value="easy">Lako</option>
+            <option value="medium">Srednje</option>
+            <option value="hard">Teško</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="tourTags">Tagovi (odvojeni zarezom)</label>
+          <input type="text" id="tourTags" name="tags" placeholder="kultura, istorija, priroda">
+          <small>Tagovi pomažu korisnicima da pronađu vašu turu</small>
+        </div>
+
+        <div class="form-group">
+          <label for="tourDuration">Trajanje (sati)</label>
+          <input type="number" id="tourDuration" name="duration" min="0" step="0.5" placeholder="2.5">
+          <small>Koliko vremena je potrebno da se tura završi</small>
+        </div>
+
+        <div class="form-group">
+          <label for="tourPrice">Cena (RSD)</label>
+          <input type="number" id="tourPrice" name="price" min="0" step="1" placeholder="0">
+        </div>
+
+        <div class="form-actions">
+          <button type="submit" class="btn btn-primary">💾 Sačuvaj Izmene</button>
+          <button type="button" id="cancelBtn" class="btn btn-secondary">Otkaži</button>
+        </div>
+      </form>
+
+      <hr class="section-divider">
+
+      <!-- Key Points Section -->
+      <div class="key-points-section">
+        <h3 style="margin-top: 0; color: #667eea;">📍 Kontrolne Tačke</h3>
+        <div class="map-instructions">
+          💡 Kliknite na mapu da dodate novu kontrolnu tačku. Mapa prikazuje trenutne kontrolne tačke i rutu između njih.
+        </div>
+        
+        <div id="map"></div>
+        
+        <div class="key-points-list" id="keyPointsList">
+          <!-- Key points will be loaded here -->
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Modal for adding/editing key point -->
+  <div id="keyPointModal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 id="modalTitle">Dodaj Kontrolnu Tačku</h3>
+        <span class="close" onclick="closeModal()">&times;</span>
+      </div>
+      
+      <form id="keyPointForm">
+        <input type="hidden" id="keyPointId">
+        <input type="hidden" id="keyPointLat">
+        <input type="hidden" id="keyPointLng">
+        
+        <div class="form-group">
+          <label for="keyPointName">Naziv *</label>
+          <input type="text" id="keyPointName" required placeholder="Npr. Stari Grad">
+        </div>
+
+        <div class="form-group">
+          <label for="keyPointDescription">Opis</label>
+          <textarea id="keyPointDescription" rows="3" placeholder="Kratak opis kontrolne tačke..."></textarea>
+        </div>
+
+        <div class="form-group">
+          <label>Koordinate</label>
+          <p style="color: #666; font-size: 0.9rem; margin: 0;">
+            Lat: <span id="displayLat">-</span>, Lng: <span id="displayLng">-</span>
+          </p>
+        </div>
+
+        <div class="form-group">
+          <label for="keyPointImage">URL Slike (opciono)</label>
+          <input type="url" id="keyPointImage" placeholder="https://example.com/image.jpg">
+        </div>
+
+        <div class="form-actions">
+          <button type="submit" class="btn btn-primary">Sačuvaj</button>
+          <button type="button" class="btn btn-secondary" onclick="closeModal()">Otkaži</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Leaflet JS -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+    crossorigin=""></script>
+  
+  <script src="./js/editTour.js?v=20251112" defer></script>
+</body>
+</html>

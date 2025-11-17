@@ -139,25 +139,30 @@ async function loadMyTours() {
           ` : ''}
           <div class="tour-stats">
             <span>📍 ${tour.keyPoints?.length || 0} ključnih tačaka</span>
-            ${tour.duration ? `<span>⏱️ ${tour.duration}h</span>` : ''}
-            ${tour.distance ? `<span>📏 ${tour.distance}km</span>` : ''}
+            ${tour.duration && tour.duration > 0 ? `<span>⏱️ ${tour.duration}h</span>` : ''}
+            ${tour.distance && tour.distance > 0 ? `<span>📏 ${tour.distance}km</span>` : ''}
           </div>
         </div>
         <div class="tour-card-footer">
           <button class="btn btn-secondary btn-sm" onclick="viewTourDetails('${tour._id || tour.id}')">
             Detalji
           </button>
-          <button class="btn btn-primary btn-sm" onclick="editTour('${tour._id || tour.id}')">
-            Izmeni
-          </button>
           ${tour.status === 'draft' ? `
+            <button class="btn btn-primary btn-sm" onclick="manageKeyPoints('${tour._id || tour.id}')">
+              📍 Kontrolne Tačke
+            </button>
+            <button class="btn btn-primary btn-sm" onclick="editTour('${tour._id || tour.id}')">
+              Izmeni
+            </button>
             <button class="btn btn-success btn-sm" onclick="publishTour('${tour._id || tour.id}')">
               Objavi
             </button>
-          ` : ''}
-          <button class="btn btn-danger btn-sm" onclick="deleteTour('${tour._id || tour.id}')">
-            Obriši
-          </button>
+            <button class="btn btn-danger btn-sm" onclick="deleteTour('${tour._id || tour.id}')">
+              Obriši
+            </button>
+          ` : `
+            <span style="color: #28a745; font-weight: 600; padding: 0.5rem;">✓ Objavljena</span>
+          `}
         </div>
       </div>
     `).join('');
@@ -174,9 +179,14 @@ function viewTourDetails(tourId) {
   window.location.href = `./tourDetails.html?id=${tourId}`;
 }
 
-// Edit tour (placeholder)
+// Manage key points
+function manageKeyPoints(tourId) {
+  window.location.href = `./manageKeyPoints.html?id=${tourId}`;
+}
+
+// Edit tour
 function editTour(tourId) {
-  showMessage('Funkcionalnost za izmenu ture dolazi uskoro', 'info');
+  window.location.href = `./editTour.html?id=${tourId}`;
 }
 
 // Publish tour
