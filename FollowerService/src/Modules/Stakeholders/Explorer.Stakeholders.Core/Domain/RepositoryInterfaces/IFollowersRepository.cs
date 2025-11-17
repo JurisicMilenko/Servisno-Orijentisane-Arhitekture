@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Explorer.Stakeholders.API.Public
+namespace Explorer.Stakeholders.Core.Domain.RepositoryInterfaces
 {
-    public interface IFollowersService
+    public interface IFollowersRepository
     {
         Task Follow(long followerId, long targetId);
         Task Unfollow(long followerId, long targetId);

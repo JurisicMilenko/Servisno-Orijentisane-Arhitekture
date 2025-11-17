@@ -15,23 +15,31 @@ namespace Explorer.API.Controllers
         }
 
         [HttpPost("{targetId}")]
-        public IActionResult Follow(long targetId, [FromQuery] long followerId)
+        public async Task<IActionResult> Follow(long targetId, [FromQuery] long followerId)
         {
-            _service.Follow(followerId, targetId);
+            await _service.Follow(followerId, targetId);
             return Ok();
         }
 
         [HttpDelete("{targetId}")]
-        public IActionResult Unfollow(long targetId, [FromQuery] long followerId)
+        public async Task<IActionResult> Unfollow(long targetId, [FromQuery] long followerId)
         {
-            _service.Unfollow(followerId, targetId);
+            await _service.Unfollow(followerId, targetId);
             return Ok();
         }
 
         [HttpGet("{userId}")]
-        public IActionResult GetFollowers(long userId)
+        public async Task<IActionResult> GetFollowers(long userId)
         {
-            return Ok(_service.GetFollowers(userId));
+            var followers = await _service.GetFollowers(userId);
+            return Ok(followers);
+        }
+
+        [HttpGet("{userId}/following")]
+        public async Task<IActionResult> GetFollowing(long userId)
+        {
+            var following = await _service.GetFollowing(userId);
+            return Ok(following);
         }
     }
 }

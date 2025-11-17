@@ -1,52 +1,77 @@
 ﻿using Explorer.Stakeholders.Core.Domain.RepositoryInterfaces;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Neo4j.Driver;
 
 namespace Explorer.Stakeholders.Infrastructure.Database.Repositories
 {
     public class FollowersDbRepository : IFollowersRepository
     {
-        private readonly FollowersContext _context;
+        private readonly IDriver _driver;
 
-        public FollowersDbRepository(FollowersContext context)
+        public FollowersDbRepository(IDriver driver)
         {
-            _context = context;
+            _driver = driver;
         }
 
-        public void Follow(long followerId, long targetId)
+        public async Task Follow(long followerId, long targetId)
         {
-            using var session = _context.Driver.Session();
-            session.Run(
-                "MERGE (f:User {id:$followerId}) " +
-                "MERGE (t:User {id:$targetId}) " +
-                "MERGE (f)-[:FOLLOWS]->(t)",
-                new { followerId, targetId }
+            var query = @"
+                MERGE (f:User {id:$followerId})
+                MERGE (t:User {id:$targetId})
+                MERGE (f)-[:FOLLOWS]->(t)";
+
+            await using var session = _driver.AsyncSession();
+            await session.ExecuteWriteAsync(tx =>
+                tx.RunAsync(query, new { followerId, targetId })
             );
         }
 
-        public void Unfollow(long followerId, long targetId)
+        public async Task Unfollow(long followerId, long targetId)
         {
-            using var session = _context.Driver.Session();
-            session.Run(
-                "MATCH (f:User {id:$followerId})-[r:FOLLOWS]->(t:User {id:$targetId}) " +
-                "DELETE r",
-                new { followerId, targetId }
+            var query = @"
+                MATCH (f:User {id:$followerId})-[r:FOLLOWS]->(t:User {id:$targetId})
+                DELETE r";
+
+            await using var session = _driver.AsyncSession();
+            await session.ExecuteWriteAsync(tx =>
+                tx.RunAsync(query, new { followerId, targetId })
             );
         }
 
-        public List<long> GetFollowers(long userId)
+        public async Task<List<long>> GetFollowers(long userId)
         {
-            using var session = _context.Driver.Session();
-            var result = session.Run(
-                "MATCH (f:User)-[:FOLLOWS]->(t:User {id:$userId}) " +
-                "RETURN f.id",
-                new { userId }
-            );
+            var query = @"
+                MATCH (f:User)-[:FOLLOWS]->(t:User {id:$userId})
+                RETURN f.id AS id";
 
-            return result.Select(r => (long)r[0]).ToList();
+            await using var session = _driver.AsyncSession();
+
+            var result = await session.ExecuteReadAsync(async tx =>
+            {
+                var cursor = await tx.RunAsync(query, new { userId });
+                var records = await cursor.ToListAsync();
+                return records.ConvertAll(r => r["id"].As<long>());
+            });
+
+            return result;
+        }
+
+        public async Task<List<long>> GetFollowing(long userId)
+        {
+            var query = @"
+        MATCH (u:User {id:$userId})-[:FOLLOWS]->(followed:User)
+        RETURN followed.id AS id";
+
+            await using var session = _driver.AsyncSession();
+
+            var result = await session.ExecuteReadAsync(async tx =>
+            {
+                var cursor = await tx.RunAsync(query, new { userId });
+                var records = await cursor.ToListAsync();
+                return records.ConvertAll(r => r["id"].As<long>());
+            });
+
+            return result;
         }
     }
 }

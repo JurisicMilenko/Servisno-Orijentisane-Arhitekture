@@ -17,13 +17,16 @@ namespace Explorer.Stakeholders.Core.UseCases
             _repo = repo;
         }
 
-        public void Follow(long followerId, long targetId)
+        public Task Follow(long followerId, long targetId)
             => _repo.Follow(followerId, targetId);
 
-        public void Unfollow(long followerId, long targetId)
+        public Task Unfollow(long followerId, long targetId)
             => _repo.Unfollow(followerId, targetId);
 
-        public List<long> GetFollowers(long userId)
+        public Task<List<long>> GetFollowers(long userId) 
             => _repo.GetFollowers(userId);
+
+        public Task<List<long>> GetFollowing(long userId)
+            => _repo.GetFollowing(userId);
     }
 }

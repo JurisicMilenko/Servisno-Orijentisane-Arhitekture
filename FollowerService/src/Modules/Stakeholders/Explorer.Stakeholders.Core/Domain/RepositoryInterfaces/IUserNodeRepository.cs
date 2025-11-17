@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Explorer.Stakeholders.Core.Domain.RepositoryInterfaces
 {
-    public interface IFollowersRepository
+    public interface IUserNodeRepository
     {
         void Follow(long followerId, long targetId);
         void Unfollow(long followerId, long targetId);
