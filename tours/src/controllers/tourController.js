@@ -14,6 +14,26 @@ exports.listTours = async (req, res) => {
   }
 };
 
+// Get published tours only
+exports.getPublishedTours = async (req, res) => {
+  try {
+    const tours = await tourService.getAllTours({ status: 'published' });
+    res.json(tours);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
+// Get published tours for tourists (only basic info and first key point)
+exports.getPublishedToursForTourists = async (req, res) => {
+  try {
+    const tours = await tourService.getPublishedToursForTourists();
+    res.json(tours);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
 // Get tours by author
 exports.getAuthorTours = async (req, res) => {
   try {
@@ -32,6 +52,23 @@ exports.getTour = async (req, res) => {
     if (!tour) {
       return res.status(404).json({ error: 'Tour not found' });
     }
+    
+    // Check if user has access to full tour details
+    const userId = req.user?.sub || req.user?.id;
+    const userRole = req.user?.role;
+    
+    // If tour is published and user is not the author or admin/guide
+    if (tour.status === 'published' && tour.authorId !== userId && userRole !== 'admin' && userRole !== 'guide') {
+      // Tourist view: return only basic info and first key point
+      const tourObj = tour.toObject();
+      if (tourObj.keyPoints && tourObj.keyPoints.length > 0) {
+        const sorted = [...tourObj.keyPoints].sort((a, b) => (a.order || 0) - (b.order || 0));
+        tourObj.keyPoints = [sorted[0]];
+      }
+      return res.json(tourObj);
+    }
+    
+    // Full access for author, admin, guide, or draft/archived tours
     res.json(tour);
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -115,6 +152,61 @@ exports.publishTour = async (req, res) => {
     res.json(updated);
   } catch (err) {
     res.status(400).json({ error: err.message });
+  }
+};
+
+// Archive tour
+exports.archiveTour = async (req, res) => {
+  try {
+    const tour = await tourService.getTourById(req.params.id);
+    if (!tour) {
+      return res.status(404).json({ error: 'Tour not found' });
+    }
+    
+    // Check if user is the author
+    const userId = req.user?.sub || req.user?.id;
+    if (tour.authorId !== userId) {
+      return res.status(403).json({ error: 'Only tour author can archive the tour' });
+    }
+    
+    const updated = await tourService.archiveTour(req.params.id);
+    res.json(updated);
+  } catch (err) {
+    res.status(400).json({ error: err.message });
+  }
+};
+
+// Reactivate archived tour
+exports.reactivateTour = async (req, res) => {
+  try {
+    const tour = await tourService.getTourById(req.params.id);
+    if (!tour) {
+      return res.status(404).json({ error: 'Tour not found' });
+    }
+    
+    // Check if user is the author
+    const userId = req.user?.sub || req.user?.id;
+    if (tour.authorId !== userId) {
+      return res.status(403).json({ error: 'Only tour author can reactivate the tour' });
+    }
+    
+    const updated = await tourService.reactivateTour(req.params.id);
+    res.json(updated);
+  } catch (err) {
+    res.status(400).json({ error: err.message });
+  }
+};
+
+// Validate if tour can be published
+exports.validateForPublish = async (req, res) => {
+  try {
+    const validation = await tourService.validateForPublish(req.params.id);
+    if (validation === null) {
+      return res.status(404).json({ error: 'Tour not found' });
+    }
+    res.json(validation);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
   }
 };
 

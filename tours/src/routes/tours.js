@@ -2,17 +2,23 @@ const express = require('express');
 const router = express.Router();
 const tourController = require('../controllers/tourController');
 const authenticate = require('../middlewares/authenticate');
+const optionalAuthenticate = require('../middlewares/optionalAuthenticate');
 
 // Public routes (no auth required)
 router.get('/', tourController.listTours);
+router.get('/published', tourController.getPublishedTours);
+router.get('/published/tourist-view', tourController.getPublishedToursForTourists);
 router.get('/author/:authorId', tourController.getAuthorTours);
-router.get('/:id', tourController.getTour);
+router.get('/:id', optionalAuthenticate, tourController.getTour);
 
 // Protected routes (auth required)
 router.post('/', authenticate, tourController.createTour);
 router.put('/:id', authenticate, tourController.updateTour);
 router.delete('/:id', authenticate, tourController.deleteTour);
 router.patch('/:id/publish', authenticate, tourController.publishTour);
+router.patch('/:id/archive', authenticate, tourController.archiveTour);
+router.patch('/:id/reactivate', authenticate, tourController.reactivateTour);
+router.get('/:id/validate-publish', authenticate, tourController.validateForPublish);
 
 // Key points routes (auth required)
 router.get('/:tourId/keypoints', tourController.getKeyPoints);

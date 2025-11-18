@@ -1,4 +1,5 @@
-const API_BASE = 'http://localhost:3000';
+const API_BASE = window.API_BASE || 'http://localhost:4000';
+const TOURS_BASE = window.TOURS_BASE || 'http://localhost:4000';
 
 const token = localStorage.getItem('token');
 
@@ -85,52 +86,109 @@ logoutBtn?.addEventListener('click', () => {
 });
 
 
-// Ads
-const adsContainer = document.getElementById('adsContainer');
+// Tours
+const toursGrid = document.getElementById('toursGrid');
+const message = document.getElementById('message');
 
-console.log('[home.js] adsContainer:', adsContainer);
+function showMessage(msg, type = 'info') {
+  if (message) {
+    message.textContent = msg;
+    message.className = `message ${type}`;
+    message.style.display = 'block';
+  }
+}
 
-async function loadAds() {
+function hideMessage() {
+  if (message) {
+    message.style.display = 'none';
+  }
+}
+
+function getDifficultyText(difficulty) {
+  const map = {
+    'easy': 'Lako',
+    'medium': 'Srednje',
+    'hard': 'Teško'
+  };
+  return map[difficulty] || difficulty;
+}
+
+async function loadPublishedTours() {
   try {
-    if (!adsContainer) {
-      console.error('[home.js] adsContainer not found!');
+    if (!toursGrid) {
+      console.error('[home.js] toursGrid not found!');
       return;
     }
 
-    console.log('[home.js] Loading ads from', API_BASE + '/api/attractions');
+    console.log('[home.js] Loading published tours from', TOURS_BASE + '/api/tours?status=published');
     
-    const res = await fetch(`${API_BASE}/api/attractions`, {
+    const res = await fetch(`${TOURS_BASE}/api/tours?status=published`, {
       headers: { 'Authorization': 'Bearer ' + token }
     });
     
-    console.log('[home.js] Ads response status:', res.status);
+    console.log('[home.js] Tours response status:', res.status);
 
     if (res.status === 200) {
-      const data = await res.json();
-      console.log('[home.js] Ads data:', data);
+      const tours = await res.json();
+      console.log('[home.js] Tours data:', tours);
 
-      if (Array.isArray(data) && data.length > 0) {
-        adsContainer.innerHTML = data.map(ad => `
-          <div class="ad-card">
-            <h3>${ad.name || 'Bez naslova'}</h3>
-            <p>${ad.description || 'Nema opisa'}</p>
-            <p><strong>Lokacija:</strong> ${ad.location || '-'}</p>
+      if (Array.isArray(tours) && tours.length > 0) {
+        toursGrid.innerHTML = tours.map(tour => `
+          <div class="tour-card" onclick="viewTourDetails('${tour._id || tour.id}')">
+            <div class="tour-card-header">
+              <h3>${tour.name}</h3>
+              <span class="status-badge status-published">Objavljena</span>
+            </div>
+            <div class="tour-card-body">
+              <p class="tour-description">${tour.description || 'Nema opisa'}</p>
+              <div class="tour-meta">
+                <span class="tour-meta-item">
+                  <strong>Težina:</strong> ${getDifficultyText(tour.difficulty)}
+                </span>
+                <span class="tour-meta-item">
+                  <strong>Cena:</strong> ${tour.price || 0} RSD
+                </span>
+              </div>
+              ${tour.tags && tour.tags.length > 0 ? `
+                <div class="tour-tags">
+                  ${tour.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
+                </div>
+              ` : ''}
+              <div class="tour-stats">
+                <span>📍 ${tour.keyPoints?.length || 0} kontrolnih tačaka</span>
+                ${tour.duration && tour.duration > 0 ? `<span>⏱️ ${tour.duration}h</span>` : ''}
+                ${tour.distance && tour.distance > 0 ? `<span>📏 ${tour.distance}km</span>` : ''}
+              </div>
+              ${tour.keyPoints && tour.keyPoints.length > 0 ? `
+                <div style="background: #f0f7ff; padding: 0.75rem; border-radius: 6px; margin-top: 0.75rem; border-left: 3px solid #667eea;">
+                  <strong style="color: #667eea; font-size: 0.9rem;">Prva kontrolna tačka:</strong>
+                  <p style="margin: 0.25rem 0 0 0; color: #333; font-size: 0.9rem;">📍 ${tour.keyPoints[0].name}</p>
+                </div>
+              ` : ''}
+            </div>
           </div>
         `).join('');
       } else {
-        adsContainer.innerHTML = '<p style="text-align: center; color: #999;">Nema dostupnih oglasa</p>';
+        toursGrid.innerHTML = '<p style="text-align: center; color: #999;">Trenutno nema objavljenih tura</p>';
       }
+      hideMessage();
     } else {
-      adsContainer.innerHTML = '<p style="text-align: center; color: red;">Greška pri učitavanju oglasa (Status: ' + res.status + ')</p>';
+      showMessage('Greška pri učitavanju tura (Status: ' + res.status + ')', 'error');
+      toursGrid.innerHTML = '<p style="text-align: center; color: red;">Greška pri učitavanju tura</p>';
     }
   } catch (err) {
-    console.error('Error loading ads:', err);
-    if (adsContainer) {
-      adsContainer.innerHTML = '<p style="text-align: center; color: red;">Greška: ' + err.message + '</p>';
+    console.error('Error loading tours:', err);
+    showMessage('Greška: ' + err.message, 'error');
+    if (toursGrid) {
+      toursGrid.innerHTML = '<p style="text-align: center; color: red;">Greška: ' + err.message + '</p>';
     }
   }
 }
 
-// Load ads on page load
-console.log('[home.js] Calling loadAds()');
-loadAds();
+function viewTourDetails(tourId) {
+  window.location.href = `./tourDetails.html?id=${tourId}`;
+}
+
+// Load published tours on page load
+console.log('[home.js] Calling loadPublishedTours()');
+loadPublishedTours();

@@ -75,6 +75,21 @@ const TourSchema = new mongoose.Schema({
   distance: {
     type: Number, // distance in kilometers
     default: 0
+  },
+  // Transport durations in minutes
+  transportDurations: {
+    walking: { type: Number, default: null }, // minutes
+    bicycle: { type: Number, default: null }, // minutes
+    car: { type: Number, default: null } // minutes
+  },
+  // Status timestamps
+  publishedAt: {
+    type: Date,
+    default: null
+  },
+  archivedAt: {
+    type: Date,
+    default: null
   }
 }, { timestamps: true });
 

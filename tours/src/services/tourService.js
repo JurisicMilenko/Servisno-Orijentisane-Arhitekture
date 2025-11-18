@@ -51,6 +51,29 @@ exports.getAllTours = async (filters = {}) => {
   }
 };
 
+// Get published tours for tourists (only basic info and first key point)
+exports.getPublishedToursForTourists = async () => {
+  try {
+    const tours = await Tour.find({ status: 'published' }).sort({ createdAt: -1 });
+    
+    // Transform to show only basic info and first key point
+    return tours.map(tour => {
+      const tourObj = tour.toObject();
+      
+      // Keep only first key point
+      if (tourObj.keyPoints && tourObj.keyPoints.length > 0) {
+        // Sort by order and keep only first
+        const sorted = [...tourObj.keyPoints].sort((a, b) => (a.order || 0) - (b.order || 0));
+        tourObj.keyPoints = [sorted[0]];
+      }
+      
+      return tourObj;
+    });
+  } catch (err) {
+    throw new Error('Failed to fetch published tours: ' + err.message);
+  }
+};
+
 // Get tours by author
 exports.getToursByAuthor = async (authorId) => {
   try {
@@ -109,11 +132,60 @@ exports.updateTour = async (id, data) => {
     if (data.duration !== undefined) tour.duration = data.duration;
     // distance is auto-calculated from key points, not manually set
     
+    // Update transport durations
+    if (data.transportDurations !== undefined) {
+      tour.transportDurations = {
+        walking: data.transportDurations.walking || null,
+        bicycle: data.transportDurations.bicycle || null,
+        car: data.transportDurations.car || null
+      };
+    }
+    
     await tour.save();
     return tour;
   } catch (err) {
     throw new Error('Failed to update tour: ' + err.message);
   }
+};
+
+// Validate if tour can be published
+const canPublishTour = (tour) => {
+  const errors = [];
+  
+  // 1. Check basic data
+  if (!tour.name || tour.name.trim() === '') {
+    errors.push('Tour must have a name');
+  }
+  if (!tour.description || tour.description.trim() === '') {
+    errors.push('Tour must have a description');
+  }
+  if (!tour.difficulty) {
+    errors.push('Tour must have a difficulty level');
+  }
+  if (!tour.tags || tour.tags.length === 0) {
+    errors.push('Tour must have at least one tag');
+  }
+  
+  // 2. Check minimum 2 key points
+  if (!tour.keyPoints || tour.keyPoints.length < 2) {
+    errors.push('Tour must have at least 2 key points');
+  }
+  
+  // 3. Check at least one transport duration
+  const hasTransportDuration = tour.transportDurations && (
+    tour.transportDurations.walking > 0 ||
+    tour.transportDurations.bicycle > 0 ||
+    tour.transportDurations.car > 0
+  );
+  
+  if (!hasTransportDuration) {
+    errors.push('Tour must have at least one transport duration defined (walking, bicycle, or car)');
+  }
+  
+  return {
+    canPublish: errors.length === 0,
+    errors
+  };
 };
 
 // Publish tour (change status from draft to published)
@@ -122,11 +194,76 @@ exports.publishTour = async (id) => {
     const tour = await Tour.findById(id);
     if (!tour) return null;
     
+    // Check if tour is already published
+    if (tour.status === 'published') {
+      throw new Error('Tour is already published');
+    }
+    
+    // Validate tour can be published
+    const validation = canPublishTour(tour);
+    if (!validation.canPublish) {
+      throw new Error('Tour cannot be published: ' + validation.errors.join(', '));
+    }
+    
     tour.status = 'published';
+    tour.publishedAt = new Date();
     await tour.save();
     return tour;
   } catch (err) {
     throw new Error('Failed to publish tour: ' + err.message);
+  }
+};
+
+// Archive tour
+exports.archiveTour = async (id) => {
+  try {
+    const tour = await Tour.findById(id);
+    if (!tour) return null;
+    
+    // Can only archive published tours
+    if (tour.status !== 'published') {
+      throw new Error('Only published tours can be archived');
+    }
+    
+    tour.status = 'archived';
+    tour.archivedAt = new Date();
+    await tour.save();
+    return tour;
+  } catch (err) {
+    throw new Error('Failed to archive tour: ' + err.message);
+  }
+};
+
+// Reactivate archived tour (back to published)
+exports.reactivateTour = async (id) => {
+  try {
+    const tour = await Tour.findById(id);
+    if (!tour) return null;
+    
+    // Can only reactivate archived tours
+    if (tour.status !== 'archived') {
+      throw new Error('Only archived tours can be reactivated');
+    }
+    
+    tour.status = 'published';
+    tour.archivedAt = null;
+    tour.publishedAt = new Date(); // Update published date
+    await tour.save();
+    return tour;
+  } catch (err) {
+    throw new Error('Failed to reactivate tour: ' + err.message);
+  }
+};
+
+// Check if tour can be published (public method for validation without publishing)
+exports.validateForPublish = async (id) => {
+  try {
+    const tour = await Tour.findById(id);
+    if (!tour) return null;
+    
+    return canPublishTour(tour);
+  } catch (err) {
+    throw new Error('Failed to validate tour: ' + err.message);
   }
 };
 
@@ -146,13 +283,18 @@ exports.addKeyPoint = async (tourId, keyPointData) => {
     const tour = await Tour.findById(tourId);
     if (!tour) return null;
     
+    // Calculate next order number
+    const nextOrder = keyPointData.order !== undefined 
+      ? keyPointData.order 
+      : tour.keyPoints.length + 1;
+    
     const keyPoint = {
       name: keyPointData.name,
       description: keyPointData.description || '',
       latitude: keyPointData.latitude,
       longitude: keyPointData.longitude,
       imageUrl: keyPointData.imageUrl || null,
-      order: keyPointData.order || tour.keyPoints.length
+      order: nextOrder
     };
     
     tour.keyPoints.push(keyPoint);

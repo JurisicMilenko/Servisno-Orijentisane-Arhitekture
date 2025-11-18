@@ -65,6 +65,28 @@
           <small>Koliko vremena je potrebno da se tura završi</small>
         </div>
 
+        <div class="form-section">
+          <h4>Trajanje u zavisnosti od prevoza (u minutima)</h4>
+          <p class="info-text" style="margin-bottom: 1rem; font-size: 0.9rem;">Bar jedno trajanje mora biti definisano da bi tura mogla biti objavljena</p>
+          
+          <div class="transport-durations">
+            <div class="form-group">
+              <label for="walkingDuration">🚶 Pešice (minuta)</label>
+              <input type="number" id="walkingDuration" name="walkingDuration" min="0" placeholder="Npr. 120">
+            </div>
+
+            <div class="form-group">
+              <label for="bicycleDuration">🚴 Biciklom (minuta)</label>
+              <input type="number" id="bicycleDuration" name="bicycleDuration" min="0" placeholder="Npr. 45">
+            </div>
+
+            <div class="form-group">
+              <label for="carDuration">🚗 Automobilom (minuta)</label>
+              <input type="number" id="carDuration" name="carDuration" min="0" placeholder="Npr. 25">
+            </div>
+          </div>
+        </div>
+
         <div class="form-actions">
           <button type="submit" class="btn btn-primary">Kreiraj Turu</button>
           <button type="button" id="cancelBtn" class="btn btn-secondary">Otkaži</button>

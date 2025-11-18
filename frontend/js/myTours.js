@@ -119,7 +119,7 @@ async function loadMyTours() {
       <div class="tour-card" data-tour-id="${tour._id || tour.id}">
         <div class="tour-card-header">
           <h3>${tour.name}</h3>
-          <span class="status-badge status-${tour.status}">${tour.status}</span>
+          <span class="status-badge status-${tour.status}">${tour.status.toUpperCase()}</span>
         </div>
         <div class="tour-card-body">
           <p class="tour-description">${tour.description}</p>
@@ -147,7 +147,7 @@ async function loadMyTours() {
           <button class="btn btn-secondary btn-sm" onclick="viewTourDetails('${tour._id || tour.id}')">
             Detalji
           </button>
-          ${tour.status === 'draft' ? `
+          ${tour.status.toLowerCase() === 'draft' ? `
             <button class="btn btn-primary btn-sm" onclick="editTour('${tour._id || tour.id}')">
               Izmeni
             </button>
@@ -157,6 +157,16 @@ async function loadMyTours() {
             <button class="btn btn-danger btn-sm" onclick="deleteTour('${tour._id || tour.id}')">
               Obriši
             </button>
+          ` : tour.status.toLowerCase() === 'published' ? `
+            <button class="btn btn-warning btn-sm" onclick="archiveTour('${tour._id || tour.id}')">
+              🗄️ Arhiviraj
+            </button>
+            <span style="color: #28a745; font-weight: 600; padding: 0.5rem;">✓ Objavljena</span>
+          ` : tour.status.toLowerCase() === 'archived' ? `
+            <button class="btn btn-success btn-sm" onclick="reactivateTour('${tour._id || tour.id}')">
+              🔄 Reaktiviraj
+            </button>
+            <span style="color: #6c757d; font-weight: 600; padding: 0.5rem;">📦 Arhivirana</span>
           ` : `
             <span style="color: #28a745; font-weight: 600; padding: 0.5rem;">✓ Objavljena</span>
           `}
@@ -206,6 +216,58 @@ async function publishTour(tourId) {
     }
 
     showMessage('Tura uspješno objavljena! ✓', 'success');
+    setTimeout(() => loadMyTours(), 1500);
+  } catch (err) {
+    showMessage('Greška: ' + err.message, 'error');
+  }
+}
+
+// Archive tour
+async function archiveTour(tourId) {
+  if (!confirm('Da li želite da arhivirate ovu turu? Arhivirane ture se ne prikazuju turistima.')) return;
+  
+  try {
+    const res = await fetch(`${TOURS_BASE}/api/tours/${tourId}/archive`, {
+      method: 'PATCH',
+      headers: {
+        'Authorization': 'Bearer ' + token,
+        'Content-Type': 'application/json'
+      }
+    });
+
+    if (res.status !== 200) {
+      const data = await res.json();
+      showMessage('Greška: ' + (data.error || 'Nepoznata greška'), 'error');
+      return;
+    }
+
+    showMessage('Tura uspješno arhivirana! 📦', 'success');
+    setTimeout(() => loadMyTours(), 1500);
+  } catch (err) {
+    showMessage('Greška: ' + err.message, 'error');
+  }
+}
+
+// Reactivate tour
+async function reactivateTour(tourId) {
+  if (!confirm('Da li želite da reaktivirate ovu turu? Tura će ponovo biti objavljena.')) return;
+  
+  try {
+    const res = await fetch(`${TOURS_BASE}/api/tours/${tourId}/reactivate`, {
+      method: 'PATCH',
+      headers: {
+        'Authorization': 'Bearer ' + token,
+        'Content-Type': 'application/json'
+      }
+    });
+
+    if (res.status !== 200) {
+      const data = await res.json();
+      showMessage('Greška: ' + (data.error || 'Nepoznata greška'), 'error');
+      return;
+    }
+
+    showMessage('Tura uspješno reaktivirana! 🔄', 'success');
     setTimeout(() => loadMyTours(), 1500);
   } catch (err) {
     showMessage('Greška: ' + err.message, 'error');

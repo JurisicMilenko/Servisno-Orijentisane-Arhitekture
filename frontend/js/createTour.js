@@ -106,6 +106,27 @@ createTourForm.addEventListener('submit', async (ev) => {
     body.duration = parseFloat(durationValue);
   }
 
+  // Add transport durations
+  const walkingDuration = formData.get('walkingDuration');
+  const bicycleDuration = formData.get('bicycleDuration');
+  const carDuration = formData.get('carDuration');
+  
+  const transportDurations = {};
+  if (walkingDuration && parseInt(walkingDuration) > 0) {
+    transportDurations.walking = parseInt(walkingDuration);
+  }
+  if (bicycleDuration && parseInt(bicycleDuration) > 0) {
+    transportDurations.bicycle = parseInt(bicycleDuration);
+  }
+  if (carDuration && parseInt(carDuration) > 0) {
+    transportDurations.car = parseInt(carDuration);
+  }
+  
+  // Only add if at least one is defined
+  if (Object.keys(transportDurations).length > 0) {
+    body.transportDurations = transportDurations;
+  }
+
   try {
     showMessage('Kreiranje ture...', 'info');
     

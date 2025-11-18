@@ -118,6 +118,13 @@ async function loadTourDetails() {
     document.getElementById('tourDuration').value = currentTour.duration || '';
     document.getElementById('tourPrice').value = currentTour.price || 0;
 
+    // Populate transport durations
+    if (currentTour.transportDurations) {
+      document.getElementById('walkingDuration').value = currentTour.transportDurations.walking || '';
+      document.getElementById('bicycleDuration').value = currentTour.transportDurations.bicycle || '';
+      document.getElementById('carDuration').value = currentTour.transportDurations.car || '';
+    }
+
     // Check if tour is published - disable editing
     if (currentTour.status === 'published') {
       showMessage('⚠️ Ova tura je objavljena i ne može se menjati. Možete samo videti detalje.', 'info');
@@ -433,6 +440,27 @@ editTourForm.addEventListener('submit', async (e) => {
   const priceValue = formData.get('price');
   if (priceValue && parseFloat(priceValue) >= 0) {
     body.price = parseFloat(priceValue);
+  }
+
+  // Add transport durations
+  const walkingDuration = formData.get('walkingDuration');
+  const bicycleDuration = formData.get('bicycleDuration');
+  const carDuration = formData.get('carDuration');
+  
+  const transportDurations = {};
+  if (walkingDuration && parseInt(walkingDuration) > 0) {
+    transportDurations.walking = parseInt(walkingDuration);
+  }
+  if (bicycleDuration && parseInt(bicycleDuration) > 0) {
+    transportDurations.bicycle = parseInt(bicycleDuration);
+  }
+  if (carDuration && parseInt(carDuration) > 0) {
+    transportDurations.car = parseInt(carDuration);
+  }
+  
+  // Only add if at least one is defined
+  if (Object.keys(transportDurations).length > 0) {
+    body.transportDurations = transportDurations;
   }
 
   try {
