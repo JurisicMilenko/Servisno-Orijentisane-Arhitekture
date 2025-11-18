@@ -10,10 +10,16 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddSingleton<IDriver>(sp =>
 {
-    return GraphDatabase.Driver(
-        "bolt://localhost:7687",      // your Neo4j URI
-        AuthTokens.Basic("neo4j", "super123")  // your credentials
-    );
+    var boltUri = Environment.GetEnvironmentVariable("NEO4J_BOLT_URI")
+                  ?? "bolt://localhost:7687";
+
+    var username = Environment.GetEnvironmentVariable("NEO4J_USERNAME")
+                   ?? "neo4j";
+
+    var password = Environment.GetEnvironmentVariable("NEO4J_PASSWORD")
+                   ?? "super123";
+
+    return GraphDatabase.Driver(boltUri, AuthTokens.Basic(username, password));
 });
 
 builder.Services.AddScoped<IFollowersRepository, FollowersDbRepository>();

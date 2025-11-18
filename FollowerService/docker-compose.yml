@@ -1,0 +1,41 @@
+version: '3.9'
+
+services:
+  followers-service:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: final
+    container_name: followers-service
+    restart: on-failure
+    depends_on:
+      - neo4j
+    networks:
+      - followers-network
+    ports:
+      - "8085:80"   # adjust if needed
+    environment:
+      NEO4J_BOLT_URI: bolt://neo4j:7687
+      NEO4J_USERNAME: neo4j
+      NEO4J_PASSWORD: super123
+
+  neo4j:
+    image: neo4j:5.20 # any recent LTS version
+    container_name: neo4j
+    restart: always
+    networks:
+      - followers-network
+    ports:
+      - "7474:7474"  # Browser UI
+      - "7687:7687"  # Bolt protocol used by the app
+    environment:
+      NEO4J_AUTH: neo4j/super123
+    volumes:
+      - neo4j-data:/data
+
+volumes:
+  neo4j-data:
+
+networks:
+  followers-network:
+    driver: bridge
