@@ -5,7 +5,8 @@ require('dotenv').config();
 
 const app = express();
 app.use(cors());
-app.use(express.json());
+// Don't use express.json() before proxy - it consumes the body
+// app.use(express.json());
 
 const PORT = process.env.PORT || 4000;
 
@@ -13,6 +14,7 @@ const PORT = process.env.PORT || 4000;
 const AUTH_SERVICE = process.env.AUTH_SERVICE_URL || 'http://localhost:3000';
 const ATTRACTIONS_SERVICE = process.env.ATTRACTIONS_SERVICE_URL || 'http://localhost:3000';
 const STAKEHOLDERS_SERVICE = process.env.STAKEHOLDERS_SERVICE_URL || 'http://localhost:3001';
+const TOURS_SERVICE = process.env.TOURS_SERVICE_URL || 'http://localhost:3002';
 const BLOG_SERVICE = process.env.BLOG_SERVICE_URL || 'http://localhost:3002';
 
 // Proxy /api/auth to auth service
@@ -44,6 +46,13 @@ app.use('/api/stakeholders', createProxyMiddleware({
   }
 }));
 
+// Proxy /api/tours to tours service
+app.use('/api/tours', createProxyMiddleware({
+  target: TOURS_SERVICE,
+  changeOrigin: true,
+  logLevel: 'info'
+}));
+
 // Proxy /api/blog to blog service
 app.use('/api/blog', createProxyMiddleware({
   target: BLOG_SERVICE,
@@ -59,5 +68,6 @@ app.listen(PORT, () => {
   console.log(`Proxying /api/auth -> ${AUTH_SERVICE}`);
   console.log(`Proxying /api/attractions -> ${ATTRACTIONS_SERVICE}`);
   console.log(`Proxying /api/stakeholders -> ${STAKEHOLDERS_SERVICE}`);
+  console.log(`Proxying /api/tours -> ${TOURS_SERVICE}`);
   console.log(`Proxying /api/blog -> ${BLOG_SERVICE}`);
 });

@@ -1,5 +1,5 @@
-const API_BASE = 'http://localhost:3000';
-const TOURS_BASE = 'http://localhost:3002';
+const API_BASE = window.API_BASE || 'http://localhost:4000';
+const TOURS_BASE = window.TOURS_BASE || 'http://localhost:4000';
 
 const token = localStorage.getItem('token');
 
@@ -148,9 +148,6 @@ async function loadMyTours() {
             Detalji
           </button>
           ${tour.status === 'draft' ? `
-            <button class="btn btn-primary btn-sm" onclick="manageKeyPoints('${tour._id || tour.id}')">
-              📍 Kontrolne Tačke
-            </button>
             <button class="btn btn-primary btn-sm" onclick="editTour('${tour._id || tour.id}')">
               Izmeni
             </button>

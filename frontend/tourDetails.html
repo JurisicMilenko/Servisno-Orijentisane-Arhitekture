@@ -15,12 +15,80 @@
     crossorigin=""/>
   
   <style>
+    /* Keep Leaflet zoom controls below navbar */
+    .leaflet-control-zoom {
+      z-index: 999 !important;
+    }
+    
     #tourMap {
-      height: 450px;
+      height: 600px;
       width: 100%;
       border-radius: 8px;
       margin-top: 1rem;
       box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    
+    .key-points-section {
+      background: #f8f9fa;
+      border-radius: 8px;
+      padding: 1rem;
+      margin-top: 1rem;
+    }
+    
+    .key-points-list {
+      display: grid;
+      gap: 0.75rem;
+      margin-top: 1rem;
+    }
+    
+    .key-point-item {
+      background: white;
+      border: 1px solid #dee2e6;
+      border-radius: 6px;
+      padding: 0.75rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    
+    .key-point-number {
+      background: #667eea;
+      color: white;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+      font-size: 0.9rem;
+      flex-shrink: 0;
+    }
+    
+    .key-point-content {
+      flex: 1;
+    }
+    
+    .key-point-content h5 {
+      margin: 0 0 0.25rem 0;
+      font-size: 0.95rem;
+      color: #333;
+    }
+    
+    .key-point-content p {
+      margin: 0;
+      font-size: 0.85rem;
+      color: #666;
+    }
+    
+    .map-instructions {
+      background: #e3f2fd;
+      border-left: 4px solid #2196f3;
+      padding: 0.75rem 1rem;
+      border-radius: 4px;
+      margin-bottom: 1rem;
+      font-size: 0.9rem;
+      color: #1565c0;
     }
   </style>
 </head>
@@ -88,12 +156,15 @@
           <span id="keyPointsToggle">Prikaži</span> Listu
         </button>
         
-        <div id="mapContainer" style="display:none; margin-top: 20px;">
+        <div id="mapContainer" class="key-points-section" style="display:none; margin-top: 20px;">
+          <div class="map-instructions">
+            💡 Mapa prikazuje kontrolne tačke i rutu između njih.
+          </div>
           <div id="tourMap"></div>
         </div>
         
-        <div id="keyPointsContainer" style="display:none; margin-top: 20px;">
-          <div id="keyPointsList"></div>
+        <div id="keyPointsContainer" class="key-points-section" style="display:none; margin-top: 20px;">
+          <div id="keyPointsList" class="key-points-list"></div>
         </div>
       </div>
 
@@ -114,6 +185,7 @@
     integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
     crossorigin=""></script>
 
-  <script src="./js/tourDetails.js"></script>
+  <script src="./js/config.js?v=20251118"></script>
+  <script src="./js/tourDetails.js?v=20251118"></script>
 </body>
 </html>

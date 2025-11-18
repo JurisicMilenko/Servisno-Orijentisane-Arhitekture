@@ -1,4 +1,4 @@
-const TOURS_BASE = 'http://localhost:3002';
+const TOURS_BASE = window.TOURS_BASE || 'http://localhost:4000';
 
 const token = localStorage.getItem('token');
 const messageArea = document.getElementById('messageArea');
@@ -46,10 +46,15 @@ document.getElementById('showMapBtn')?.addEventListener('click', async () => {
     toggleText.textContent = 'Sakrij';
     mapVisible = true;
     
-    // Refresh map size
+    // Refresh map size and fit bounds to markers
     setTimeout(() => {
       if (map) {
         map.invalidateSize();
+        // Fit map to show all markers
+        if (markers.length > 0) {
+          const group = L.featureGroup(markers);
+          map.fitBounds(group.getBounds().pad(0.15));
+        }
       }
     }, 100);
   } else {
@@ -238,20 +243,13 @@ async function loadKeyPoints() {
     keyPoints.sort((a, b) => a.order - b.order);
     
     keyPointsList.innerHTML = keyPoints.map((kp, index) => `
-      <div class="key-point-card">
-        <div class="key-point-header">
-          <span class="key-point-number">${kp.order || index + 1}</span>
-          <h4>${kp.name}</h4>
+      <div class="key-point-item">
+        <div class="key-point-number">${kp.order || index + 1}</div>
+        <div class="key-point-content">
+          <h5>${kp.name}</h5>
+          <p>${kp.description || 'Nema opisa'}</p>
+          <p style="font-size: 0.8rem; color: #999; margin-top: 0.25rem;">📍 ${kp.latitude.toFixed(6)}, ${kp.longitude.toFixed(6)}</p>
         </div>
-        <p class="key-point-description">${kp.description || 'Nema opisa'}</p>
-        <div class="key-point-coordinates">
-          <span>📍 Koordinate: ${kp.latitude}, ${kp.longitude}</span>
-        </div>
-        ${kp.imageUrl ? `
-          <div class="key-point-image">
-            <img src="${kp.imageUrl}" alt="${kp.name}" onerror="this.style.display='none'">
-          </div>
-        ` : ''}
       </div>
     `).join('');
     
