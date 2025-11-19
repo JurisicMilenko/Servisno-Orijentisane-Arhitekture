@@ -29,19 +29,6 @@ CMD ["dotnet", "Explorer.API.dll"]
 # Workaround is to build image and run the container from that image
 # in desired network.
 
-FROM build as migration-base
-ENV PATH="$PATH:/root/.dotnet/tools"
-RUN dotnet tool install --global dotnet-ef --version 8.*
-
-FROM migration-base AS execute-migration
-
 ENV NEO4J_BOLT_URI=bolt://neo4j:7687
 ENV NEO4J_USERNAME=neo4j
 ENV NEO4J_PASSWORD=super123
-
-CMD PATH="$PATH:/root/.dotnet/tools" \
-    dotnet-ef database update "${MIGRATION}" \
-        -s "BlogService/BlogService.csproj" \
-        -p "BlogService/BlogService.csproj" \
-        -c "BlogContext" \
-        --configuration Release
