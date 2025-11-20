@@ -25,6 +25,19 @@ services:
     ports:
       - '27017:27017'
 
+  neo4j:
+    image: neo4j:5.20
+    container_name: neo4j
+    ports:
+      - "7474:7474"  # Browser UI
+      - "7687:7687"  # Bolt protocol used by the app
+    environment:
+      NEO4J_AUTH: neo4j/super123
+    volumes:
+      - neo4j-data:/data
+    networks:
+      - soa-net
+
   backend:
     build:
       context: ./backend
@@ -79,6 +92,22 @@ services:
     networks:
       - soa-net
 
+  followers:
+    build:
+      context: ./FollowerService
+      dockerfile: Dockerfile
+    container_name: followers
+    depends_on:
+      - neo4j
+    ports:
+      - "8085:80"   # adjust if needed
+    environment:
+      NEO4J_BOLT_URI: bolt://neo4j:7687
+      NEO4J_USERNAME: neo4j
+      NEO4J_PASSWORD: super123
+    networks:
+    - soa-net
+
   gateway:
     build:
       context: ./gateway
@@ -91,6 +120,7 @@ services:
       STAKEHOLDERS_SERVICE_URL: http://stakeholders:3001
       TOURS_SERVICE_URL: http://tours:3002
       BLOG_SERVICE_URL: http://blog:3003
+      FOLLOWERS_SERVICE_URL: http://followers:80
     ports:
       - '4000:4000'
     depends_on:
@@ -98,6 +128,7 @@ services:
       - stakeholders
       - tours
       - blog
+      - followers
     networks:
       - soa-net
 
@@ -115,6 +146,7 @@ services:
 volumes:
   postgres_data:
   mongo_data:
+  neo4j-data:
 
 networks:
   soa-net:
