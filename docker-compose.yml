@@ -9,7 +9,6 @@ services:
       POSTGRES_PASSWORD: postgres
     volumes:
       - postgres_data:/var/lib/postgresql/data
-      # initialize DB with schema from backend
       - ./backend/data/schema.sql:/docker-entrypoint-initdb.d/schema.sql:ro
     networks:
       - soa-net
@@ -29,8 +28,8 @@ services:
     image: neo4j:5.20
     container_name: neo4j
     ports:
-      - "7474:7474"  # Browser UI
-      - "7687:7687"  # Bolt protocol used by the app
+      - "7474:7474"
+      - "7687:7687"
     environment:
       NEO4J_AUTH: neo4j/super123
     volumes:
@@ -63,6 +62,7 @@ services:
       context: ./stakeholders
       dockerfile: Dockerfile
     environment:
+      JWT_SECRET: change-me-in-prod
       NODE_ENV: production
       PORT: 3001
     networks:
@@ -82,13 +82,22 @@ services:
     networks:
       - soa-net
 
-  blog:
+  blog-service:
     build:
-      context: ./blog
+      context: ./BlogService
       dockerfile: Dockerfile
+      target: final
     environment:
-      NODE_ENV: production
-      PORT: 3003
+      ASPNETCORE_URLS: "http://+:80"
+      DATABASE_HOST: postgres
+      DATABASE_PORT: 5432
+      DATABASE_USER: postgres
+      DATABASE_PASSWORD: postgres
+      DATABASE_SCHEMA: soa_demo
+    depends_on:
+      - postgres
+    ports:
+      - "8083:80"
     networks:
       - soa-net
 
@@ -100,13 +109,13 @@ services:
     depends_on:
       - neo4j
     ports:
-      - "8085:80"   # adjust if needed
+      - "8085:80"
     environment:
       NEO4J_BOLT_URI: bolt://neo4j:7687
       NEO4J_USERNAME: neo4j
       NEO4J_PASSWORD: super123
     networks:
-    - soa-net
+      - soa-net
 
   gateway:
     build:
@@ -114,12 +123,13 @@ services:
       dockerfile: Dockerfile
     environment:
       NODE_ENV: production
+      JWT_SECRET: change-me-in-prod
       PORT: 4000
       AUTH_SERVICE_URL: http://backend:3000
       ATTRACTIONS_SERVICE_URL: http://backend:3000
       STAKEHOLDERS_SERVICE_URL: http://stakeholders:3001
       TOURS_SERVICE_URL: http://tours:3002
-      BLOG_SERVICE_URL: http://blog:3003
+      BLOG_SERVICE_URL: http://blog-service:80
       FOLLOWERS_SERVICE_URL: http://followers:80
     ports:
       - '4000:4000'
@@ -127,7 +137,7 @@ services:
       - backend
       - stakeholders
       - tours
-      - blog
+      - blog-service
       - followers
     networks:
       - soa-net
@@ -139,7 +149,7 @@ services:
     ports:
       - '8080:80'
     environment:
-      API_BASE: http://localhost:4000
+      API_BASE: http://gateway:4000
     networks:
       - soa-net
 

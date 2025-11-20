@@ -1,5 +1,5 @@
-const API_BASE = 'http://localhost:3000';
-const STAKEHOLDERS_BASE = 'http://localhost:3001';
+const API_BASE = window.API_BASE;
+const STAKEHOLDERS_BASE = window.STAKEHOLDERS_BASE;
 
 const token = localStorage.getItem('token');
 
