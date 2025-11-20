@@ -1,4 +1,4 @@
-version: '3.8'
+version: '3.9'
 
 services:
   postgres:
@@ -10,6 +10,21 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
       - ./backend/data/schema.sql:/docker-entrypoint-initdb.d/schema.sql:ro
+    networks:
+      - soa-net
+
+  smart-tutor-migration:
+    build:
+      dockerfile: Dockerfile
+      context: ./BlogService
+      target: execute-migration
+    environment:
+      DATABASE_HOST: postgres
+      DATABASE_USERNAME: postgres
+      DATABASE_PASSWORD: postgres
+      DATABASE_SCHEMA: soa_demo
+    depends_on:
+      - postgres
     networks:
       - soa-net
 
@@ -54,6 +69,7 @@ services:
       - ./backend/data:/usr/src/app/data
     depends_on:
       - postgres
+      - smart-tutor-migration
     networks:
       - soa-net
 
@@ -96,6 +112,7 @@ services:
       DATABASE_SCHEMA: soa_demo
     depends_on:
       - postgres
+      - smart-tutor-migration
     ports:
       - "8083:80"
     networks:

@@ -15,7 +15,7 @@ const AUTH_SERVICE = process.env.AUTH_SERVICE_URL || 'http://localhost:3000';
 const ATTRACTIONS_SERVICE = process.env.ATTRACTIONS_SERVICE_URL || 'http://localhost:3000';
 const STAKEHOLDERS_SERVICE = process.env.STAKEHOLDERS_SERVICE_URL || 'http://localhost:3001';
 const TOURS_SERVICE = process.env.TOURS_SERVICE_URL || 'http://localhost:3002';
-const BLOG_SERVICE = process.env.BLOG_SERVICE_URL || 'http://localhost:3002';
+const BLOG_SERVICE = process.env.BLOG_SERVICE_URL || 'http://blog-service:80';
 const FOLLOWERS_SERVICE = process.env.FOLLOWERS_SERVICE_URL || 'http://followers:80';
 
 // Proxy /api/auth to auth service
@@ -54,8 +54,15 @@ app.use('/api/tours', createProxyMiddleware({
   logLevel: 'info'
 }));
 
-// Proxy /api/blog to blog service
-app.use('/api/blog', createProxyMiddleware({
+// Proxy /api/touristOrAuthor to blog service
+app.use('/api/touristOrAuthor', createProxyMiddleware({
+  target: BLOG_SERVICE,
+  changeOrigin: true,
+  logLevel: 'info'
+}));
+
+// Proxy /api/blogratings to blog service
+app.use('/api/blogratings', createProxyMiddleware({
   target: BLOG_SERVICE,
   changeOrigin: true,
   logLevel: 'info'

@@ -83,6 +83,7 @@ createBlogForm.addEventListener('submit', async (ev) => {
     const data = await res.json();
 
     if (res.status !== 201) {
+      alert(res.status);
       alert('Greška: ' + (data.error || 'Nepoznata greška'), 'error');
       return;
     }

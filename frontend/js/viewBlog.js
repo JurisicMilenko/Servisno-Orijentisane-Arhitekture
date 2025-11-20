@@ -1,6 +1,6 @@
 const API_BASE = window.API_BASE || 'http://localhost:4000';
 const BLOG_BASE = window.BLOG_BASE || 'http://localhost:5065';
-const STAKEHOLDERS_BASE = 'http://localhost:3001';
+const STAKEHOLDERS_BASE = window.STAKEHOLDERS_BASE || 'http://localhost:3001';
 
 const token = localStorage.getItem('token');
 
