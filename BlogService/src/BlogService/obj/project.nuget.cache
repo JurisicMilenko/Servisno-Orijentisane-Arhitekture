@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "QPrTV8oYUmM=",
+  "dgSpecHash": "CXnTAL66KJ0=",
   "success": true,
-  "projectFilePath": "C:\\Users\\Milenko\\Desktop\\BlogService\\src\\BlogService\\BlogService.csproj",
+  "projectFilePath": "C:\\Users\\Milenko\\Desktop\\SOA\\BlogService\\src\\BlogService\\BlogService.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Milenko\\.nuget\\packages\\automapper\\15.1.0\\automapper.15.1.0.nupkg.sha512",
     "C:\\Users\\Milenko\\.nuget\\packages\\entityframework\\6.5.1\\entityframework.6.5.1.nupkg.sha512",

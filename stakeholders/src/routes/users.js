@@ -7,7 +7,8 @@ const authenticate = require('../middlewares/authenticate');
 router.use(authenticate);
 
 // Admin-only: list all users
-router.get('/', controller.requireAdmin, controller.listUsers);
+//Isklucio sam admin only, signed:Milenko
+router.get('/', controller.listUsers);
 
 // Get user details by ID (could be restricted or public depending on requirements)
 router.get('/:id', controller.getUser);
