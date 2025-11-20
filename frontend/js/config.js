@@ -3,7 +3,8 @@ window.API_CONFIG = {
   GATEWAY: 'http://localhost:4000',
   BACKEND: 'http://localhost:3000',
   STAKEHOLDERS: 'http://localhost:3001',
-  TOURS: 'http://localhost:3002'
+  TOURS: 'http://localhost:3002',
+  BLOG: 'http://localhost:5065'
 };
 
 // Use Gateway as default for ALL API calls

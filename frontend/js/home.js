@@ -71,6 +71,18 @@ createTourBtn?.addEventListener('click', () => {
   window.location.href = `./createTour.html?v=${ts}`;
 });
 
+createBlogBtn?.addEventListener('click', () => {
+  console.log('[home.js] Kreiraj Blog clicked');
+  const ts = Date.now();
+  window.location.href = `./createBlog.html?v=${ts}`;
+});
+
+viewBlogBtn?.addEventListener('click', () => {
+  console.log('[home.js] Pregledaj Blog clicked');
+  const ts = Date.now();
+  window.location.href = `./blogView.html?v=${ts}`;
+});
+
 adminBtn?.addEventListener('click', () => {
   console.log('[home.js] Admin Panel clicked');
   const ts = Date.now();

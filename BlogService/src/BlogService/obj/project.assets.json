@@ -2791,11 +2791,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Milenko\\Desktop\\BlogService\\src\\BlogService\\BlogService.csproj",
+      "projectUniqueName": "C:\\Users\\Milenko\\Desktop\\SOA\\BlogService\\src\\BlogService\\BlogService.csproj",
       "projectName": "BlogService",
-      "projectPath": "C:\\Users\\Milenko\\Desktop\\BlogService\\src\\BlogService\\BlogService.csproj",
+      "projectPath": "C:\\Users\\Milenko\\Desktop\\SOA\\BlogService\\src\\BlogService\\BlogService.csproj",
       "packagesPath": "C:\\Users\\Milenko\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Milenko\\Desktop\\BlogService\\src\\BlogService\\obj\\",
+      "outputPath": "C:\\Users\\Milenko\\Desktop\\SOA\\BlogService\\src\\BlogService\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "D:\\Visual Studio\\Shared\\NuGetPackages"

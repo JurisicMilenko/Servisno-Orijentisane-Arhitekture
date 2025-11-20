@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Kreiraj Turu</title>
+  <!-- Prevent caching during development -->
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="0" />
+  <link rel="stylesheet" href="./style.css?v=20251112">
+</head>
+<body>
+  <!-- Navigation Bar -->
+  <nav class="navbar">
+    <div class="navbar-container">
+      <div class="navbar-brand">
+        <h1>🌍 Turistička Aplikacija</h1>
+      </div>
+      <div class="navbar-menu">
+        <button id="homeBtn" class="nav-link">🏠 Početna</button>
+        <button id="profileBtn" class="nav-link">👤 Profil</button>
+        <button id="logoutBtn" class="nav-link logout-btn">Logout</button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <div class="blog-create-container">
+      <h2>Kreiraj Novi Blog</h2>
+        <form id="createBlogForm">
+        <label>Title<br><input type="text" id="title" name="title" required></label><br>
+        <label>Description<br><input type="text" id="description" name="description"></label><br>
+        <label>Image<br><input type="text" id="image" name="image"></label><br>
+        <div style="display:flex;gap:8px;margin-top:8px">
+          <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+      </form>
+      </div>
+    </div>
+  </main>
+
+  <script src="./js/config.js?v=20251118"></script>
+  <script src="./js/createBlog.js?v=20251118"></script>
+</body>
+</html>
