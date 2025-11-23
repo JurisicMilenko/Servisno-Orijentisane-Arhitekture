@@ -83,6 +83,12 @@ viewBlogBtn?.addEventListener('click', () => {
   window.location.href = `./blogView.html?v=${ts}`;
 });
 
+posSimBtn?.addEventListener('click', () => {
+  console.log('[home.js] Simulator Pozicije clicked');
+  const ts = Date.now();
+  window.location.href = `./positionSimulator.html?v=${ts}`;
+});
+
 adminBtn?.addEventListener('click', () => {
   console.log('[home.js] Admin Panel clicked');
   const ts = Date.now();
