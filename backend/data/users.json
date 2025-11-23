@@ -89,5 +89,18 @@
     "avatar_url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRuoZ5GN7rFDmRUsbmOjJCMrU4JM2cieQHeSuJxCm3kadloeRrf6xba72ZwdfLFj95wzQsQMFi6b9wP15yJLqpuEqwaJ20gcwSVVjPF038Y7Q&s=10",
     "bio": "b",
     "motto": "m"
+  },
+  {
+    "id": 8,
+    "username": "guide2",
+    "passwordHash": "$2b$10$YUbtXBYgSHhrL5Ri1AHFkuZk4re421.8HQwbytCHwZMFvOrkIaZKy",
+    "email": "e@gmail.com",
+    "role": "guide",
+    "status": "ACTIVE",
+    "first_name": "f",
+    "last_name": "l",
+    "avatar_url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRuoZ5GN7rFDmRUsbmOjJCMrU4JM2cieQHeSuJxCm3kadloeRrf6xba72ZwdfLFj95wzQsQMFi6b9wP15yJLqpuEqwaJ20gcwSVVjPF038Y7Q&s=10",
+    "bio": "b",
+    "motto": "better to cum in the sink than to sink in the cum"
   }
 ]
