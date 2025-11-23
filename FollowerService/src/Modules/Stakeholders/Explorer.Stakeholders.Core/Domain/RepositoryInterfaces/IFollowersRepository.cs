@@ -12,5 +12,6 @@ namespace Explorer.Stakeholders.Core.Domain.RepositoryInterfaces
         Task Unfollow(long followerId, long targetId);
         Task<List<long>> GetFollowers(long userId);
         Task<List<long>> GetFollowing(long userId);
+        Task<List<long>> GetSuggestedFollowers(long userId);
     }
 }

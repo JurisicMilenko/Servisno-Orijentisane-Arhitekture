@@ -72,7 +72,13 @@ app.use('/api/blogratings', createProxyMiddleware({
 app.use('/api/followers', createProxyMiddleware({
   target: FOLLOWERS_SERVICE,
   changeOrigin: true,
-  logLevel: 'info'
+  logLevel: 'info',
+  onProxyReq: (proxyReq, req, res) => {
+    // Forward JWT to Followers service
+    if (req.headers.authorization) {
+      //proxyReq.setHeader('Authorization', req.headers.authorization);
+    }
+  }
 }));
 
 // Example: route for gateway health

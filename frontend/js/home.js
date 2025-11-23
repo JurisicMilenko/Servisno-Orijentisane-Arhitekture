@@ -13,6 +13,7 @@ const userDetailsBtn = document.getElementById('userDetailsBtn');
 const myToursBtn = document.getElementById('myToursBtn');
 const createTourBtn = document.getElementById('createTourBtn');
 const adminBtn = document.getElementById('adminBtn');
+const suggestedFollowersBtn = document.getElementById('suggestedFollowersBtn');
 const logoutBtn = document.getElementById('logoutBtn');
 
 console.log('[home.js] userDetailsBtn:', userDetailsBtn);
@@ -93,6 +94,10 @@ adminBtn?.addEventListener('click', () => {
   console.log('[home.js] Admin Panel clicked');
   const ts = Date.now();
   window.location.href = `./adminUserOverview.html?v=${ts}`;
+});
+
+suggestedFollowersBtn?.addEventListener('click', () => {
+  window.location.href = `./suggestedFollowers.html?v=${Date.now()}`;
 });
 
 logoutBtn?.addEventListener('click', () => {

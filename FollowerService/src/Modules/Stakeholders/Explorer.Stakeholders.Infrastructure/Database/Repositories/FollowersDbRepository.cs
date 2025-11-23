@@ -73,5 +73,46 @@ namespace Explorer.Stakeholders.Infrastructure.Database.Repositories
 
             return result;
         }
+
+        public async Task<List<long>> GetSuggestedFollowers(long userId)
+        {
+            await using var session = _driver.AsyncSession();
+
+            var result = await session.ExecuteReadAsync(async tx =>
+            {
+                var followCheck = await tx.RunAsync(
+                    "MATCH (:User {id:$userId})-[:FOLLOWS]->(x) RETURN x LIMIT 1",
+                    new { userId }
+                );
+                bool followsAnyone = await followCheck.PeekAsync() != null;
+
+                string query;
+
+                if (followsAnyone)
+                {
+                    query = @"
+                MATCH (me:User {id:$userId})-[:FOLLOWS]->(:User)<-[:FOLLOWS]-(u:User)
+                WHERE u.id <> $userId
+                  AND NOT (me)-[:FOLLOWS]->(u)
+                RETURN DISTINCT u.id AS suggestedId
+                LIMIT 20";
+                }
+                else
+                {
+                    query = @"
+                MATCH (u:User)
+                WHERE u.id <> $userId
+                RETURN u.id AS suggestedId
+                LIMIT 20";
+                }
+
+                var cursor = await tx.RunAsync(query, new { userId });
+                var records = await cursor.ToListAsync();
+                return records.ConvertAll(r => r["suggestedId"].As<long>());
+            });
+
+            return result;
+        }
+
     }
 }

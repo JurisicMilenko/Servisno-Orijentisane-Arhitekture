@@ -15,21 +15,17 @@ public static class AuthConfiguration
 
     private static void ConfigureAuthentication(IServiceCollection services)
     {
-        var key = Environment.GetEnvironmentVariable("JWT_KEY") ?? "L1uKpZQzI1Yx0+OaS0kXkE7u0n/5Q0U3R5s3FVmXcXU=";
-        var issuer = Environment.GetEnvironmentVariable("JWT_ISSUER") ?? "explorer";
-        var audience = Environment.GetEnvironmentVariable("JWT_AUDIENCE") ?? "explorer-front.com";
+        var key = Environment.GetEnvironmentVariable("JWT_SECRET") ?? "change-me-in-prod";
 
         services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(options =>
             {
                 options.TokenValidationParameters = new TokenValidationParameters
                 {
-                    ValidateIssuer = true,
-                    ValidateAudience = true,
+                    ValidateIssuer = false,
+                    ValidateAudience = false,
                     ValidateIssuerSigningKey = true,
                     ValidateLifetime = true,
-                    ValidIssuer = issuer,
-                    ValidAudience = audience,
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key))
                 };
 

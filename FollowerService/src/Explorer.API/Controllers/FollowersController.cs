@@ -1,10 +1,12 @@
 ﻿using Explorer.Stakeholders.API.Public;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Explorer.API.Controllers
 {
     [ApiController]
     [Route("api/followers")]
+    [Authorize]
     public class FollowersController : ControllerBase
     {
         private readonly IFollowersService _service;
@@ -15,31 +17,43 @@ namespace Explorer.API.Controllers
         }
 
         [HttpPost("{targetId}")]
-        public async Task<IActionResult> Follow(long targetId, [FromQuery] long followerId)
+        public async Task<IActionResult> Follow(long targetId)
         {
-            await _service.Follow(followerId, targetId);
+            long userId = long.Parse(User.FindFirst("sub")!.Value);
+            await _service.Follow(userId, targetId);
             return Ok();
         }
 
         [HttpDelete("{targetId}")]
-        public async Task<IActionResult> Unfollow(long targetId, [FromQuery] long followerId)
+        public async Task<IActionResult> Unfollow(long targetId)
         {
-            await _service.Unfollow(followerId, targetId);
+            long userId = long.Parse(User.FindFirst("sub")!.Value);
+            await _service.Unfollow(userId, targetId);
             return Ok();
         }
 
-        [HttpGet("{userId}")]
-        public async Task<IActionResult> GetFollowers(long userId)
+        [HttpGet("me/followers")]
+        public async Task<IActionResult> GetMyFollowers()
         {
+            long userId = long.Parse(User.FindFirst("sub")!.Value);
             var followers = await _service.GetFollowers(userId);
             return Ok(followers);
         }
 
-        [HttpGet("{userId}/following")]
-        public async Task<IActionResult> GetFollowing(long userId)
+        [HttpGet("me/following")]
+        public async Task<IActionResult> GetMyFollowing()
         {
+            long userId = long.Parse(User.FindFirst("sub")!.Value);
             var following = await _service.GetFollowing(userId);
             return Ok(following);
+        }
+
+        [HttpGet("suggested")]
+        public async Task<IActionResult> Suggested()
+        {
+            long userId = long.Parse(User.FindFirst("sub")!.Value);
+            var suggestions = await _service.GetSuggestedFollowers(userId);
+            return Ok(suggestions);
         }
     }
 }

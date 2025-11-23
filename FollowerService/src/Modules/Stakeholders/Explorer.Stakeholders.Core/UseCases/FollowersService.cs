@@ -28,5 +28,8 @@ namespace Explorer.Stakeholders.Core.UseCases
 
         public Task<List<long>> GetFollowing(long userId)
             => _repo.GetFollowing(userId);
+
+        public Task<List<long>> GetSuggestedFollowers(long userId)
+        => _repo.GetSuggestedFollowers(userId);
     }
 }
