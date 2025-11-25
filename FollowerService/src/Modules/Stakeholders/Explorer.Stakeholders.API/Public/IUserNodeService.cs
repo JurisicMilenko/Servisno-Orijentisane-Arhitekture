@@ -5,6 +5,6 @@ namespace Explorer.Stakeholders.Core.UseCases
 {
     public interface IUserNodeService
     {
-        Task<CreateUserResponse> CreateUserNode(CreateUserRequest request);
+        Task<CreateUserResponse> CreateUserNode(CreateUserRequest request, Grpc.Core.ServerCallContext context);
     }
 }

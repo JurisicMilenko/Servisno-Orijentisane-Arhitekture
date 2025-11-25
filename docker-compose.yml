@@ -127,6 +127,7 @@ services:
     depends_on:
       - neo4j
     ports:
+      - "5001:5001"
       - "8085:80"
     environment:
       JWT_SECRET: change-me-in-prod

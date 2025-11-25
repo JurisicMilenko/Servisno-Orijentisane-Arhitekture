@@ -13,9 +13,10 @@ namespace Explorer.Stakeholders.Core.UseCases
             _neo4jDriver = neo4jDriver;
         }
 
-        public async Task<CreateUserResponse> CreateUserNode(CreateUserRequest request)
+        public override async Task<CreateUserResponse> CreateUserNode(CreateUserRequest request, Grpc.Core.ServerCallContext context)
         {
             Console.WriteLine($"[gRPC] CreateUserNode called with id={request.Id}, username={request.Username}, role={request.Role}");
+
             var session = _neo4jDriver.AsyncSession();
             try
             {
