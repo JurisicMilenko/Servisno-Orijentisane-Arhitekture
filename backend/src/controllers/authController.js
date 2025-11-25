@@ -13,24 +13,26 @@ exports.register = async (req, res) => {
     
     //Added for grpc call 
 
-    await new Promise((resolve, reject) => 
-      { grpcClient.CreateUserNode(
-        { id: user.id, username: user.username, role: user.role }, 
-        (err, response) => 
-          { 
-            if (err) 
+    await new Promise((resolve, reject) => {
+      grpcClient.CreateUserNode(
+        { id: user.id, username: username, role: normalizedRole },
+        (err, response) => {
+          if (err) {
+            console.error('gRPC CreateUserNode error:', err);
             return reject(err);
-
-            console.log('gRPC CreateUserNode response:', response);
-
-            if (!response.success) 
-            return reject(new Error('Failed to create user node in Followers service')); resolve(); 
           }
-        ); 
-        
-        resolve();
-      }); 
 
+          console.log('gRPC CreateUserNode response:', response);
+
+          if (!response.success) {
+            console.warn('User node not created in Followers service');
+            return reject(new Error('Failed to create user node in Followers service'));
+          }
+
+          resolve();
+        }
+      );
+    });
     //Added for grpc call
 
     res.status(201).json({ id: user.id, username: user.username, role: user.role });
