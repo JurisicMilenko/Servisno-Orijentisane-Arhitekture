@@ -2,18 +2,25 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace Explorer.Stakeholders.API.Dtos
 {
     public class UserNodeDTO
     {
-        public long UserId { get; set; }
+        [JsonPropertyName("id")]
+        public long Id { get; set; }
+
+        [JsonPropertyName("username")]
         public string Username { get; set; }
+
+        [JsonPropertyName("role")]
         public string Role { get; set; }
-        public UserNodeDTO(long userId, string username, string role)
+
+        public UserNodeDTO(long id, string username, string role)
         {
-            UserId = userId;
+            Id = id;
             Username = username;
             Role = role;
         }

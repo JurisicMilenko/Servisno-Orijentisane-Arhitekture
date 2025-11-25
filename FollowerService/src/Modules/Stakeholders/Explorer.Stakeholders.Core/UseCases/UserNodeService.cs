@@ -21,7 +21,7 @@ namespace Explorer.Stakeholders.Core.UseCases
             try
             {
                 await session.RunAsync(
-                    "MERGE (u:User { Id: $id }) SET u.username = $username, u.role = $role",
+                    "MERGE (u:User { id: $id }) SET u.username = $username, u.role = $role",
                     new { id = request.Id, username = request.Username, role = request.Role }
                 );
             }

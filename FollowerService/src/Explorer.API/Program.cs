@@ -34,10 +34,14 @@ builder.Services.ConfigureSwagger(builder.Configuration);
 const string corsPolicy = "_corsPolicy";
 builder.WebHost.ConfigureKestrel(options =>
 {
-    // Listen on 5001 for gRPC (HTTP/2)
     options.ListenAnyIP(5001, listenOptions =>
     {
         listenOptions.Protocols = Microsoft.AspNetCore.Server.Kestrel.Core.HttpProtocols.Http2;
+    });
+
+    options.ListenAnyIP(8080, listenOptions =>
+    {
+        listenOptions.Protocols = Microsoft.AspNetCore.Server.Kestrel.Core.HttpProtocols.Http1;
     });
 });
 builder.Services.ConfigureCors(corsPolicy);
