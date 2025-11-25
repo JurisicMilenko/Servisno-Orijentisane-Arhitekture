@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Explorer.Stakeholders.API.Dtos;
 
 namespace Explorer.Stakeholders.API.Public
 {
@@ -12,6 +13,6 @@ namespace Explorer.Stakeholders.API.Public
         Task Unfollow(long followerId, long targetId);
         Task<List<long>> GetFollowers(long userId);
         Task<List<long>> GetFollowing(long userId);
-        Task<List<long>> GetSuggestedFollowers(long userId);
+        Task<List<UserNodeDTO>> GetSuggestedFollowers(long userId);
     }
 }

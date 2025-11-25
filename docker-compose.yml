@@ -65,6 +65,7 @@ services:
       PGDATABASE: soa_demo
       PGPORT: 5432
       JWT_SECRET: change-me-in-prod
+      FOLLOWERS_GRPC_SERVICE_URL: followers:5001
     volumes:
       - ./backend/data:/usr/src/app/data
     depends_on:

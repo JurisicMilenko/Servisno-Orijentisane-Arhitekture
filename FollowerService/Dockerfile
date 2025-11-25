@@ -16,6 +16,10 @@ FROM build as publish
 RUN dotnet publish Explorer.API/Explorer.API.csproj -c Release -o /app/publish
 
 ENV ASPNETCORE_URLS=http://+:80
+ENV DOTNET_RUNNING_IN_CONTAINER=true
+ENV GRPC_PORT=5001
+EXPOSE 5001
+
 FROM base AS final
 COPY --from=publish /app .
 WORKDIR /app/publish

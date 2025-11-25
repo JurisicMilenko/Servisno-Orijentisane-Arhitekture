@@ -29,8 +29,17 @@ builder.Services.AddScoped<IFollowersRepository, FollowersDbRepository>();
 builder.Services.AddScoped<IFollowersService, FollowersService>();
 
 builder.Services.AddControllers();
+builder.Services.AddGrpc();
 builder.Services.ConfigureSwagger(builder.Configuration);
 const string corsPolicy = "_corsPolicy";
+builder.WebHost.ConfigureKestrel(options =>
+{
+    // Listen on 5001 for gRPC (HTTP/2)
+    options.ListenAnyIP(5001, listenOptions =>
+    {
+        listenOptions.Protocols = Microsoft.AspNetCore.Server.Kestrel.Core.HttpProtocols.Http2;
+    });
+});
 builder.Services.ConfigureCors(corsPolicy);
 builder.Services.ConfigureAuth();
 
@@ -57,6 +66,7 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+app.MapGrpcService<UserNodeService>();
 
 app.Run();
 

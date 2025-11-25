@@ -1,4 +1,7 @@
 const service = require('../services/authService');
+//Added for grpc call
+const grpcClient = require('../services/grpcClient');
+//Added for grpc call
 
 exports.register = async (req, res) => {
   try {
@@ -7,6 +10,29 @@ exports.register = async (req, res) => {
     // role should be either 'guide' or 'tourist' (admins are added directly in DB)
     const normalizedRole = role && role.toLowerCase() === 'guide' ? 'guide' : 'tourist';
     const user = await service.register({ username, password, email, role: normalizedRole, first_name, last_name, avatar_url, bio, motto });
+    
+    //Added for grpc call 
+
+    await new Promise((resolve, reject) => 
+      { grpcClient.CreateUserNode(
+        { id: user.id, username: user.username, role: user.role }, 
+        (err, response) => 
+          { 
+            if (err) 
+            return reject(err);
+
+            console.log('gRPC CreateUserNode response:', response);
+
+            if (!response.success) 
+            return reject(new Error('Failed to create user node in Followers service')); resolve(); 
+          }
+        ); 
+        
+        resolve();
+      }); 
+
+    //Added for grpc call
+
     res.status(201).json({ id: user.id, username: user.username, role: user.role });
   } catch (err) {
     res.status(400).json({ error: err.message });
