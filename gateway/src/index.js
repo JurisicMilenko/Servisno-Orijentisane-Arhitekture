@@ -15,7 +15,8 @@ const AUTH_SERVICE = process.env.AUTH_SERVICE_URL || 'http://localhost:3000';
 const ATTRACTIONS_SERVICE = process.env.ATTRACTIONS_SERVICE_URL || 'http://localhost:3000';
 const STAKEHOLDERS_SERVICE = process.env.STAKEHOLDERS_SERVICE_URL || 'http://localhost:3001';
 const TOURS_SERVICE = process.env.TOURS_SERVICE_URL || 'http://localhost:3002';
-const BLOG_SERVICE = process.env.BLOG_SERVICE_URL || 'http://localhost:3002';
+const BLOG_SERVICE = process.env.BLOG_SERVICE_URL || 'http://blog-service:80';
+const FOLLOWERS_SERVICE = process.env.FOLLOWERS_SERVICE_URL || 'http://followers:80';
 
 // Proxy /api/auth to auth service
 app.use('/api/auth', createProxyMiddleware({
@@ -53,11 +54,31 @@ app.use('/api/tours', createProxyMiddleware({
   logLevel: 'info'
 }));
 
-// Proxy /api/blog to blog service
-app.use('/api/blog', createProxyMiddleware({
+// Proxy /api/touristOrAuthor to blog service
+app.use('/api/touristOrAuthor', createProxyMiddleware({
   target: BLOG_SERVICE,
   changeOrigin: true,
   logLevel: 'info'
+}));
+
+// Proxy /api/blogratings to blog service
+app.use('/api/blogratings', createProxyMiddleware({
+  target: BLOG_SERVICE,
+  changeOrigin: true,
+  logLevel: 'info'
+}));
+
+// Proxy /api/followers
+app.use('/api/followers', createProxyMiddleware({
+  target: FOLLOWERS_SERVICE,
+  changeOrigin: true,
+  logLevel: 'info',
+  onProxyReq: (proxyReq, req, res) => {
+    // Forward JWT to Followers service
+    if (req.headers.authorization) {
+      //proxyReq.setHeader('Authorization', req.headers.authorization);
+    }
+  }
 }));
 
 // Example: route for gateway health
@@ -70,4 +91,5 @@ app.listen(PORT, () => {
   console.log(`Proxying /api/stakeholders -> ${STAKEHOLDERS_SERVICE}`);
   console.log(`Proxying /api/tours -> ${TOURS_SERVICE}`);
   console.log(`Proxying /api/blog -> ${BLOG_SERVICE}`);
+  console.log(`Proxying /api/followers -> ${FOLLOWERS_SERVICE}`);
 });

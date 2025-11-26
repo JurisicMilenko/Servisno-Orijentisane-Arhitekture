@@ -1,5 +1,5 @@
-const API_BASE = window.API_BASE || 'http://localhost:4000';
-const TOURS_BASE = window.TOURS_BASE || 'http://localhost:4000';
+const API_BASE = window.API_BASE;
+const TOURS_BASE = window.TOURS_BASE;
 
 const token = localStorage.getItem('token');
 

@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+option csharp_namespace = "FollowersGrpcService.Grpc";
+
+package user;
+
+service UserService {
+  rpc CreateUserNode(CreateUserRequest) returns (CreateUserResponse);
+}
+
+message CreateUserRequest {
+  int64 id = 1;
+  string username = 2;
+  string role = 3;
+}
+
+message CreateUserResponse {
+  bool success = 1;
+}

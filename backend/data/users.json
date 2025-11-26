@@ -63,5 +63,44 @@
     "avatar_url": "https://ui-avatars.com/api/?name=Guide&background=4caf50&color=fff&size=150",
     "bio": "Profesionalni turistički vodič sa 10 godina iskustva. 123",
     "motto": "Svaka tura je nova avantura!"
+  },
+  {
+    "id": 6,
+    "username": "user",
+    "passwordHash": "$2b$10$x0W5EShNwbzBjO5ukJ1Bt.76ty5iLN7KgZ.OmT3pb5Vx4FBQaBJlO",
+    "email": "e@gmail.com",
+    "role": "tourist",
+    "status": "ACTIVE",
+    "first_name": "f",
+    "last_name": "l",
+    "avatar_url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRuoZ5GN7rFDmRUsbmOjJCMrU4JM2cieQHeSuJxCm3kadloeRrf6xba72ZwdfLFj95wzQsQMFi6b9wP15yJLqpuEqwaJ20gcwSVVjPF038Y7Q&s=10",
+    "bio": "m",
+    "motto": "keep gambling"
+  },
+  {
+    "id": 7,
+    "username": "user2",
+    "passwordHash": "$2b$10$97x7VEO2NDeXTFWRNRzCpe3V2x35zDOmXl4/y.WqdsbCWhHNTLQ2q",
+    "email": "e@gmail.com",
+    "role": "tourist",
+    "status": "ACTIVE",
+    "first_name": "f",
+    "last_name": "l",
+    "avatar_url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRuoZ5GN7rFDmRUsbmOjJCMrU4JM2cieQHeSuJxCm3kadloeRrf6xba72ZwdfLFj95wzQsQMFi6b9wP15yJLqpuEqwaJ20gcwSVVjPF038Y7Q&s=10",
+    "bio": "b",
+    "motto": "m"
+  },
+  {
+    "id": 8,
+    "username": "guide2",
+    "passwordHash": "$2b$10$YUbtXBYgSHhrL5Ri1AHFkuZk4re421.8HQwbytCHwZMFvOrkIaZKy",
+    "email": "e@gmail.com",
+    "role": "guide",
+    "status": "ACTIVE",
+    "first_name": "f",
+    "last_name": "l",
+    "avatar_url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRuoZ5GN7rFDmRUsbmOjJCMrU4JM2cieQHeSuJxCm3kadloeRrf6xba72ZwdfLFj95wzQsQMFi6b9wP15yJLqpuEqwaJ20gcwSVVjPF038Y7Q&s=10",
+    "bio": "b",
+    "motto": "better to cum in the sink than to sink in the cum"
   }
 ]

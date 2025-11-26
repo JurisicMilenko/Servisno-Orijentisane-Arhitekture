@@ -1,4 +1,4 @@
-const TOURS_BASE = window.TOURS_BASE || 'http://localhost:4000';
+const TOURS_BASE = window.TOURS_BASE;
 
 const token = localStorage.getItem('token');
 const messageArea = document.getElementById('messageArea');

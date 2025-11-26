@@ -1,5 +1,5 @@
 // API_BASE is defined in config.js (loaded before this script)
-const API_BASE = window.API_BASE || 'http://localhost:4000'; // Gateway URL
+const API_BASE = window.API_BASE; // Gateway URL
 
 function jsonResponse(res) {
   return res.text().then(t => {

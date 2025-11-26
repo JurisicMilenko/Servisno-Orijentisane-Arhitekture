@@ -16,6 +16,10 @@ FROM build as publish
 RUN dotnet publish Explorer.API/Explorer.API.csproj -c Release -o /app/publish
 
 ENV ASPNETCORE_URLS=http://+:80
+ENV DOTNET_RUNNING_IN_CONTAINER=true
+ENV GRPC_PORT=5001
+EXPOSE 5001
+
 FROM base AS final
 COPY --from=publish /app .
 WORKDIR /app/publish
@@ -29,19 +33,6 @@ CMD ["dotnet", "Explorer.API.dll"]
 # Workaround is to build image and run the container from that image
 # in desired network.
 
-FROM build as migration-base
-ENV PATH="$PATH:/root/.dotnet/tools"
-RUN dotnet tool install --global dotnet-ef --version 8.*
-
-FROM migration-base AS execute-migration
-
 ENV NEO4J_BOLT_URI=bolt://neo4j:7687
 ENV NEO4J_USERNAME=neo4j
 ENV NEO4J_PASSWORD=super123
-
-CMD PATH="$PATH:/root/.dotnet/tools" \
-    dotnet-ef database update "${MIGRATION}" \
-        -s "BlogService/BlogService.csproj" \
-        -p "BlogService/BlogService.csproj" \
-        -c "BlogContext" \
-        --configuration Release

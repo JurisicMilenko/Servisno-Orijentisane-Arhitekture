@@ -1,5 +1,7 @@
+
 const API_BASE = window.API_BASE || 'http://localhost:4000';
 const TOURS_BASE = window.TOURS_BASE || 'http://localhost:4000';
+
 
 const token = localStorage.getItem('token');
 
@@ -14,6 +16,7 @@ const userDetailsBtn = document.getElementById('userDetailsBtn');
 const myToursBtn = document.getElementById('myToursBtn');
 const createTourBtn = document.getElementById('createTourBtn');
 const adminBtn = document.getElementById('adminBtn');
+const suggestedFollowersBtn = document.getElementById('suggestedFollowersBtn');
 const logoutBtn = document.getElementById('logoutBtn');
 
 console.log('[home.js] userDetailsBtn:', userDetailsBtn);
@@ -72,10 +75,32 @@ createTourBtn?.addEventListener('click', () => {
   window.location.href = `./createTour.html?v=${ts}`;
 });
 
+createBlogBtn?.addEventListener('click', () => {
+  console.log('[home.js] Kreiraj Blog clicked');
+  const ts = Date.now();
+  window.location.href = `./createBlog.html?v=${ts}`;
+});
+
+viewBlogBtn?.addEventListener('click', () => {
+  console.log('[home.js] Pregledaj Blog clicked');
+  const ts = Date.now();
+  window.location.href = `./blogView.html?v=${ts}`;
+});
+
+posSimBtn?.addEventListener('click', () => {
+  console.log('[home.js] Simulator Pozicije clicked');
+  const ts = Date.now();
+  window.location.href = `./positionSimulator.html?v=${ts}`;
+});
+
 adminBtn?.addEventListener('click', () => {
   console.log('[home.js] Admin Panel clicked');
   const ts = Date.now();
   window.location.href = `./adminUserOverview.html?v=${ts}`;
+});
+
+suggestedFollowersBtn?.addEventListener('click', () => {
+  window.location.href = `./suggestedFollowers.html?v=${Date.now()}`;
 });
 
 logoutBtn?.addEventListener('click', () => {

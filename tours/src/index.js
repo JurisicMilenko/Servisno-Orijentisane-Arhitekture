@@ -4,6 +4,7 @@ require('dotenv').config();
 
 const connectDB = require('./models/db');
 const toursRouter = require('./routes/tours');
+const ratingRoutes = require('./routes/tourRatingRoutes');
 
 const app = express();
 const PORT = process.env.PORT || 3002;
@@ -17,6 +18,8 @@ connectDB();
 
 // Routes
 app.use('/api/tours', toursRouter);
+app.use('/api/tours', ratingRoutes);
+
 
 // Health check
 app.get('/health', (req, res) => {
