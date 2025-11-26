@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Rate Tour</title>
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="0" />
+  <link rel="stylesheet" href="./style.css?v=20251126">
+</head>
+<body>
+
+  <!-- Navigation Bar copied from home page -->
+  <nav class="navbar">
+    <div class="navbar-container">
+      <div class="navbar-brand">
+        <h1>🌍 Turistička Aplikacija</h1>
+      </div>
+      <div class="navbar-menu">
+        <button id="userDetailsBtn" class="nav-link">👤 Moj Profil</button>
+        <button id="myToursBtn" class="nav-link" style="display:none;">📋 Moje Ture</button>
+        <button id="createTourBtn" class="nav-link" style="display:none;">➕ Kreiraj Turu</button>
+        <button id="createBlogBtn" class="nav-link">➕ Kreiraj Blog</button>
+        <button id="viewBlogBtn" class="nav-link">📋 Pregledaj Blog</button>
+        <button id="posSimBtn" class="nav-link"> Simulator Pozicije</button>
+        <button id="suggestedFollowersBtn" class="nav-link">👥 Predloženi Pratioci</button>
+        <button id="adminBtn" class="nav-link" style="display:none;">⚙️ Admin Panel</button>
+        <button id="logoutBtn" class="nav-link logout-btn">Logout</button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <section class="rating-section">
+      <h2>Ocenite Turu</h2>
+      <form id="ratingForm">
+        
+        <!-- This would ideally come from backend or query param -->
+        <input type="hidden" id="tourId" value="1">
+
+        <label>Rating (1-5):<br>
+          <input type="number" id="rating" name="rating" min="1" max="5" required>
+        </label><br>
+
+        <label>Komentar:<br>
+          <textarea id="comment" name="comment"></textarea>
+        </label><br>
+
+        <button class="btn btn-primary" type="submit">Pošalji Ocenu</button>
+      </form>
+    </section>
+  </main>
+
+  <script src="./js/createTourRating.js"></script>
+
+  <script src="./js/config.js?v=20251126"></script>
+</body>
+</html>
