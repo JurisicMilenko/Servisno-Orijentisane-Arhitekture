@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Korpa — Turistička aplikacija</title>
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="0" />
+  <link rel="stylesheet" href="./style.css?v=20251111">
+  <style>
+    .cart-container {
+      max-width: 900px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+    }
+    
+    .cart-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2rem;
+      padding-bottom: 1rem;
+      border-bottom: 2px solid #667eea;
+    }
+    
+    .cart-items {
+      background: white;
+      border-radius: 8px;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    
+    .cart-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem;
+      border-bottom: 1px solid #eee;
+    }
+    
+    .cart-item:last-child {
+      border-bottom: none;
+    }
+    
+    .item-info {
+      flex: 1;
+    }
+    
+    .item-name {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #333;
+      margin-bottom: 0.25rem;
+    }
+    
+    .item-price {
+      font-size: 1rem;
+      color: #667eea;
+      font-weight: 600;
+    }
+    
+    .remove-btn {
+      background: #e74c3c;
+      color: white;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 0.9rem;
+    }
+    
+    .remove-btn:hover {
+      background: #c0392b;
+    }
+    
+    .cart-summary {
+      background: white;
+      border-radius: 8px;
+      padding: 1.5rem;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    
+    .summary-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 0.75rem 0;
+      font-size: 1rem;
+    }
+    
+    .summary-total {
+      border-top: 2px solid #667eea;
+      margin-top: 1rem;
+      padding-top: 1rem;
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: #667eea;
+    }
+    
+    .cart-actions {
+      display: flex;
+      gap: 1rem;
+      margin-top: 1.5rem;
+    }
+    
+    .checkout-btn {
+      flex: 1;
+      background: #27ae60;
+      color: white;
+      border: none;
+      padding: 1rem;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 1.1rem;
+      font-weight: 600;
+    }
+    
+    .checkout-btn:hover {
+      background: #229954;
+    }
+    
+    .checkout-btn:disabled {
+      background: #95a5a6;
+      cursor: not-allowed;
+    }
+    
+    .clear-btn {
+      background: #95a5a6;
+      color: white;
+      border: none;
+      padding: 1rem 1.5rem;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 1rem;
+    }
+    
+    .clear-btn:hover {
+      background: #7f8c8d;
+    }
+    
+    .empty-cart {
+      text-align: center;
+      padding: 3rem;
+      color: #999;
+    }
+    
+    .empty-cart-icon {
+      font-size: 4rem;
+      margin-bottom: 1rem;
+    }
+    
+    .back-btn {
+      background: #667eea;
+      color: white;
+      border: none;
+      padding: 0.75rem 1.5rem;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 1rem;
+      text-decoration: none;
+      display: inline-block;
+    }
+    
+    .back-btn:hover {
+      background: #5568d3;
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation Bar -->
+  <nav class="navbar">
+    <div class="navbar-container">
+      <div class="navbar-brand">
+        <h1>🛒 Korpa</h1>
+      </div>
+      <div class="navbar-menu">
+        <a href="./home.html" class="back-btn">← Nazad na početnu</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <main class="cart-container">
+    <div class="cart-header">
+      <h2>Moja Korpa</h2>
+      <button id="clearCartBtn" class="clear-btn" style="display:none;">Isprazni Korpu</button>
+    </div>
+    
+    <div id="message" class="message" style="display:none;"></div>
+    
+    <div id="cartContent">
+      <div class="empty-cart">
+        <div class="empty-cart-icon">🛒</div>
+        <p>Učitavanje korpe...</p>
+      </div>
+    </div>
+  </main>
+
+  <script src="./js/config.js"></script>
+  <script src="./js/shopping-cart.js"></script>
+</body>
+</html>

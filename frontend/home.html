@@ -8,7 +8,7 @@
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
   <meta http-equiv="Pragma" content="no-cache" />
   <meta http-equiv="Expires" content="0" />
-  <link rel="stylesheet" href="./style.css?v=20251111">
+  <link rel="stylesheet" href="./style.css?v=20251126">
 </head>
 <body>
   <!-- Navigation Bar -->
@@ -21,10 +21,15 @@
         <button id="userDetailsBtn" class="nav-link">👤 Moj Profil</button>
         <button id="myToursBtn" class="nav-link" style="display:none;">📋 Moje Ture</button>
         <button id="createTourBtn" class="nav-link" style="display:none;">➕ Kreiraj Turu</button>
+        <button id="purchasedToursBtn" class="nav-link">🎫 Kupljene Ture</button>
         <button id="createBlogBtn" class="nav-link">➕ Kreiraj Blog</button>
         <button id="viewBlogBtn" class="nav-link">📋 Pregledaj Blog</button>
         <button id="posSimBtn" class="nav-link"> Simulator Pozicije</button>
         <button id="suggestedFollowersBtn" class="nav-link">👥 Predloženi Pratioci</button>
+        <button id="cartBtn" class="nav-link" style="position: relative;">
+          🛒 Korpa
+          <span id="cartBadge" style="position: absolute; top: -5px; right: -5px; background: #e74c3c; color: white; border-radius: 50%; width: 20px; height: 20px; font-size: 0.7rem; display: none; align-items: center; justify-content: center; font-weight: bold;">0</span>
+        </button>
         <button id="adminBtn" class="nav-link" style="display:none;">⚙️ Admin Panel</button>
         <button id="logoutBtn" class="nav-link logout-btn">Logout</button>
       </div>
@@ -42,5 +47,21 @@
     </section>
   </main>
 
+  <!-- Shopping Cart Sidebar -->
+  <div id="cartSidebar" class="cart-sidebar">
+    <div class="cart-sidebar-header">
+      <h2>🛒 Korpa</h2>
+      <button id="closeCartBtn" class="close-cart-btn">&times;</button>
+    </div>
+    <div class="cart-sidebar-content" id="cartSidebarContent">
+      <p style="text-align: center; color: #999; padding: 2rem;">Učitavanje...</p>
+    </div>
+  </div>
+
+  <!-- Overlay -->
+  <div id="cartOverlay" class="cart-overlay"></div>
+
+  <script src="./js/config.js"></script>
+  <script src="./js/home.js"></script>
 </body>
 </html>

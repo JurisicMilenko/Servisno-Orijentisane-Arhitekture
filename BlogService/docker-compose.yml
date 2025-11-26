@@ -32,9 +32,6 @@ services:
       - type: volume
         source: database-data
         target: /var/lib/postgresql/data
-      - type: bind
-        source: explorer-init-data.sql
-        target: /tmp/explorer-init.sql
     ports:
       - "5432:5432"
 

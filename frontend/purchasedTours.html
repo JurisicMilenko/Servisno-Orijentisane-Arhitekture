@@ -1,0 +1,224 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Kupljene Ture — Turistička aplikacija</title>
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="0" />
+  <link rel="stylesheet" href="./style.css?v=20251111">
+  <style>
+    .purchased-container {
+      max-width: 1200px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+    }
+    
+    .purchased-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2rem;
+      padding-bottom: 1rem;
+      border-bottom: 2px solid #667eea;
+    }
+
+    .purchased-stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .stat-card {
+      background: white;
+      padding: 1.5rem;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      border-left: 4px solid #667eea;
+    }
+
+    .stat-value {
+      font-size: 2rem;
+      font-weight: 700;
+      color: #667eea;
+    }
+
+    .stat-label {
+      color: #666;
+      font-size: 0.9rem;
+      margin-top: 0.25rem;
+    }
+
+    .purchased-tours-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .purchased-tour-card {
+      background: white;
+      border-radius: 8px;
+      padding: 1.5rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      border-left: 5px solid #27ae60;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .purchased-tour-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+
+    .purchased-tour-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: start;
+      margin-bottom: 1rem;
+    }
+
+    .purchased-tour-name {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: #333;
+      margin: 0;
+    }
+
+    .purchased-badge {
+      background: #27ae60;
+      color: white;
+      padding: 0.25rem 0.75rem;
+      border-radius: 12px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+
+    .purchased-tour-info {
+      margin: 1rem 0;
+      padding: 1rem;
+      background: #f8f9fa;
+      border-radius: 6px;
+    }
+
+    .info-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 0.5rem 0;
+      border-bottom: 1px solid #e0e0e0;
+    }
+
+    .info-row:last-child {
+      border-bottom: none;
+    }
+
+    .info-label {
+      color: #666;
+      font-size: 0.9rem;
+    }
+
+    .info-value {
+      font-weight: 600;
+      color: #333;
+    }
+
+    .purchased-date {
+      font-size: 0.85rem;
+      color: #999;
+      margin-top: 0.5rem;
+    }
+
+    .view-tour-btn {
+      width: 100%;
+      background: #667eea;
+      color: white;
+      border: none;
+      padding: 0.75rem;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 1rem;
+      font-weight: 600;
+      margin-top: 1rem;
+      transition: background 0.2s;
+    }
+
+    .view-tour-btn:hover {
+      background: #5568d3;
+    }
+
+    .empty-purchased {
+      text-align: center;
+      padding: 4rem 2rem;
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .empty-icon {
+      font-size: 4rem;
+      margin-bottom: 1rem;
+    }
+
+    .back-btn {
+      background: #667eea;
+      color: white;
+      border: none;
+      padding: 0.75rem 1.5rem;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 1rem;
+      text-decoration: none;
+      display: inline-block;
+      transition: background 0.2s;
+    }
+
+    .back-btn:hover {
+      background: #5568d3;
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation Bar -->
+  <nav class="navbar">
+    <div class="navbar-container">
+      <div class="navbar-brand">
+        <h1>🎫 Kupljene Ture</h1>
+      </div>
+      <div class="navbar-menu">
+        <a href="./home.html" class="back-btn">← Nazad na početnu</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <main class="purchased-container">
+    <div class="purchased-header">
+      <h2>Moje Kupljene Ture</h2>
+    </div>
+
+    <div id="stats" class="purchased-stats" style="display:none;">
+      <div class="stat-card">
+        <div class="stat-value" id="totalPurchased">0</div>
+        <div class="stat-label">Kupljenih tura</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" id="totalSpent">0 RSD</div>
+        <div class="stat-label">Ukupno potrošeno</div>
+      </div>
+    </div>
+    
+    <div id="message" class="message" style="display:none;"></div>
+    
+    <div id="purchasedToursGrid" class="purchased-tours-grid">
+      <div class="empty-purchased">
+        <div class="empty-icon">⏳</div>
+        <p>Učitavanje kupljenih tura...</p>
+      </div>
+    </div>
+  </main>
+
+  <script src="./js/config.js"></script>
+  <script src="./js/purchasedTours.js"></script>
+</body>
+</html>

@@ -12,7 +12,7 @@ using Explorer.BuildingBlocks.Infrastructure.Database;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
-//builder.WebHost.UseUrls("http://+:80");
+builder.WebHost.UseUrls("http://0.0.0.0:80");
 // Database environment variables
 var host = Environment.GetEnvironmentVariable("DATABASE_HOST") ?? "localhost";
 var port = Environment.GetEnvironmentVariable("DATABASE_PORT") ?? "5432";

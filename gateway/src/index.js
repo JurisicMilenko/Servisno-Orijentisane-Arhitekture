@@ -12,11 +12,12 @@ const PORT = process.env.PORT || 4000;
 
 // Service URLs (adjust with env vars if needed)
 const AUTH_SERVICE = process.env.AUTH_SERVICE_URL || 'http://localhost:3000';
-const ATTRACTIONS_SERVICE = process.env.ATTRACTIONS_SERVICE_URL || 'http://localhost:3000';
+const ATTRACTIONS_SERVICE = process.env.ATTRACTIONS_SERVICE_URL || 'http://localhost:3005';
 const STAKEHOLDERS_SERVICE = process.env.STAKEHOLDERS_SERVICE_URL || 'http://localhost:3001';
 const TOURS_SERVICE = process.env.TOURS_SERVICE_URL || 'http://localhost:3002';
-const BLOG_SERVICE = process.env.BLOG_SERVICE_URL || 'http://blog-service:80';
-const FOLLOWERS_SERVICE = process.env.FOLLOWERS_SERVICE_URL || 'http://followers:80';
+const PURCHASE_SERVICE = process.env.PURCHASE_SERVICE_URL || 'http://localhost:3004';
+const BLOG_SERVICE = process.env.BLOG_SERVICE_URL || 'http://localhost:8080';
+const FOLLOWERS_SERVICE = process.env.FOLLOWERS_SERVICE_URL || 'http://localhost:8081';
 
 // Proxy /api/auth to auth service
 app.use('/api/auth', createProxyMiddleware({
@@ -50,6 +51,13 @@ app.use('/api/stakeholders', createProxyMiddleware({
 // Proxy /api/tours to tours service
 app.use('/api/tours', createProxyMiddleware({
   target: TOURS_SERVICE,
+  changeOrigin: true,
+  logLevel: 'info'
+}));
+
+// Proxy /api/purchase to purchase service
+app.use('/api/purchase', createProxyMiddleware({
+  target: PURCHASE_SERVICE,
   changeOrigin: true,
   logLevel: 'info'
 }));
@@ -90,6 +98,7 @@ app.listen(PORT, () => {
   console.log(`Proxying /api/attractions -> ${ATTRACTIONS_SERVICE}`);
   console.log(`Proxying /api/stakeholders -> ${STAKEHOLDERS_SERVICE}`);
   console.log(`Proxying /api/tours -> ${TOURS_SERVICE}`);
+  console.log(`Proxying /api/purchase -> ${PURCHASE_SERVICE}`);
   console.log(`Proxying /api/blog -> ${BLOG_SERVICE}`);
   console.log(`Proxying /api/followers -> ${FOLLOWERS_SERVICE}`);
 });
