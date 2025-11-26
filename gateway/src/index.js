@@ -85,7 +85,7 @@ const packageDefinition = protoLoader.loadSync(PROTO_PATH, {
 const blogRatingProto = grpc.loadPackageDefinition(packageDefinition).rating;
 
 // Create gRPC client
-const blogRatingClient = new blogRatingProto.BlogRating(
+const blogRatingClient = new blogRatingProto.BlogRatingGrpc(
   process.env.BLOG_SERVICE_GRPC_URL || 'localhost:50051',
   grpc.credentials.createInsecure()
 );
