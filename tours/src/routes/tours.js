@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const tourController = require('../controllers/tourController');
 const positionController = require('../controllers/positionController');
+const tourExectionController = require('../controllers/tourExecutionController');
 const authenticate = require('../middlewares/authenticate');
 
 // Public routes (no auth required)
@@ -26,5 +27,13 @@ router.get('/position/users/:userId', positionController.getPositionByUserId);
 router.get('/position/', positionController.listPositions);
 router.put('/position/:id', authenticate, positionController.updatePosition);
 router.post('/position/', authenticate, positionController.createEmptyPosition);
+
+// Execution controller stuff
+// Position controller stuff
+router.get('/execution/get/:id', tourExectionController.getExecution);
+router.get('/execution/list', tourExectionController.listExecutions);
+router.put('/execution/:id', authenticate, tourExectionController.addCheckpoint);
+router.put('/execution/complete/:id', authenticate, tourExectionController.completeExecution);
+router.post('/execution/', authenticate, tourExectionController.createTourExecution);
 
 module.exports = router;

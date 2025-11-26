@@ -90,6 +90,12 @@ posSimBtn?.addEventListener('click', () => {
   window.location.href = `./positionSimulator.html?v=${ts}`;
 });
 
+executionBtn?.addEventListener('click', () => {
+  console.log('[home.js] Izvrsavanje ture clicked');
+  const ts = Date.now();
+  window.location.href = `./tourExecution.html?v=${ts}`;
+});
+
 adminBtn?.addEventListener('click', () => {
   console.log('[home.js] Admin Panel clicked');
   const ts = Date.now();

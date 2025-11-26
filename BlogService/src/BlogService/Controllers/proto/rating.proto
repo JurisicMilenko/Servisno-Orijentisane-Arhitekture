@@ -1,0 +1,77 @@
+syntax = "proto3";
+
+package rating.grpc;
+
+option csharp_namespace = "rating.grpc";
+
+//==================== ENUMS ====================//
+enum VoteType {
+  VOTE_TYPE_UPVOTE = 0;
+  VOTE_TYPE_DOWNVOTE = 1;
+}
+
+//==================== MODELS ====================//
+message BlogRating {
+  int32 id = 1;           // Entity ID (from base Entity)
+  int32 userId = 2;
+  int32 blogId = 3;
+  VoteType voteType = 4;
+}
+
+message BlogRatingDto {   // Matches your controller DTO
+  int32 id = 1;
+  int32 userId = 2;
+  int32 blogId = 3;
+  VoteType voteType = 4;
+}
+
+//==================== PAGING ====================//
+message BlogRatingPagedRequest {
+  int32 page = 1;
+  int32 pageSize = 2;
+}
+
+message BlogRatingPagedResponse {
+  repeated BlogRatingDto items = 1;
+  int32 totalCount = 2;
+}
+
+//==================== CREATE ====================//
+message CreateBlogRatingRequest {
+  int32 userId = 1;
+  int32 blogId = 2;
+  VoteType voteType = 3;
+}
+
+message CreateBlogRatingResponse {
+  BlogRatingDto rating = 1;
+}
+
+//==================== UPDATE ====================//
+message UpdateBlogRatingRequest {
+  int32 id = 1;
+  int32 userId = 2;
+  int32 blogId = 3;
+  VoteType voteType = 4;
+}
+
+message UpdateBlogRatingResponse {
+  BlogRatingDto rating = 1;
+}
+
+//==================== DELETE ====================//
+message DeleteBlogRatingRequest {
+  int32 id = 1;
+}
+
+message DeleteBlogRatingResponse {
+  bool success = 1;
+}
+
+//=============== THE SERVICE API ===============//
+service BlogRatingService {
+  rpc GetBlogRatingsPaged (BlogRatingPagedRequest) returns (BlogRatingPagedResponse);
+  rpc CreateBlogRating (CreateBlogRatingRequest) returns (CreateBlogRatingResponse);
+  rpc UpdateBlogRating (UpdateBlogRatingRequest) returns (UpdateBlogRatingResponse);
+  rpc DeleteBlogRating (DeleteBlogRatingRequest) returns (DeleteBlogRatingResponse);
+}
