@@ -4,7 +4,7 @@ require('dotenv').config();
 
 const connectDB = require('./models/db');
 const toursRouter = require('./routes/tours');
-const ratingRoutes = require('./tourRatingRoutes');
+const ratingRoutes = require('./routes/tourRatingRoutes');
 
 const app = express();
 const PORT = process.env.PORT || 3002;
