@@ -39,16 +39,21 @@ logoutBtn?.addEventListener('click', () => {
 
 
 window.onload = async function() {
+  var userId = null
+  var positionId = null
+  var lat = null
+  var long = null
     const res1 = await fetch(`${API_BASE}/api/auth/me`, {
       headers: { 'Authorization': 'Bearer ' + token }
     });
     const data1 = await res1.json();
+    try{
     const res = await fetch(`${TOURS_BASE}/api/tours/position/users/`+data1.id, {
       headers: { 'Authorization': 'Bearer ' + token }
     });
     const data = await res.json();
-    var userId = data[0].userId
-    var positionId = data[0]._id
+    userId = data[0].userId
+    positionId = data[0]._id
     if(data[0].userId == null){
         const res = await fetch(`${TOURS_BASE}/api/tours/position/`, {
             method: 'POST',
@@ -57,9 +62,23 @@ window.onload = async function() {
         const data = await res.json();
         userId = data[0].userId
         positionId = data[0]._id
+        
     }
+    lat = data[0].latitude
+    long = data[0].longitude
+  }catch{
+    const res = await fetch(`${TOURS_BASE}/api/tours/position/`, {
+            method: 'POST',
+            headers: { 'Authorization': 'Bearer ' + token }
+        });
+        const data = await res.json();
+        userId = data[0].userId
+        positionId = data[0]._id
+        lat = data[0].latitude
+        long = data[0].longitude
+  }
     initMap(userId,positionId);
-    marker = L.marker([data[0].latitude, data[0].longitude]).addTo(map);
+    marker = L.marker([lat, long]).addTo(map);
 // You can use native DOM methods to insert the fragment:
     
 };

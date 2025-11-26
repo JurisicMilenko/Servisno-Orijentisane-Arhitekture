@@ -48,7 +48,11 @@ window.onload = async function() {
       headers: { 'Authorization': 'Bearer ' + token }
     });
     const data = await res.json();
-    
+
+    /*const res2 = await fetch(`${API_BASE}/api/followers/me/following?userId=${user.id}`, {
+      headers: { 'Authorization': 'Bearer ' + token }
+    });
+    const data2 = await res2.json();*/
    for(var i in data.results){
     var image = await getImage(data.results[i])
     var username = await getUsername(data.results[i]);
