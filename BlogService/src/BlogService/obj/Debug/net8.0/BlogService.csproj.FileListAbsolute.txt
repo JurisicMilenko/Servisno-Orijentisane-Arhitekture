@@ -150,6 +150,13 @@ C:\Users\Milenko\Desktop\SOA\BlogService\src\BlogService\bin\Debug\net8.0\AutoMa
 C:\Users\Milenko\Desktop\SOA\BlogService\src\BlogService\bin\Debug\net8.0\EntityFramework.SqlServer.dll
 C:\Users\Milenko\Desktop\SOA\BlogService\src\BlogService\bin\Debug\net8.0\EntityFramework.dll
 C:\Users\Milenko\Desktop\SOA\BlogService\src\BlogService\bin\Debug\net8.0\FluentResults.dll
+C:\Users\Milenko\Desktop\SOA\BlogService\src\BlogService\bin\Debug\net8.0\Google.Protobuf.dll
+C:\Users\Milenko\Desktop\SOA\BlogService\src\BlogService\bin\Debug\net8.0\Grpc.AspNetCore.Server.dll
+C:\Users\Milenko\Desktop\SOA\BlogService\src\BlogService\bin\Debug\net8.0\Grpc.AspNetCore.Server.ClientFactory.dll
+C:\Users\Milenko\Desktop\SOA\BlogService\src\BlogService\bin\Debug\net8.0\Grpc.Core.Api.dll
+C:\Users\Milenko\Desktop\SOA\BlogService\src\BlogService\bin\Debug\net8.0\Grpc.Net.Client.dll
+C:\Users\Milenko\Desktop\SOA\BlogService\src\BlogService\bin\Debug\net8.0\Grpc.Net.ClientFactory.dll
+C:\Users\Milenko\Desktop\SOA\BlogService\src\BlogService\bin\Debug\net8.0\Grpc.Net.Common.dll
 C:\Users\Milenko\Desktop\SOA\BlogService\src\BlogService\bin\Debug\net8.0\Humanizer.dll
 C:\Users\Milenko\Desktop\SOA\BlogService\src\BlogService\bin\Debug\net8.0\Microsoft.EntityFrameworkCore.dll
 C:\Users\Milenko\Desktop\SOA\BlogService\src\BlogService\bin\Debug\net8.0\Microsoft.EntityFrameworkCore.Abstractions.dll
@@ -209,10 +216,3 @@ C:\Users\Milenko\Desktop\SOA\BlogService\src\BlogService\obj\Debug\net8.0\refint
 C:\Users\Milenko\Desktop\SOA\BlogService\src\BlogService\obj\Debug\net8.0\BlogService.pdb
 C:\Users\Milenko\Desktop\SOA\BlogService\src\BlogService\obj\Debug\net8.0\BlogService.genruntimeconfig.cache
 C:\Users\Milenko\Desktop\SOA\BlogService\src\BlogService\obj\Debug\net8.0\ref\BlogService.dll
-C:\Users\Milenko\Desktop\SOA\BlogService\src\BlogService\bin\Debug\net8.0\Google.Protobuf.dll
-C:\Users\Milenko\Desktop\SOA\BlogService\src\BlogService\bin\Debug\net8.0\Grpc.AspNetCore.Server.dll
-C:\Users\Milenko\Desktop\SOA\BlogService\src\BlogService\bin\Debug\net8.0\Grpc.AspNetCore.Server.ClientFactory.dll
-C:\Users\Milenko\Desktop\SOA\BlogService\src\BlogService\bin\Debug\net8.0\Grpc.Core.Api.dll
-C:\Users\Milenko\Desktop\SOA\BlogService\src\BlogService\bin\Debug\net8.0\Grpc.Net.Client.dll
-C:\Users\Milenko\Desktop\SOA\BlogService\src\BlogService\bin\Debug\net8.0\Grpc.Net.ClientFactory.dll
-C:\Users\Milenko\Desktop\SOA\BlogService\src\BlogService\bin\Debug\net8.0\Grpc.Net.Common.dll

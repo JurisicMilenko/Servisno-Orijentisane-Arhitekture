@@ -1,33 +1,65 @@
-﻿using AutoMapper;
-using Explorer.BuildingBlocks.Core.UseCases;
+﻿using BlogService.Database;
 using Explorer.Blog.API.Dtos;
-using Explorer.Blog.API.Public;
-using Explorer.Blog.Core.Domain;
-using FluentResults;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Explorer.Blog.Core.Domain.Blogs;
-using Explorer.Blog.Core.Domain.RepositoryInterfaces;
+using Google.Protobuf;
+using Grpc.Core;
+using rating.grpc;
 
-namespace Explorer.Blog.Core.UseCases
+public class BlogRatingGrpcService : BlogRatingGrpc.BlogRatingGrpcBase
 {
-    public class BlogRatingService : CrudService<BlogRatingDto, BlogRating>, IBlogRatingService
+    private readonly RatingDatabaseRepository _repository;
+
+    public BlogRatingGrpcService(RatingDatabaseRepository repository)
     {
-        private IBlogService _personService;
-        private IMapper _mapper;
-        private IRatingRepository _ratingRepository;
+        _repository = repository;
+    }
 
-        public BlogRatingService(ICrudRepository<BlogRating> repository, IBlogService blogService, IMapper mapper,IRatingRepository ratingRepository) : base(
-            repository, mapper)
+    public override async Task<BlogRatingPagedResponse> GetBlogRatingsPaged(BlogRatingPagedRequest request, ServerCallContext context)
+    {
+        var ratings = await _repository.GetBlogRatingsPaged(request.BlogId, request.PageNumber, request.PageSize);
+
+        var response = new BlogRatingPagedResponse
         {
-            this._mapper = mapper;
-            this._personService = blogService;
-            this._ratingRepository = ratingRepository;
-        }
+            TotalCount = ratings.Count
+        };
 
-        
+        response.Ratings.AddRange(ratings.Select(r => new rating.grpc.BRDto
+        {
+            Id = (int)r.Id,
+            BlogId = r.BlogId,
+            UserId = r.UserId,
+            VoteType = r.VoteType.ToString() // gRPC DTO uses string
+        }));
+
+        return response;
+    }
+
+    public override async Task<CreateBlogRatingResponse> CreateBlogRating(CreateBlogRatingRequest request, ServerCallContext context)
+    {
+        var existing = await _repository.GetByUserAndBlog(request.UserId, request.BlogId);
+        if (existing != null)
+            throw new RpcException(new Grpc.Core.Status(StatusCode.AlreadyExists, "User already voted for this blog"));
+
+        var rating = new BlogRating(request.UserId, Enum.Parse<Explorer.Blog.Core.Domain.Blogs.VoteType>(request.VoteType), request.BlogId);
+        var created = await _repository.CreateBlogRating(rating);
+
+        return new CreateBlogRatingResponse { Id = (int)created.Id };
+    }
+
+    public override async Task<UpdateBlogRatingResponse> UpdateBlogRating(UpdateBlogRatingRequest request, ServerCallContext context)
+    {
+        var rating = new BlogRating(request.UserId, Enum.Parse<Explorer.Blog.Core.Domain.Blogs.VoteType>(request.VoteType), request.BlogId)
+        {
+            Id = request.Id
+        };
+
+        await _repository.UpdateBlogRating(rating);
+        return new UpdateBlogRatingResponse { Success = true };
+    }
+
+    public override async Task<DeleteBlogRatingResponse> DeleteBlogRating(DeleteBlogRatingRequest request, ServerCallContext context)
+    {
+        var success = await _repository.DeleteBlogRating(request.Id);
+        return new DeleteBlogRatingResponse { Success = success };
     }
 }
