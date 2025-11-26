@@ -3,8 +3,6 @@ version: '3.8'
 services:
   postgres:
     image: postgres:15
-    container_name: soa_postgres
-    restart: unless-stopped
     environment:
       POSTGRES_DB: soa_demo
       POSTGRES_USER: postgres
@@ -13,27 +11,15 @@ services:
       - postgres_data:/var/lib/postgresql/data
       # initialize DB with schema from backend
       - ./backend/data/schema.sql:/docker-entrypoint-initdb.d/schema.sql:ro
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
     networks:
       - soa-net
 
   mongodb:
     image: mongo:8.0
-    container_name: soa_mongodb
-    restart: unless-stopped
     environment:
       MONGO_INITDB_DATABASE: tours_db
     volumes:
       - mongo_data:/data/db
-    healthcheck:
-      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
     networks:
       - soa-net
     ports:
@@ -43,8 +29,6 @@ services:
     build:
       context: ./backend
       dockerfile: Dockerfile
-    container_name: soa_backend
-    restart: unless-stopped
     environment:
       NODE_ENV: production
       PORT: 3000
@@ -57,14 +41,7 @@ services:
     volumes:
       - ./backend/data:/usr/src/app/data
     depends_on:
-      postgres:
-        condition: service_healthy
-    healthcheck:
-      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:3000/health"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-      start_period: 40s
+      - postgres
     networks:
       - soa-net
 
@@ -72,17 +49,9 @@ services:
     build:
       context: ./stakeholders
       dockerfile: Dockerfile
-    container_name: soa_stakeholders
-    restart: unless-stopped
     environment:
       NODE_ENV: production
       PORT: 3001
-    healthcheck:
-      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:3001/health"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-      start_period: 40s
     networks:
       - soa-net
 
@@ -90,22 +59,13 @@ services:
     build:
       context: ./tours
       dockerfile: Dockerfile
-    container_name: soa_tours
-    restart: unless-stopped
     environment:
       NODE_ENV: production
       PORT: 3002
       MONGO_URI: mongodb://mongodb:27017/tours_db
       JWT_SECRET: change-me-in-prod
     depends_on:
-      mongodb:
-        condition: service_healthy
-    healthcheck:
-      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:3002/health"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-      start_period: 40s
+      - mongodb
     networks:
       - soa-net
 
@@ -113,17 +73,9 @@ services:
     build:
       context: ./blog
       dockerfile: Dockerfile
-    container_name: soa_blog
-    restart: unless-stopped
     environment:
       NODE_ENV: production
       PORT: 3003
-    healthcheck:
-      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:3003/health"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-      start_period: 40s
     networks:
       - soa-net
 
@@ -131,8 +83,6 @@ services:
     build:
       context: ./gateway
       dockerfile: Dockerfile
-    container_name: soa_gateway
-    restart: unless-stopped
     environment:
       NODE_ENV: production
       PORT: 4000
@@ -144,20 +94,10 @@ services:
     ports:
       - '4000:4000'
     depends_on:
-      backend:
-        condition: service_healthy
-      stakeholders:
-        condition: service_healthy
-      tours:
-        condition: service_healthy
-      blog:
-        condition: service_healthy
-    healthcheck:
-      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:4000/health"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-      start_period: 40s
+      - backend
+      - stakeholders
+      - tours
+      - blog
     networks:
       - soa-net
 
@@ -165,21 +105,10 @@ services:
     build:
       context: ./frontend
       dockerfile: Dockerfile
-    container_name: soa_frontend
-    restart: unless-stopped
     ports:
       - '8080:80'
     environment:
       API_BASE: http://localhost:4000
-    depends_on:
-      gateway:
-        condition: service_healthy
-    healthcheck:
-      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:80"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-      start_period: 40s
     networks:
       - soa-net
 
