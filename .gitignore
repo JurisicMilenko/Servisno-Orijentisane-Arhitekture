@@ -12,6 +12,7 @@ logs/
 
 # VSCode
 .vscode/
+.vs/
 
 # build
 dist/

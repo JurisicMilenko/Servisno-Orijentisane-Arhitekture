@@ -69,12 +69,88 @@ app.use('/api/touristOrAuthor', createProxyMiddleware({
   logLevel: 'info'
 }));
 
-// Proxy /api/blogratings to blog service
-app.use('/api/blogratings', createProxyMiddleware({
-  target: BLOG_SERVICE,
-  changeOrigin: true,
-  logLevel: 'info'
-}));
+//start of cringe
+const grpc = require('@grpc/grpc-js');
+const protoLoader = require('@grpc/proto-loader');
+const path = require('path');
+
+// Load proto
+const PROTO_PATH = path.join(__dirname, 'proto/rating.proto');
+const packageDefinition = protoLoader.loadSync(PROTO_PATH, {
+  keepCase: true,
+  enums: String,
+  defaults: true,
+  oneofs: true
+});
+const blogRatingProto = grpc.loadPackageDefinition(packageDefinition).rating;
+
+// Create gRPC client
+const blogRatingClient = new blogRatingProto.BlogRating(
+  process.env.BLOG_SERVICE_GRPC_URL || 'localhost:50051',
+  grpc.credentials.createInsecure()
+);
+
+// Replace REST proxy with gRPC handler
+app.get('/api/blogratings', (req, res) => {
+  const pageNumber = parseInt(req.query.pageNumber) || 1;
+  const pageSize = parseInt(req.query.pageSize) || 10;
+  const blogId = parseInt(req.query.blogId);
+
+  if (!blogId) {
+    return res.status(400).json({ error: 'blogId query param required' });
+  }
+
+  blogRatingClient.GetBlogRatingsPaged({ blogId, pageNumber, pageSize }, (err, response) => {
+    if (err) {
+      console.error('gRPC error:', err);
+      return res.status(500).json({ error: err.message });
+    }
+    res.json(response);
+  });
+});
+
+app.post('/api/blogratings', (req, res) => {
+  const { blogId, userId, voteType } = req.body;
+  if (!blogId || !userId || !voteType) {
+    return res.status(400).json({ error: 'blogId, userId, voteType required' });
+  }
+
+  blogRatingClient.CreateBlogRating({ blogId, userId, voteType }, (err, response) => {
+    if (err) {
+      console.error('gRPC error:', err);
+      return res.status(500).json({ error: err.message });
+    }
+    res.json(response);
+  });
+});
+
+app.put('/api/blogratings/:id', (req, res) => {
+  const { id } = req.params;
+  const { blogId, userId, voteType } = req.body;
+  if (!blogId || !userId || !voteType) {
+    return res.status(400).json({ error: 'blogId, userId, voteType required' });
+  }
+
+  blogRatingClient.UpdateBlogRating({ id: parseInt(id), blogId, userId, voteType }, (err, response) => {
+    if (err) {
+      console.error('gRPC error:', err);
+      return res.status(500).json({ error: err.message });
+    }
+    res.json(response);
+  });
+});
+
+app.delete('/api/blogratings/:id', (req, res) => {
+  const { id } = req.params;
+  blogRatingClient.DeleteBlogRating({ id: parseInt(id) }, (err, response) => {
+    if (err) {
+      console.error('gRPC error:', err);
+      return res.status(500).json({ error: err.message });
+    }
+    res.json(response);
+  });
+});
+//end of blograting
 
 // Proxy /api/followers
 app.use('/api/followers', createProxyMiddleware({

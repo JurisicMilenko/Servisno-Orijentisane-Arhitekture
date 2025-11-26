@@ -1,0 +1,2 @@
+obj\Debug\net8.0\Controllers\proto/Rating.cs \
+obj\Debug\net8.0\Controllers\proto/RatingGrpc.cs: Controllers/proto/rating.proto

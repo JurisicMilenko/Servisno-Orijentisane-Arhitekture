@@ -34,7 +34,6 @@ builder.Services.AddScoped(typeof(ICrudRepository<Explorer.Blog.Core.Domain.Blog
 builder.Services.AddScoped<IBlogRepository, BlogDatabaseRepository>();
 builder.Services.AddScoped<IBlogService, Explorer.Blog.Core.UseCases.BlogService>();
 builder.Services.AddScoped<IRatingRepository, RatingDatabaseRepository>();
-builder.Services.AddScoped<IBlogRatingService, BlogRatingService>();
 builder.Services.AddScoped(typeof(ICrudRepository<Explorer.Blog.Core.Domain.Blogs.Blog>), typeof(CrudDatabaseRepository<Explorer.Blog.Core.Domain.Blogs.Blog, BlogContext>));
 builder.Services.AddScoped(typeof(ICrudRepository<Comment>), typeof(CrudDatabaseRepository<Comment, BlogContext>));
 builder.Services.AddScoped(typeof(ICrudRepository<BlogRating>), typeof(CrudDatabaseRepository<BlogRating, BlogContext>));
