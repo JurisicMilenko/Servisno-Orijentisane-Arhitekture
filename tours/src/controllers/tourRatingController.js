@@ -2,9 +2,10 @@ const ratingService = require('../services/tourRatingService');
 
 exports.rateTour = async (req, res) => {
   try {
-    const userId = req.user?.sub || req.user?.id;
+    const userId = req.user?.sub || req.user?.id; // numeric
+    const username = req.user?.username || 'Nepoznat korisnik';
 
-    const { rating, comment } = req.body;
+    const { rating, comment, dateOfAttendance } = req.body;
     const tourId = req.params.tourId;
 
     if (!rating) {
@@ -14,6 +15,7 @@ exports.rateTour = async (req, res) => {
     const newRating = await ratingService.addRating({
       tourId,
       userId,
+      username,
       rating,
       comment,
       dateOfAttendance,
@@ -30,7 +32,7 @@ exports.getTourRatings = async (req, res) => {
   try {
     const tourId = req.params.tourId;
     const ratings = await ratingService.getRatingsByTour(tourId);
-    
+
     res.json(ratings);
   } catch (err) {
     res.status(500).json({ error: err.message });

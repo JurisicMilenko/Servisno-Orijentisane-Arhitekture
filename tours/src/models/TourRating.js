@@ -8,7 +8,11 @@ const tourRatingSchema = new mongoose.Schema(
       required: true
     },
     userId: {
-      type: Number, // or Schema.Types.ObjectId if referencing Users in Mongo
+      type: Number,
+      required: true
+    },
+    username: {
+      type: String,
       required: true
     },
     rating: {
@@ -33,7 +37,6 @@ const tourRatingSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-// Prevent duplicate ratings from same user for same tour
 tourRatingSchema.index({ tourId: 1, userId: 1 }, { unique: true });
 
 module.exports = mongoose.model('TourRating', tourRatingSchema);

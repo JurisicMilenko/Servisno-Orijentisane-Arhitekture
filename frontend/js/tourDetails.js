@@ -130,6 +130,25 @@ function getDifficultyText(difficulty) {
   return difficultyMap[difficulty] || difficulty;
 }
 
+async function loadCurrentUser() {
+  if (!token) return null;
+  
+  try {
+    const res = await fetch(`${TOURS_BASE}/api/auth/me`, {
+      headers: { 'Authorization': 'Bearer ' + token }
+    });
+    if (!res.ok) return null;
+    const data = await res.json();
+    
+    currentUser = data;
+    userId = data.id;
+    return data;
+  } catch (err) {
+    console.error('Error loading current user:', err);
+    return null;
+  }
+}
+
 async function loadTourDetails() {
   try {
     showMessage('Učitavanje detalja ture...', 'info');
@@ -154,6 +173,9 @@ async function loadTourDetails() {
     displayTourDetails(tour);
     hideMessage();
     tourContent.style.display = 'block';
+    await loadCurrentUser();
+    setupRateButton();
+    loadReviews();
     
   } catch (err) {
     console.error('Error loading tour details:', err);
@@ -258,6 +280,82 @@ async function loadKeyPoints() {
     keyPointsList.innerHTML = '<p class="error-text">Greška: ' + err.message + '</p>';
   }
 }
+
+async function userAlreadyRated() {
+  if (!token || !userId) return false;
+  try {
+    const headers = { 'Authorization': 'Bearer ' + token };
+    const res = await fetch(`${TOURS_BASE}/api/tours/${tourId}/ratings`, { headers });
+
+    if (!res.ok) return false;
+    const reviews = await res.json();
+    
+    const userReview = reviews.find(r => r.userId === userId);
+
+    return !!userReview;
+  } catch (e) {
+    console.error("Rating check error:", e);
+    return false;
+  }
+}
+
+
+function setupRateButton() {
+  const btn = document.getElementById('rateTourBtn');
+  const msg = document.getElementById('alreadyRatedMsg');
+
+  btn.addEventListener('click', () => {
+    window.location.href = `createTourRating.html?id=${tourId}`;
+  });
+
+  userAlreadyRated().then(alreadyRated => {
+    if (alreadyRated) {
+      btn.disabled = true;
+      btn.style.opacity = "0.6";
+      msg.style.display = "block";
+    }
+  });
+}
+
+async function loadReviews() {
+  const reviewsList = document.getElementById('reviewsList');
+
+  try {
+    const headers = {};
+    if (token) headers['Authorization'] = 'Bearer ' + token;
+
+    const res = await fetch(`${TOURS_BASE}/api/tours/${tourId}/ratings`, { headers });
+
+    if (!res.ok) {
+      reviewsList.innerHTML = '<p class="error-text">Greška pri učitavanju komentara</p>';
+      return;
+    }
+
+    const reviews = await res.json();
+
+    if (!reviews || reviews.length === 0) {
+      reviewsList.innerHTML = '<p class="info-text">Još uvek nema komentara</p>';
+      return;
+    }
+
+    reviewsList.innerHTML = reviews.map(r => `
+    <div class="review-item">
+      <div class="review-header">
+        <span class="review-username">${r.username || 'Nepoznat korisnik'}</span>
+        <span class="review-rating">⭐ ${r.rating}/5</span>
+      </div>
+      <div class="review-comment">
+        ${r.comment || ''}
+      </div>
+    </div>
+    `).join('');
+
+  } catch (err) {
+    console.error('Error loading reviews:', err);
+    reviewsList.innerHTML = '<p class="error-text">Greška pri učitavanju komentara</p>';
+  }
+}
+
 
 // Initialize map and draw tour route
 async function initializeMap() {

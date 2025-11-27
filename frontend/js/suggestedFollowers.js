@@ -5,7 +5,6 @@ if (!token) {
   window.location.href = './index.html';
 }
 
-// --- NAVBAR ---
 const homeBtn = document.getElementById('homeBtn');
 const profileBtn = document.getElementById('profileBtn');
 const logoutBtn = document.getElementById('logoutBtn');
@@ -23,7 +22,6 @@ logoutBtn?.addEventListener('click', () => {
   window.location.href = `./index.html?v=${Date.now()}`;
 });
 
-// --- SUGGESTED FOLLOWERS ---
 const suggestedContainer = document.getElementById('suggestedContainer');
 
 async function getCurrentUser() {
@@ -51,7 +49,6 @@ async function loadSuggested() {
       headers: { 'Authorization': 'Bearer ' + token }
     });
     if (!res.ok) throw new Error('Greška prilikom učitavanja preporuka');
-    alert(res.status);
     const suggestedUsers = await res.json();
     renderUsers(suggestedUsers, user.id);
   } catch (err) {
@@ -80,7 +77,6 @@ function renderUsers(users, followerId) {
     });
 
     suggestedContainer.appendChild(div);
-    alert(u.username);
   });
 }
 
