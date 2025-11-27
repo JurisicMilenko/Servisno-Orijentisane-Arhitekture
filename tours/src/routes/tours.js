@@ -35,11 +35,11 @@ router.put('/position/:id', authenticate, positionController.updatePosition);
 router.post('/position/', authenticate, positionController.createEmptyPosition);
 
 // Execution controller stuff
-// Position controller stuff
 router.get('/execution/get/:id', tourExectionController.getExecution);
 router.get('/execution/list', tourExectionController.listExecutions);
 router.put('/execution/:id', authenticate, tourExectionController.addCheckpoint);
 router.put('/execution/complete/:id', authenticate, tourExectionController.completeExecution);
+router.put('/execution/start/:id', authenticate, tourExectionController.startExecution);
 router.post('/execution/', authenticate, tourExectionController.createTourExecution);
 
 module.exports = router;

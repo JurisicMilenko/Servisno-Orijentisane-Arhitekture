@@ -15,6 +15,7 @@ const AUTH_SERVICE = process.env.AUTH_SERVICE_URL || 'http://localhost:3000';
 const ATTRACTIONS_SERVICE = process.env.ATTRACTIONS_SERVICE_URL || 'http://localhost:3000';
 const STAKEHOLDERS_SERVICE = process.env.STAKEHOLDERS_SERVICE_URL || 'http://localhost:3001';
 const TOURS_SERVICE = process.env.TOURS_SERVICE_URL || 'http://localhost:3002';
+const PURCHASE_SERVICE = process.env.PURCHASE_SERVICE_URL || 'http://localhost:3004';
 const BLOG_SERVICE = process.env.BLOG_SERVICE_URL || 'http://blog-service:80';
 const FOLLOWERS_SERVICE = process.env.FOLLOWERS_SERVICE_URL || 'http://followers:80';
 
@@ -28,6 +29,13 @@ app.use('/api/auth', createProxyMiddleware({
 // Proxy /api/attractions (or other APIs) to attractions service
 app.use('/api/attractions', createProxyMiddleware({
   target: ATTRACTIONS_SERVICE,
+  changeOrigin: true,
+  logLevel: 'info'
+}));
+
+// Proxy /api/purchase to purchase service
+app.use('/api/purchase', createProxyMiddleware({
+  target: PURCHASE_SERVICE,
   changeOrigin: true,
   logLevel: 'info'
 }));

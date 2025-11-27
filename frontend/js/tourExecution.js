@@ -25,6 +25,7 @@ var userId = null;
 var checkpoints = [];
 var completedCheckpoints = []
 var executionId = null;
+var tourId = null;
 
 const markerGroup = new L.LayerGroup();
 
@@ -46,68 +47,12 @@ logoutBtn?.addEventListener('click', () => {
 
 
 window.onload = async function() {
-    const res1 = await fetch(`${API_BASE}/api/auth/me`, {
+  const res1 = await fetch(`${API_BASE}/api/auth/me`, {
       headers: { 'Authorization': 'Bearer ' + token }
     });
     const data1 = await res1.json();
     userId = data1.id
-    const res3 = await fetch(`${TOURS_BASE}/api/tours/`, {
-      headers: { 'Authorization': 'Bearer ' + token }
-    });
-    const data2 = await res3.json();
-    const res = await fetch(`${TOURS_BASE}/api/tours/execution/list`, {
-      headers: { 'Authorization': 'Bearer ' + token }
-    });
-    const data = await res.json();
-
-    //zameni kada se uradi cart
-    for(var i in data){
-        if(data[i].userId == userId && data[i].tourId == data2[0].id){
-            executionId = data[i]._id
-            
-            for(var j in data[i].completedCheckpoints){
-                completedCheckpoints.push(data[i].completedCheckpoints[j])
-            }
-        }
-    }
-
-    //var userId = data[0].userId
-    if(data.length == 0){
-        const res4 = await fetch(`${TOURS_BASE}/api/tours/execution/`, {
-      method: 'POST',
-      headers: {
-          'Authorization': 'Bearer ' + token,
-          'Content-Type': 'application/json'
-        },
-      body: JSON.stringify({tourId: data2[0].id})
-    });
-    const data4 = await res4.json();
-    }
-    completedCheckpoints = data[0].completedCheckpoints
-    initMap();
-
-    for(var i in data2[0].keyPoints){
-        checkpoints.push(data2[0].keyPoints[i])
-    }
-
-    for(var i in data2[0].keyPoints){
-        if(completedCheckpoints.some(e => e._id === data2[0].keyPoints[i]._id)){
-            continue
-        }
-        marker = L.marker([data2[0].keyPoints[i].latitude, data2[0].keyPoints[i].longitude],{
-      icon: L.divIcon({
-        className: 'custom-marker',
-        html: `<div style="background: #FF69B4; color: white; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; border: 3px solid white; box-shadow: 0 2px 8px rgba(0,0,0,0.3);"></div>`,
-        iconSize: [32, 32],
-        iconAnchor: [16, 16]
-      })
-    }).addTo(markerGroup);
-    }
-    markerGroup.addTo(map);
-    
-    //marker = L.marker([data[0].latitude, data[0].longitude]).addTo(map);
-// You can use native DOM methods to insert the fragment:
-    
+    loadMyTours();   
 };
 
 function initMap() {
@@ -199,3 +144,109 @@ function deg2rad(deg) {
   return deg * (Math.PI/180)
 }
 
+function create(htmlStr) {
+    var frag = document.createDocumentFragment(),
+        temp = document.createElement('div');
+    temp.innerHTML = htmlStr;
+    while (temp.firstChild) {
+        frag.appendChild(temp.firstChild);
+    }
+    return frag;
+}
+
+async function loadMyTours() {
+  
+  const res = await fetch(`${API_BASE}/api/purchase/purchased`, {
+      headers: { 'Authorization': 'Bearer ' + token }
+    });
+    const data = await res.json();
+    var status = "not started"
+    for(var i in data){ 
+      const res2 = await fetch(`${TOURS_BASE}/api/tours/execution/list`, {
+      headers: { 'Authorization': 'Bearer ' + token }
+    });
+    const data2 = await res2.json();
+    for(var j in data2){
+      if(data2[j].tourId == data[i].tourId && userId == data2[j].userId){
+        status = data2[j].status
+      }
+    }  
+    var htmltags = '<div><h2>Title: '+data[i].tourName+'</h2><p>Status: '+status+'</p>'+
+        '<p>Purchased at: '+data[i].purchasedAt+'</p><button onclick="execute(\''+data[i].tourId+'\'); return false;" class="btn btn-primary">Execute tour</button></div>';
+        var fragment = create(htmltags);
+    document.body.insertBefore(fragment, document.body.childNodes[-1]);
+    }
+}
+
+async function execute(tourId){
+    var exeId = 0;
+    var tourNum = 0;
+    const res3 = await fetch(`${TOURS_BASE}/api/tours/`, {
+      headers: { 'Authorization': 'Bearer ' + token }
+    });
+    const data2 = await res3.json();
+    const res = await fetch(`${TOURS_BASE}/api/tours/execution/list`, {
+      headers: { 'Authorization': 'Bearer ' + token }
+    });
+    const data = await res.json();
+
+    //zameni kada se uradi cart
+    for(var i in data){
+        if(data[i].userId == userId && data[i].tourId == tourId){
+            executionId = data[i]._id
+            exeId = i;
+            for(var j in data[i].completedCheckpoints){
+                completedCheckpoints.push(data[i].completedCheckpoints[j])
+            }
+        }
+    }
+    for(var i in data2){
+        if(data2[i]._id == tourId){
+           tourNum = i
+        }
+    }
+    alert(tourNum + " " + exeId)
+    //var userId = data[0].userId
+    if(exeId == 0){
+        const res4 = await fetch(`${TOURS_BASE}/api/tours/execution/`, {
+      method: 'POST',
+      headers: {
+          'Authorization': 'Bearer ' + token,
+          'Content-Type': 'application/json'
+        },
+      body: JSON.stringify({tourId: tourId})
+    });
+    const data4 = await res4.json();
+    }
+        if(data[exeId].status == "not started"){
+      const res = await fetch(`${TOURS_BASE}/api/tours/execution/start/`+executionId, {
+            method: 'PUT',
+            headers: {
+            'Authorization': 'Bearer ' + token,
+            'Content-Type': 'application/json'
+            }
+            });
+    }
+    completedCheckpoints = data[0].completedCheckpoints
+    initMap();
+    for(var i in data2[tourNum].keyPoints){
+        checkpoints.push(data2[tourNum].keyPoints[i])
+    }
+
+    for(var i in data2[tourNum].keyPoints){
+        if(completedCheckpoints.some(e => e._id === data2[tourNum].keyPoints[i]._id)){
+            continue
+        }
+        marker = L.marker([data2[tourNum].keyPoints[i].latitude, data2[tourNum].keyPoints[i].longitude],{
+      icon: L.divIcon({
+        className: 'custom-marker',
+        html: `<div style="background: #FF69B4; color: white; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; border: 3px solid white; box-shadow: 0 2px 8px rgba(0,0,0,0.3);"></div>`,
+        iconSize: [32, 32],
+        iconAnchor: [16, 16]
+      })
+    }).addTo(markerGroup);
+    }
+    markerGroup.addTo(map);
+    
+    //marker = L.marker([data[0].latitude, data[0].longitude]).addTo(map);
+}

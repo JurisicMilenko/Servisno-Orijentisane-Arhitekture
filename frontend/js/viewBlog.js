@@ -49,12 +49,19 @@ window.onload = async function() {
       headers: { 'Authorization': 'Bearer ' + token }
     });
     const data = await res.json();
-
-    /*const res2 = await fetch(`${API_BASE}/api/followers/me/following?userId=${user.id}`, {
+    const res1 = await fetch(`${API_BASE}/api/auth/me`, {
       headers: { 'Authorization': 'Bearer ' + token }
     });
-    const data2 = await res2.json();*/
+    const data1 = await res1.json();
+    const res2 = await fetch(`${API_BASE}/api/followers/me/following?userId=${data1.id}`, {
+      headers: { 'Authorization': 'Bearer ' + token }
+    });
+    const data2 = await res2.json();
    for(var i in data.results){
+    if(!data2.includes(data.results[i].userId)){
+      continue;
+    }
+  
     var image = await getImage(data.results[i])
     var username = await getUsername(data.results[i]);
     var htmltags = '<div><h2>Title: '+data.results[i].title+'</h2><p>Description: '+data.results[i].description+'</p><p>Creator: '+username+'</p>'+

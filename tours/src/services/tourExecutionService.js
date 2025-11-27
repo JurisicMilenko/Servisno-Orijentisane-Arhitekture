@@ -61,3 +61,18 @@ exports.completeExecution = async (id) => {
     throw new Error('Failed to update execution: ' + err.message);
   }
 };
+
+exports.startExecution = async (id) => {
+  try {
+    const execution = await TourExecution.findById(id);
+    if (!execution) return null;
+
+    execution.status = 'in progress';
+  
+    
+    await execution.save();
+    return execution;
+  } catch (err) {
+    throw new Error('Failed to update execution: ' + err.message);
+  }
+};

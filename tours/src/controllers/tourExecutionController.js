@@ -72,3 +72,17 @@ exports.completeExecution = async (req, res) => {
         }
 
 };
+exports.startExecution = async (req, res) => {
+  try{
+    const execution = await tourExecutionService.getById(req.params.id);
+        if (!execution || execution.length === 0) {
+            return res.status(404).json({ error: 'Execution not found' });
+                }
+              
+            const updated = await tourExecutionService.startExecution(req.params.id);
+            res.json(updated);
+        }catch(err){
+            res.status(400).json({ error: err.message });
+        }
+
+};
