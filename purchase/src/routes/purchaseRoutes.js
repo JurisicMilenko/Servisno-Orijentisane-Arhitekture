@@ -11,6 +11,7 @@ router.get('/cart', purchaseController.getCart);
 router.post('/cart', purchaseController.addToCart);
 router.delete('/cart/:tourId', purchaseController.removeFromCart);
 router.delete('/cart', purchaseController.clearCart);
+router.delete('/carts/:tourId', purchaseController.removeTourFromCarts);
 
 // Checkout
 router.post('/checkout', purchaseController.checkout);

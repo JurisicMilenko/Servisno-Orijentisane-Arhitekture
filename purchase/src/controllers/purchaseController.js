@@ -12,6 +12,17 @@ exports.getCart = async (req, res) => {
   }
 };
 
+exports.removeTourFromCarts = async (req, res) => {
+  try {
+    const tourId = req.params.tourId;
+    const carts = await purchaseService.removeTourFromCarts(tourId);
+    res.json(carts);
+  } catch (error) {
+    console.error('Error deleting from carts:', error);
+    res.status(500).json({ error: error.message });
+  }
+};
+
 // Add item to cart
 exports.addToCart = async (req, res) => {
   try {
