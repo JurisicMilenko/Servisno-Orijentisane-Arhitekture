@@ -3,6 +3,8 @@ const cors = require('cors');
 const { createProxyMiddleware } = require('http-proxy-middleware');
 require('dotenv').config();
 
+const blogRatingClient = require('./blogRatingClient');
+
 const app = express();
 app.use(cors());
 // Don't use express.json() before proxy - it consumes the body
@@ -16,6 +18,7 @@ const ATTRACTIONS_SERVICE = process.env.ATTRACTIONS_SERVICE_URL || 'http://local
 const STAKEHOLDERS_SERVICE = process.env.STAKEHOLDERS_SERVICE_URL || 'http://localhost:3001';
 const TOURS_SERVICE = process.env.TOURS_SERVICE_URL || 'http://localhost:3002';
 const BLOG_SERVICE = process.env.BLOG_SERVICE_URL || 'http://blog-service:80';
+const BLOG_RATING_SERVICE = process.env.BLOG_RATING_GRPC || 'blog-service:50051';
 const FOLLOWERS_SERVICE = process.env.FOLLOWERS_SERVICE_URL || 'http://followers:80';
 
 // Proxy /api/auth to auth service
@@ -61,28 +64,10 @@ app.use('/api/touristOrAuthor', createProxyMiddleware({
   logLevel: 'info'
 }));
 
-//start of cringe
-const grpc = require('@grpc/grpc-js');
-const protoLoader = require('@grpc/proto-loader');
-const path = require('path');
+//grpc cringe
 
-// Load proto
-const PROTO_PATH = path.join(__dirname, 'proto/rating.proto');
-const packageDefinition = protoLoader.loadSync(PROTO_PATH, {
-  keepCase: true,
-  enums: String,
-  defaults: true,
-  oneofs: true
-});
-const blogRatingProto = grpc.loadPackageDefinition(packageDefinition).rating;
+app.use('/api/blogratings', express.json());
 
-// Create gRPC client
-const blogRatingClient = new blogRatingProto.BlogRatingGrpc(
-  'blog-service:50051',              // inside docker network
-  grpc.credentials.createInsecure()
-);
-
-// Replace REST proxy with gRPC handler
 app.get('/api/blogratings', (req, res) => {
   const pageNumber = parseInt(req.query.pageNumber) || 1;
   const pageSize = parseInt(req.query.pageSize) || 10;
@@ -95,15 +80,10 @@ app.get('/api/blogratings', (req, res) => {
 
 app.post('/api/blogratings', (req, res) => {
   const { blogId, userId, voteType } = req.body;
-  if (!blogId || !userId || !voteType) {
-    return res.status(400).json({ error: 'blogId, userId, voteType required' });
-  }
+  if (!blogId || !userId || !voteType) return res.status(400).json({ error: 'blogId, userId, voteType required' });
 
   blogRatingClient.CreateBlogRating({ blogId, userId, voteType }, (err, response) => {
-    if (err) {
-      console.error('gRPC error:', err);
-      return res.status(500).json({ error: err.message });
-    }
+    if (err) return res.status(500).json({ error: err.message });
     res.json(response);
   });
 });
@@ -126,6 +106,7 @@ app.put('/api/blogratings/:id', (req, res) => {
 
 app.delete('/api/blogratings/:id', (req, res) => {
   const { id } = req.params;
+
   blogRatingClient.DeleteBlogRating({ id: parseInt(id) }, (err, response) => {
     if (err) {
       console.error('gRPC error:', err);
@@ -134,7 +115,7 @@ app.delete('/api/blogratings/:id', (req, res) => {
     res.json(response);
   });
 });
-//end of blograting
+//grpc cringe
 
 // Proxy /api/followers
 app.use('/api/followers', createProxyMiddleware({

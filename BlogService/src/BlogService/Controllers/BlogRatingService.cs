@@ -3,6 +3,7 @@ using Explorer.Blog.API.Dtos;
 using Explorer.Blog.Core.Domain.Blogs;
 using Google.Protobuf;
 using Grpc.Core;
+using Microsoft.AspNetCore.Http.HttpResults;
 using rating.grpc;
 
 public class BlogRatingGrpcService : BlogRatingGrpc.BlogRatingGrpcBase
@@ -36,14 +37,21 @@ public class BlogRatingGrpcService : BlogRatingGrpc.BlogRatingGrpcBase
 
     public override async Task<CreateBlogRatingResponse> CreateBlogRating(CreateBlogRatingRequest request, ServerCallContext context)
     {
-        var existing = await _repository.GetByUserAndBlog(request.UserId, request.BlogId);
-        if (existing != null)
-            throw new RpcException(new Grpc.Core.Status(StatusCode.AlreadyExists, "User already voted for this blog"));
+        try
+        {
+            var existing = await _repository.GetByUserAndBlog(request.UserId, request.BlogId);
+            if (existing != null)
+                throw new RpcException(new Grpc.Core.Status(StatusCode.AlreadyExists, "User already voted for this blog"));
 
-        var rating = new BlogRating(request.UserId, Enum.Parse<Explorer.Blog.Core.Domain.Blogs.VoteType>(request.VoteType), request.BlogId);
-        var created = await _repository.CreateBlogRating(rating);
-
-        return new CreateBlogRatingResponse { Id = (int)created.Id };
+            var rating = new BlogRating(request.UserId, Enum.Parse<Explorer.Blog.Core.Domain.Blogs.VoteType>(request.VoteType), request.BlogId);
+            var created = await _repository.CreateBlogRating(rating);
+            return new CreateBlogRatingResponse { Id = (int)created.Id };
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.ToString());
+            return new CreateBlogRatingResponse { };
+        }
     }
 
     public override async Task<UpdateBlogRatingResponse> UpdateBlogRating(UpdateBlogRatingRequest request, ServerCallContext context)
