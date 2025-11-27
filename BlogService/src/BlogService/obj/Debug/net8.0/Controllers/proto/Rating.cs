@@ -26,32 +26,31 @@ namespace rating.grpc {
           string.Concat(
             "Ch5Db250cm9sbGVycy9wcm90by9yYXRpbmcucHJvdG8SBnJhdGluZyJFCgVC",
             "UkR0bxIKCgJpZBgBIAEoBRIOCgZibG9nSWQYAiABKAUSDgoGdXNlcklkGAMg",
-            "ASgFEhAKCHZvdGVUeXBlGAQgASgJIk4KFkJsb2dSYXRpbmdQYWdlZFJlcXVl",
-            "c3QSDgoGYmxvZ0lkGAEgASgFEhIKCnBhZ2VOdW1iZXIYAiABKAUSEAoIcGFn",
-            "ZVNpemUYAyABKAUiTQoXQmxvZ1JhdGluZ1BhZ2VkUmVzcG9uc2USHgoHcmF0",
-            "aW5ncxgBIAMoCzINLnJhdGluZy5CUkR0bxISCgp0b3RhbENvdW50GAIgASgF",
-            "IksKF0NyZWF0ZUJsb2dSYXRpbmdSZXF1ZXN0Eg4KBmJsb2dJZBgBIAEoBRIO",
-            "CgZ1c2VySWQYAiABKAUSEAoIdm90ZVR5cGUYAyABKAkiJgoYQ3JlYXRlQmxv",
-            "Z1JhdGluZ1Jlc3BvbnNlEgoKAmlkGAEgASgFIlcKF1VwZGF0ZUJsb2dSYXRp",
-            "bmdSZXF1ZXN0EgoKAmlkGAEgASgFEg4KBmJsb2dJZBgCIAEoBRIOCgZ1c2Vy",
-            "SWQYAyABKAUSEAoIdm90ZVR5cGUYBCABKAkiKwoYVXBkYXRlQmxvZ1JhdGlu",
-            "Z1Jlc3BvbnNlEg8KB3N1Y2Nlc3MYASABKAgiJQoXRGVsZXRlQmxvZ1JhdGlu",
-            "Z1JlcXVlc3QSCgoCaWQYASABKAUiKwoYRGVsZXRlQmxvZ1JhdGluZ1Jlc3Bv",
-            "bnNlEg8KB3N1Y2Nlc3MYASABKAgy7QIKDkJsb2dSYXRpbmdHcnBjElYKE0dl",
-            "dEJsb2dSYXRpbmdzUGFnZWQSHi5yYXRpbmcuQmxvZ1JhdGluZ1BhZ2VkUmVx",
-            "dWVzdBofLnJhdGluZy5CbG9nUmF0aW5nUGFnZWRSZXNwb25zZRJVChBDcmVh",
-            "dGVCbG9nUmF0aW5nEh8ucmF0aW5nLkNyZWF0ZUJsb2dSYXRpbmdSZXF1ZXN0",
-            "GiAucmF0aW5nLkNyZWF0ZUJsb2dSYXRpbmdSZXNwb25zZRJVChBVcGRhdGVC",
-            "bG9nUmF0aW5nEh8ucmF0aW5nLlVwZGF0ZUJsb2dSYXRpbmdSZXF1ZXN0GiAu",
-            "cmF0aW5nLlVwZGF0ZUJsb2dSYXRpbmdSZXNwb25zZRJVChBEZWxldGVCbG9n",
-            "UmF0aW5nEh8ucmF0aW5nLkRlbGV0ZUJsb2dSYXRpbmdSZXF1ZXN0GiAucmF0",
-            "aW5nLkRlbGV0ZUJsb2dSYXRpbmdSZXNwb25zZUIOqgILcmF0aW5nLmdycGNi",
-            "BnByb3RvMw=="));
+            "ASgFEhAKCHZvdGVUeXBlGAQgASgJIj4KFkJsb2dSYXRpbmdQYWdlZFJlcXVl",
+            "c3QSEgoKcGFnZU51bWJlchgBIAEoBRIQCghwYWdlU2l6ZRgCIAEoBSJNChdC",
+            "bG9nUmF0aW5nUGFnZWRSZXNwb25zZRIeCgdyYXRpbmdzGAEgAygLMg0ucmF0",
+            "aW5nLkJSRHRvEhIKCnRvdGFsQ291bnQYAiABKAUiSwoXQ3JlYXRlQmxvZ1Jh",
+            "dGluZ1JlcXVlc3QSDgoGYmxvZ0lkGAEgASgFEg4KBnVzZXJJZBgCIAEoBRIQ",
+            "Cgh2b3RlVHlwZRgDIAEoCSImChhDcmVhdGVCbG9nUmF0aW5nUmVzcG9uc2US",
+            "CgoCaWQYASABKAUiVwoXVXBkYXRlQmxvZ1JhdGluZ1JlcXVlc3QSCgoCaWQY",
+            "ASABKAUSDgoGYmxvZ0lkGAIgASgFEg4KBnVzZXJJZBgDIAEoBRIQCgh2b3Rl",
+            "VHlwZRgEIAEoCSIrChhVcGRhdGVCbG9nUmF0aW5nUmVzcG9uc2USDwoHc3Vj",
+            "Y2VzcxgBIAEoCCIlChdEZWxldGVCbG9nUmF0aW5nUmVxdWVzdBIKCgJpZBgB",
+            "IAEoBSIrChhEZWxldGVCbG9nUmF0aW5nUmVzcG9uc2USDwoHc3VjY2VzcxgB",
+            "IAEoCDLtAgoOQmxvZ1JhdGluZ0dycGMSVgoTR2V0QmxvZ1JhdGluZ3NQYWdl",
+            "ZBIeLnJhdGluZy5CbG9nUmF0aW5nUGFnZWRSZXF1ZXN0Gh8ucmF0aW5nLkJs",
+            "b2dSYXRpbmdQYWdlZFJlc3BvbnNlElUKEENyZWF0ZUJsb2dSYXRpbmcSHy5y",
+            "YXRpbmcuQ3JlYXRlQmxvZ1JhdGluZ1JlcXVlc3QaIC5yYXRpbmcuQ3JlYXRl",
+            "QmxvZ1JhdGluZ1Jlc3BvbnNlElUKEFVwZGF0ZUJsb2dSYXRpbmcSHy5yYXRp",
+            "bmcuVXBkYXRlQmxvZ1JhdGluZ1JlcXVlc3QaIC5yYXRpbmcuVXBkYXRlQmxv",
+            "Z1JhdGluZ1Jlc3BvbnNlElUKEERlbGV0ZUJsb2dSYXRpbmcSHy5yYXRpbmcu",
+            "RGVsZXRlQmxvZ1JhdGluZ1JlcXVlc3QaIC5yYXRpbmcuRGVsZXRlQmxvZ1Jh",
+            "dGluZ1Jlc3BvbnNlQg6qAgtyYXRpbmcuZ3JwY2IGcHJvdG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
             new pbr::GeneratedClrTypeInfo(typeof(global::rating.grpc.BRDto), global::rating.grpc.BRDto.Parser, new[]{ "Id", "BlogId", "UserId", "VoteType" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::rating.grpc.BlogRatingPagedRequest), global::rating.grpc.BlogRatingPagedRequest.Parser, new[]{ "BlogId", "PageNumber", "PageSize" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::rating.grpc.BlogRatingPagedRequest), global::rating.grpc.BlogRatingPagedRequest.Parser, new[]{ "PageNumber", "PageSize" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::rating.grpc.BlogRatingPagedResponse), global::rating.grpc.BlogRatingPagedResponse.Parser, new[]{ "Ratings", "TotalCount" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::rating.grpc.CreateBlogRatingRequest), global::rating.grpc.CreateBlogRatingRequest.Parser, new[]{ "BlogId", "UserId", "VoteType" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::rating.grpc.CreateBlogRatingResponse), global::rating.grpc.CreateBlogRatingResponse.Parser, new[]{ "Id" }, null, null, null, null),
@@ -412,7 +411,6 @@ namespace rating.grpc {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public BlogRatingPagedRequest(BlogRatingPagedRequest other) : this() {
-      blogId_ = other.blogId_;
       pageNumber_ = other.pageNumber_;
       pageSize_ = other.pageSize_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
@@ -424,20 +422,8 @@ namespace rating.grpc {
       return new BlogRatingPagedRequest(this);
     }
 
-    /// <summary>Field number for the "blogId" field.</summary>
-    public const int BlogIdFieldNumber = 1;
-    private int blogId_;
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public int BlogId {
-      get { return blogId_; }
-      set {
-        blogId_ = value;
-      }
-    }
-
     /// <summary>Field number for the "pageNumber" field.</summary>
-    public const int PageNumberFieldNumber = 2;
+    public const int PageNumberFieldNumber = 1;
     private int pageNumber_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
@@ -449,7 +435,7 @@ namespace rating.grpc {
     }
 
     /// <summary>Field number for the "pageSize" field.</summary>
-    public const int PageSizeFieldNumber = 3;
+    public const int PageSizeFieldNumber = 2;
     private int pageSize_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
@@ -475,7 +461,6 @@ namespace rating.grpc {
       if (ReferenceEquals(other, this)) {
         return true;
       }
-      if (BlogId != other.BlogId) return false;
       if (PageNumber != other.PageNumber) return false;
       if (PageSize != other.PageSize) return false;
       return Equals(_unknownFields, other._unknownFields);
@@ -485,7 +470,6 @@ namespace rating.grpc {
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override int GetHashCode() {
       int hash = 1;
-      if (BlogId != 0) hash ^= BlogId.GetHashCode();
       if (PageNumber != 0) hash ^= PageNumber.GetHashCode();
       if (PageSize != 0) hash ^= PageSize.GetHashCode();
       if (_unknownFields != null) {
@@ -506,16 +490,12 @@ namespace rating.grpc {
     #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       output.WriteRawMessage(this);
     #else
-      if (BlogId != 0) {
-        output.WriteRawTag(8);
-        output.WriteInt32(BlogId);
-      }
       if (PageNumber != 0) {
-        output.WriteRawTag(16);
+        output.WriteRawTag(8);
         output.WriteInt32(PageNumber);
       }
       if (PageSize != 0) {
-        output.WriteRawTag(24);
+        output.WriteRawTag(16);
         output.WriteInt32(PageSize);
       }
       if (_unknownFields != null) {
@@ -528,16 +508,12 @@ namespace rating.grpc {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
-      if (BlogId != 0) {
-        output.WriteRawTag(8);
-        output.WriteInt32(BlogId);
-      }
       if (PageNumber != 0) {
-        output.WriteRawTag(16);
+        output.WriteRawTag(8);
         output.WriteInt32(PageNumber);
       }
       if (PageSize != 0) {
-        output.WriteRawTag(24);
+        output.WriteRawTag(16);
         output.WriteInt32(PageSize);
       }
       if (_unknownFields != null) {
@@ -550,9 +526,6 @@ namespace rating.grpc {
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public int CalculateSize() {
       int size = 0;
-      if (BlogId != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeInt32Size(BlogId);
-      }
       if (PageNumber != 0) {
         size += 1 + pb::CodedOutputStream.ComputeInt32Size(PageNumber);
       }
@@ -570,9 +543,6 @@ namespace rating.grpc {
     public void MergeFrom(BlogRatingPagedRequest other) {
       if (other == null) {
         return;
-      }
-      if (other.BlogId != 0) {
-        BlogId = other.BlogId;
       }
       if (other.PageNumber != 0) {
         PageNumber = other.PageNumber;
@@ -600,14 +570,10 @@ namespace rating.grpc {
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
             break;
           case 8: {
-            BlogId = input.ReadInt32();
-            break;
-          }
-          case 16: {
             PageNumber = input.ReadInt32();
             break;
           }
-          case 24: {
+          case 16: {
             PageSize = input.ReadInt32();
             break;
           }
@@ -631,14 +597,10 @@ namespace rating.grpc {
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
             break;
           case 8: {
-            BlogId = input.ReadInt32();
-            break;
-          }
-          case 16: {
             PageNumber = input.ReadInt32();
             break;
           }
-          case 24: {
+          case 16: {
             PageSize = input.ReadInt32();
             break;
           }

@@ -19,9 +19,8 @@ message BRDto {
 }
 
 message BlogRatingPagedRequest {
-    int32 blogId = 1;
-    int32 pageNumber = 2;
-    int32 pageSize = 3;
+    int32 pageNumber = 1;
+    int32 pageSize = 2;
 }
 
 message BlogRatingPagedResponse {

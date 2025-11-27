@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BlogService.Database
 {
-    public class RatingDatabaseRepository : IRatingRepository
+    public class RatingDatabaseRepository
     {
         private readonly BlogContext _dbContext;
 
@@ -14,15 +14,15 @@ namespace BlogService.Database
             _dbContext = dbContext;
         }
 
-        public async Task<List<BlogRating>> GetBlogRatingsPaged(int blogId, int page, int pageSize)
+        public async Task<List<BlogRating>> GetBlogRatingsPaged(int page, int pageSize)
         {
             return await _dbContext.Set<BlogRating>()
-                .Where(r => r.BlogId == blogId)
                 .OrderBy(r => r.Id)
                 .Skip((page - 1) * pageSize)
                 .Take(pageSize)
                 .ToListAsync();
         }
+
 
         public async Task<BlogRating?> GetByUserAndBlog(int userId, int blogId)
         {

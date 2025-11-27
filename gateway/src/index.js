@@ -12,12 +12,11 @@ const PORT = process.env.PORT || 4000;
 
 // Service URLs (adjust with env vars if needed)
 const AUTH_SERVICE = process.env.AUTH_SERVICE_URL || 'http://localhost:3000';
-const ATTRACTIONS_SERVICE = process.env.ATTRACTIONS_SERVICE_URL || 'http://localhost:3005';
+const ATTRACTIONS_SERVICE = process.env.ATTRACTIONS_SERVICE_URL || 'http://localhost:3000';
 const STAKEHOLDERS_SERVICE = process.env.STAKEHOLDERS_SERVICE_URL || 'http://localhost:3001';
 const TOURS_SERVICE = process.env.TOURS_SERVICE_URL || 'http://localhost:3002';
-const PURCHASE_SERVICE = process.env.PURCHASE_SERVICE_URL || 'http://localhost:3004';
-const BLOG_SERVICE = process.env.BLOG_SERVICE_URL || 'http://localhost:8080';
-const FOLLOWERS_SERVICE = process.env.FOLLOWERS_SERVICE_URL || 'http://localhost:8081';
+const BLOG_SERVICE = process.env.BLOG_SERVICE_URL || 'http://blog-service:80';
+const FOLLOWERS_SERVICE = process.env.FOLLOWERS_SERVICE_URL || 'http://followers:80';
 
 // Proxy /api/auth to auth service
 app.use('/api/auth', createProxyMiddleware({
@@ -55,13 +54,6 @@ app.use('/api/tours', createProxyMiddleware({
   logLevel: 'info'
 }));
 
-// Proxy /api/purchase to purchase service
-app.use('/api/purchase', createProxyMiddleware({
-  target: PURCHASE_SERVICE,
-  changeOrigin: true,
-  logLevel: 'info'
-}));
-
 // Proxy /api/touristOrAuthor to blog service
 app.use('/api/touristOrAuthor', createProxyMiddleware({
   target: BLOG_SERVICE,
@@ -86,7 +78,7 @@ const blogRatingProto = grpc.loadPackageDefinition(packageDefinition).rating;
 
 // Create gRPC client
 const blogRatingClient = new blogRatingProto.BlogRatingGrpc(
-  process.env.BLOG_SERVICE_GRPC_URL || 'localhost:50051',
+  'blog-service:50051',              // inside docker network
   grpc.credentials.createInsecure()
 );
 
@@ -94,17 +86,9 @@ const blogRatingClient = new blogRatingProto.BlogRatingGrpc(
 app.get('/api/blogratings', (req, res) => {
   const pageNumber = parseInt(req.query.pageNumber) || 1;
   const pageSize = parseInt(req.query.pageSize) || 10;
-  const blogId = parseInt(req.query.blogId);
 
-  if (!blogId) {
-    return res.status(400).json({ error: 'blogId query param required' });
-  }
-
-  blogRatingClient.GetBlogRatingsPaged({ blogId, pageNumber, pageSize }, (err, response) => {
-    if (err) {
-      console.error('gRPC error:', err);
-      return res.status(500).json({ error: err.message });
-    }
+  blogRatingClient.GetBlogRatingsPaged({ pageNumber, pageSize }, (err, response) => {
+    if (err) return res.status(500).json({ error: err.message });
     res.json(response);
   });
 });
@@ -174,7 +158,6 @@ app.listen(PORT, () => {
   console.log(`Proxying /api/attractions -> ${ATTRACTIONS_SERVICE}`);
   console.log(`Proxying /api/stakeholders -> ${STAKEHOLDERS_SERVICE}`);
   console.log(`Proxying /api/tours -> ${TOURS_SERVICE}`);
-  console.log(`Proxying /api/purchase -> ${PURCHASE_SERVICE}`);
   console.log(`Proxying /api/blog -> ${BLOG_SERVICE}`);
   console.log(`Proxying /api/followers -> ${FOLLOWERS_SERVICE}`);
 });

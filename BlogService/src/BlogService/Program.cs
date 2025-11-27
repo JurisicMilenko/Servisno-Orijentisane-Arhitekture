@@ -33,7 +33,7 @@ builder.Services.AddAutoMapper(cfg => { }, typeof(BlogProfile).Assembly);
 builder.Services.AddScoped(typeof(ICrudRepository<Explorer.Blog.Core.Domain.Blogs.Blog>), typeof(Explorer.BuildingBlocks.Infrastructure.Database.CrudDatabaseRepository<Explorer.Blog.Core.Domain.Blogs.Blog, BlogContext>));
 builder.Services.AddScoped<IBlogRepository, BlogDatabaseRepository>();
 builder.Services.AddScoped<IBlogService, Explorer.Blog.Core.UseCases.BlogService>();
-builder.Services.AddScoped<IRatingRepository, RatingDatabaseRepository>();
+builder.Services.AddScoped<RatingDatabaseRepository>();
 builder.Services.AddScoped(typeof(ICrudRepository<Explorer.Blog.Core.Domain.Blogs.Blog>), typeof(CrudDatabaseRepository<Explorer.Blog.Core.Domain.Blogs.Blog, BlogContext>));
 builder.Services.AddScoped(typeof(ICrudRepository<Comment>), typeof(CrudDatabaseRepository<Comment, BlogContext>));
 builder.Services.AddScoped(typeof(ICrudRepository<BlogRating>), typeof(CrudDatabaseRepository<BlogRating, BlogContext>));
@@ -55,8 +55,12 @@ builder.Services.AddCors(options =>
             .AllowAnyOrigin();
     });
 });
-
+builder.Services.AddGrpc(options =>
+{
+    options.EnableDetailedErrors = true;
+});
 var app = builder.Build();
+app.MapGrpcService<BlogRatingGrpcService>();
 app.UseCors("AllowAll");
 // Enable Swagger always
 app.UseSwagger();

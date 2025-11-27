@@ -16,7 +16,7 @@ public class BlogRatingGrpcService : BlogRatingGrpc.BlogRatingGrpcBase
 
     public override async Task<BlogRatingPagedResponse> GetBlogRatingsPaged(BlogRatingPagedRequest request, ServerCallContext context)
     {
-        var ratings = await _repository.GetBlogRatingsPaged(request.BlogId, request.PageNumber, request.PageSize);
+        var ratings = await _repository.GetBlogRatingsPaged(request.PageNumber, request.PageSize);
 
         var response = new BlogRatingPagedResponse
         {

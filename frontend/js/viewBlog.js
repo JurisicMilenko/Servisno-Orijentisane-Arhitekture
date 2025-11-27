@@ -44,6 +44,7 @@ function create(htmlStr) {
 
 
 window.onload = async function() {
+  alert("????")
     const res = await fetch(`${BLOG_BASE}/api/touristOrAuthor/blog`, {
       headers: { 'Authorization': 'Bearer ' + token }
     });
