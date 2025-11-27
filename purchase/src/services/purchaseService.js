@@ -13,6 +13,20 @@ class PurchaseService {
     return cart;
   }
 
+  async removeTourFromCarts(tourId) {
+    let carts = await ShoppingCart.find();
+    for(var i in carts){
+      try{
+      console.log(i);
+      carts[i].removeItem(tourId);
+      await carts[i].save();
+      }catch{
+        console.log("failed: " + i);
+      }
+    }
+    return carts;
+  }
+
   // Add item to cart
   async addToCart(userId, tourId, tourName, price) {
     const cart = await this.getCart(userId);
