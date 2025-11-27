@@ -166,7 +166,7 @@ services:
       TOURS_SERVICE_URL: http://tours:3002
       PURCHASE_SERVICE_URL: http://purchase:3004
       BLOG_SERVICE_URL: http://blog-service:80
-      BLOG_RATING_GRPC: blog-service:80
+      BLOG_RATING_GRPC: blog-service:50051
       FOLLOWERS_SERVICE_URL: http://followers:8080
     ports:
       - '4000:4000'

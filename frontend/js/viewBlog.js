@@ -140,7 +140,7 @@ async function Like(id) {
     const body = {
     id: 0,
     blogId: id,
-    voteType: 0,
+    voteType: "Upvote",
     userId: data1.id
   };
 
