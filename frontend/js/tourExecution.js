@@ -111,7 +111,7 @@ window.setInterval(async function(){
     }
     markerGroup.addTo(map);
     
-    if(completedCheckpoints.length == checkpoints.length){
+    if(completedCheckpoints.length >= checkpoints.length){
         const res = await fetch(`${TOURS_BASE}/api/tours/execution/complete/`+executionId, {
             method: 'PUT',
             headers: {
@@ -205,7 +205,6 @@ async function execute(tourId){
            tourNum = i
         }
     }
-    alert(tourNum + " " + exeId)
     //var userId = data[0].userId
     if(exeId == 0){
         const res4 = await fetch(`${TOURS_BASE}/api/tours/execution/`, {
@@ -227,7 +226,7 @@ async function execute(tourId){
             }
             });
     }
-    completedCheckpoints = data[0].completedCheckpoints
+    completedCheckpoints = data[exeId].completedCheckpoints
     initMap();
     for(var i in data2[tourNum].keyPoints){
         checkpoints.push(data2[tourNum].keyPoints[i])
