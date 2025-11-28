@@ -1,3 +1,8 @@
+// Initialize tracing first
+require('soa-shared-monitoring/tracing');
+const logger = require('soa-shared-monitoring/logger');
+const { register, metricsMiddleware } = require('soa-shared-monitoring/metrics');
+
 const express = require('express');
 const cors = require('cors');
 require('dotenv').config();
@@ -12,6 +17,13 @@ const PORT = process.env.PORT || 3002;
 // Middleware
 app.use(cors());
 app.use(express.json());
+app.use(metricsMiddleware);
+
+// Metrics endpoint
+app.get('/metrics', async (req, res) => {
+  res.set('Content-Type', register.contentType);
+  res.end(await register.metrics());
+});
 
 // Connect to MongoDB
 connectDB();
@@ -23,6 +35,7 @@ app.use('/api/tours', ratingRoutes);
 
 // Health check
 app.get('/health', (req, res) => {
+  logger.info('Health check - tours service');
   res.json({ 
     status: 'tours service ok',
     port: PORT,
@@ -37,10 +50,12 @@ app.use((req, res) => {
 
 // Error handler
 app.use((err, req, res, next) => {
-  console.error('Error:', err.message);
+  logger.error({ err, path: req.path, method: req.method }, 'Error occurred');
   res.status(500).json({ error: 'Internal server error' });
 });
 
 app.listen(PORT, () => {
-  console.log(`🚀 Tours service running on http://localhost:${PORT}`);
+  logger.info(`🚀 Tours service running on http://localhost:${PORT}`);
+  logger.info('Metrics available at /metrics');
+  logger.info('Tracing enabled - sending to Jaeger');
 });

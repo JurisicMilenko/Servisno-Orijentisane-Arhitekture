@@ -8,10 +8,11 @@
     "dev": "nodemon src/index.js"
   },
   "dependencies": {
-    "express": "^4.18.2",
-    "mongoose": "^8.0.0",
     "cors": "^2.8.5",
-    "jsonwebtoken": "^9.0.2"
+    "express": "^4.18.2",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.0.0",
+    "soa-shared-monitoring": "file:../shared"
   },
   "devDependencies": {
     "nodemon": "^3.0.1"

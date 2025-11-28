@@ -1,3 +1,8 @@
+// Initialize tracing first
+require('soa-shared-monitoring/tracing');
+const logger = require('soa-shared-monitoring/logger');
+const { register, metricsMiddleware } = require('soa-shared-monitoring/metrics');
+
 const express = require('express');
 const cors = require('cors');
 const { createProxyMiddleware } = require('http-proxy-middleware');
@@ -7,6 +12,16 @@ const blogRatingClient = require('./blogRatingClient');
 
 const app = express();
 app.use(cors());
+
+// Add metrics middleware
+app.use(metricsMiddleware);
+
+// Metrics endpoint
+app.get('/metrics', async (req, res) => {
+  res.set('Content-Type', register.contentType);
+  res.end(await register.metrics());
+});
+
 // Don't use express.json() before proxy - it consumes the body
 // app.use(express.json());
 
@@ -139,14 +154,19 @@ app.use('/api/followers', createProxyMiddleware({
 }));
 
 // Example: route for gateway health
-app.get('/health', (req, res) => res.json({ status: 'gateway ok' }));
+app.get('/health', (req, res) => {
+  logger.info('Health check');
+  res.json({ status: 'gateway ok' });
+});
 
 app.listen(PORT, () => {
-  console.log(`API Gateway running on http://localhost:${PORT}`);
-  console.log(`Proxying /api/auth -> ${AUTH_SERVICE}`);
-  console.log(`Proxying /api/attractions -> ${ATTRACTIONS_SERVICE}`);
-  console.log(`Proxying /api/stakeholders -> ${STAKEHOLDERS_SERVICE}`);
-  console.log(`Proxying /api/tours -> ${TOURS_SERVICE}`);
-  console.log(`Proxying /api/blog -> ${BLOG_SERVICE}`);
-  console.log(`Proxying /api/followers -> ${FOLLOWERS_SERVICE}`);
+  logger.info(`API Gateway running on http://localhost:${PORT}`);
+  logger.info(`Proxying /api/auth -> ${AUTH_SERVICE}`);
+  logger.info(`Proxying /api/attractions -> ${ATTRACTIONS_SERVICE}`);
+  logger.info(`Proxying /api/stakeholders -> ${STAKEHOLDERS_SERVICE}`);
+  logger.info(`Proxying /api/tours -> ${TOURS_SERVICE}`);
+  logger.info(`Proxying /api/blog -> ${BLOG_SERVICE}`);
+  logger.info(`Proxying /api/followers -> ${FOLLOWERS_SERVICE}`);
+  logger.info('Metrics available at /metrics');
+  logger.info('Tracing enabled - sending to Jaeger');
 });
