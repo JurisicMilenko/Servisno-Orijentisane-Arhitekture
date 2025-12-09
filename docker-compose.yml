@@ -1,6 +1,11 @@
 version: '3.9'
 
+# Docker Compose konfiguracija za SOA projekat
+# Konfiguracija dodata: 9. decembar 2025
+# Servisi: PostgreSQL (users), MongoDB (tours), Neo4j, Backend services
+
 services:
+  # PostgreSQL baza za stakeholders servis (user management)
   postgres:
     image: postgres:15
     environment:
@@ -10,6 +15,8 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
       - ./backend/data/schema.sql:/docker-entrypoint-initdb.d/schema.sql:ro
+    ports:
+      - '5432:5432'
     networks:
       - soa-net
 
