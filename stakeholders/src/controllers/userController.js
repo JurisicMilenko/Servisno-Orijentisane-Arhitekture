@@ -1,5 +1,12 @@
 const service = require('../services/userService');
 
+/**
+ * User Controller - Stakeholders Service
+ * Handles user profile operations:
+ * - KT 4: View user profile (first_name, last_name, avatar_url, bio, motto)
+ * - KT 5: Update user profile information
+ */
+
 // Middleware to check if user is admin (expects token validation done by authenticate middleware)
 const requireAdmin = (req, res, next) => {
   const userRole = req.user?.role || req.headers['x-user-role'];

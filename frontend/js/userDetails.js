@@ -1,3 +1,10 @@
+/**
+ * User Profile Management - Frontend
+ * Implements:
+ * - KT 4: View user profile (first_name, last_name, avatar_url, bio, motto)
+ * - KT 5: Edit and update user profile information
+ */
+
 const API_BASE = window.API_BASE;
 const STAKEHOLDERS_BASE = window.STAKEHOLDERS_BASE;
 
@@ -67,6 +74,7 @@ const editBio = document.getElementById('editBio');
 
 let currentUser = null;
 
+// KT 4: Load and display user profile
 async function loadUserProfile() {
   try {
     const res = await fetch(`${API_BASE}/api/auth/me`, {
@@ -101,34 +109,13 @@ async function loadUserProfile() {
       profileImg.src = data.avatar_url;
     }
 
-    // Update form fields
-    editEmail.value = data.email || '';
-    editFirstName.value = data.first_name || '';
-    editLastName.value = data.last_name || '';
-    editAvatarUrl.value = data.avatar_url || '';
-    editMotto.value = data.motto || '';
-    editBio.value = data.bio || '';
-
   } catch (err) {
     console.error('Error loading profile:', err);
     profileDisplay.innerHTML = `<p style="color:red;">Greška: ${err.message}</p>`;
   }
 }
 
-// Edit Profile Button
-editProfileBtn.addEventListener('click', () => {
-  profileDisplay.style.display = 'none';
-  profileEditForm.style.display = 'block';
-  editMessage.textContent = '';
-});
-
-cancelEditBtn.addEventListener('click', () => {
-  profileDisplay.style.display = 'block';
-  profileEditForm.style.display = 'none';
-  editMessage.textContent = '';
-});
-
-// Form Submit
+// KT 5: Update user profile form submit
 profileEditForm.addEventListener('submit', async (ev) => {
   ev.preventDefault();
   
