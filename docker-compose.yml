@@ -2,7 +2,18 @@ version: '3.9'
 
 # Docker Compose konfiguracija za SOA projekat
 # Konfiguracija dodata: 9. decembar 2025
-# Servisi: PostgreSQL (users), MongoDB (tours), Neo4j, Backend services
+# Ažurirano: 18. januar 2026 - dodati monitoring servisi
+# 
+# Servisi:
+#   Baze podataka: PostgreSQL, MongoDB, Neo4j
+#   Backend servisi: backend, stakeholders, tours, purchase, gateway
+#   Frontend: nginx servis
+#   .NET servisi: blog-service, followers (gRPC problem na ARM64)
+#   Monitoring: Jaeger, Prometheus, Grafana, Loki, Promtail, cAdvisor, node-exporter
+#
+# Pokretanje: docker compose up -d
+# Zaustavljanje: docker compose down
+# Provera: docker compose ps
 
 services:
   # PostgreSQL baza za stakeholders servis (user management)
@@ -94,8 +105,8 @@ services:
 
   tours:
     build:
-      context: ./tours
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: tours/Dockerfile
     environment:
       NODE_ENV: production
       PORT: 3002
@@ -112,8 +123,8 @@ services:
 
   purchase:
     build:
-      context: ./purchase
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: purchase/Dockerfile
     environment:
       NODE_ENV: production
       PORT: 3004
@@ -169,8 +180,8 @@ services:
 
   gateway:
     build:
-      context: ./gateway
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: gateway/Dockerfile
     environment:
       NODE_ENV: production
       JWT_SECRET: change-me-in-prod
@@ -210,10 +221,119 @@ services:
     networks:
       - soa-net
 
+  # ========== MONITORING STACK ==========
+  
+  # Jaeger - distributed tracing
+  jaeger:
+    image: jaegertracing/all-in-one:1.52
+    container_name: jaeger
+    ports:
+      - "16686:16686"  # Jaeger UI
+      - "14268:14268"  # Jaeger collector HTTP
+      - "4317:4317"    # OTLP gRPC receiver
+      - "4318:4318"    # OTLP HTTP receiver
+    environment:
+      - COLLECTOR_OTLP_ENABLED=true
+    networks:
+      - soa-net
+
+  # Prometheus - metrics collection
+  prometheus:
+    image: prom/prometheus:v2.48.1
+    container_name: prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./monitoring/prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus_data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.console.libraries=/usr/share/prometheus/console_libraries'
+      - '--web.console.templates=/usr/share/prometheus/consoles'
+    networks:
+      - soa-net
+
+  # Grafana - visualization
+  grafana:
+    image: grafana/grafana:10.2.3
+    container_name: grafana
+    ports:
+      - "3003:3000"
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+      - GF_USERS_ALLOW_SIGN_UP=false
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ./monitoring/grafana/provisioning:/etc/grafana/provisioning
+      - ./monitoring/grafana/dashboards:/var/lib/grafana/dashboards
+    networks:
+      - soa-net
+
+  # Loki - log aggregation
+  loki:
+    image: grafana/loki:2.9.3
+    container_name: loki
+    ports:
+      - "3100:3100"
+    volumes:
+      - ./monitoring/loki-config.yml:/etc/loki/local-config.yaml
+      - loki_data:/loki
+    command: -config.file=/etc/loki/local-config.yaml
+    networks:
+      - soa-net
+
+  # Promtail - log shipper
+  promtail:
+    image: grafana/promtail:2.9.3
+    container_name: promtail
+    volumes:
+      - ./monitoring/promtail-config.yml:/etc/promtail/config.yml
+      - /var/lib/docker/containers:/var/lib/docker/containers:ro
+      - /var/run/docker.sock:/var/run/docker.sock
+    command: -config.file=/etc/promtail/config.yml
+    networks:
+      - soa-net
+
+  # cAdvisor - container metrics
+  cadvisor:
+    image: gcr.io/cadvisor/cadvisor:v0.47.2
+    container_name: cadvisor
+    ports:
+      - "8081:8080"
+    volumes:
+      - /:/rootfs:ro
+      - /var/run:/var/run:ro
+      - /sys:/sys:ro
+      - /var/lib/docker/:/var/lib/docker:ro
+      - /dev/disk/:/dev/disk:ro
+    privileged: true
+    devices:
+      - /dev/kmsg
+    networks:
+      - soa-net
+
+  # Node Exporter - host metrics
+  node-exporter:
+    image: prom/node-exporter:v1.7.0
+    container_name: node-exporter
+    ports:
+      - "9100:9100"
+    command:
+      - '--path.rootfs=/host'
+    volumes:
+      - /:/host:ro,rslave
+    networks:
+      - soa-net
+
 volumes:
   postgres_data:
   mongo_data:
   neo4j-data:
+  prometheus_data:
+  grafana_data:
+  loki_data:
 
 networks:
   soa-net:
