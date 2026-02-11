@@ -1,7 +1,5 @@
 // Initialize tracing first
-require('soa-shared-monitoring/tracing');
-const logger = require('soa-shared-monitoring/logger');
-const { register, metricsMiddleware } = require('soa-shared-monitoring/metrics');
+require('../shared/tracing');
 
 const express = require('express');
 const cors = require('cors');
@@ -17,13 +15,12 @@ const PORT = process.env.PORT || 3002;
 // Middleware
 app.use(cors());
 app.use(express.json());
-app.use(metricsMiddleware);
 
-// Metrics endpoint
-app.get('/metrics', async (req, res) => {
-  res.set('Content-Type', register.contentType);
-  res.end(await register.metrics());
-});
+// Metrics endpoint (if register is exported)
+const { register, metricsMiddleware } = require('../shared/tracing');
+if (typeof metricsMiddleware === 'function') {
+  app.use(metricsMiddleware);
+}
 
 // Connect to MongoDB
 connectDB();
@@ -32,10 +29,9 @@ connectDB();
 app.use('/api/tours', toursRouter);
 app.use('/api/tours', ratingRoutes);
 
-
 // Health check
 app.get('/health', (req, res) => {
-  logger.info('Health check - tours service');
+  console.log('Health check - tours service'); // ← use console if logger undefined
   res.json({ 
     status: 'tours service ok',
     port: PORT,
@@ -50,12 +46,12 @@ app.use((req, res) => {
 
 // Error handler
 app.use((err, req, res, next) => {
-  logger.error({ err, path: req.path, method: req.method }, 'Error occurred');
+  console.error({ err, path: req.path, method: req.method }, 'Error occurred'); // ← use console.error
   res.status(500).json({ error: 'Internal server error' });
 });
 
 app.listen(PORT, () => {
-  logger.info(`🚀 Tours service running on http://localhost:${PORT}`);
-  logger.info('Metrics available at /metrics');
-  logger.info('Tracing enabled - sending to Jaeger');
+  console.log(`🚀 Tours service running on http://localhost:${PORT}`);
+  console.log('Metrics available at /metrics');
+  console.log('Tracing enabled - sending to Jaeger');
 });

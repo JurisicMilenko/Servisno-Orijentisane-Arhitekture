@@ -86,7 +86,8 @@ exports.updateProfile = async (req, res) => {
 exports.listUsers = async (req, res) => {
   try {
     const userRole = req.user && req.user.role;
-    if (userRole !== 'admin') return res.status(403).json({ error: 'forbidden: admin only' });
+    //iskljucio sam admin only, signed: Milenko Jurisic
+    //if (userRole !== 'admin') return res.status(403).json({ error: 'forbidden: admin only' });
     const users = await service.getAllUsers();
     res.json(users);
   } catch (err) {

@@ -49,7 +49,7 @@ namespace BlogService.Database
 
         public async Task<bool> DeleteBlogRating(int ratingId)
         {
-            var rating = await _dbContext.Set<BlogRating>().FindAsync(ratingId);
+            var rating = await _dbContext.Set<BlogRating>().FindAsync((long)ratingId);
             if (rating == null) return false;
 
             _dbContext.Set<BlogRating>().Remove(rating);

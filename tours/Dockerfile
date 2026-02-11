@@ -2,19 +2,16 @@ FROM node:18-alpine
 
 WORKDIR /app
 
-# Copy shared monitoring module
-COPY shared ./node_modules/soa-shared-monitoring
+COPY tours/shared ./shared
 
-# Install shared monitoring dependencies
-RUN cd ./node_modules/soa-shared-monitoring && npm install --production
+RUN if [ -f ./shared/package.json ]; then \
+        cd ./shared && npm install --production; \
+    fi
 
-# Install tours dependencies
 COPY tours/package*.json ./
 RUN npm install --production
 
-# Copy application source
-COPY tours .
+COPY tours/src ./src
 
 EXPOSE 3002
-
 CMD ["node", "src/index.js"]

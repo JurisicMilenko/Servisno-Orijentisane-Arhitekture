@@ -1,23 +1,17 @@
 FROM node:18-alpine
 
-WORKDIR /usr/src/app
+WORKDIR /app
 
-# Copy shared monitoring module
-COPY shared ./node_modules/soa-shared-monitoring
+COPY gateway/shared ./shared
 
-# Install shared monitoring dependencies
-RUN cd ./node_modules/soa-shared-monitoring && npm install --production
+RUN if [ -f ./shared/package.json ]; then \
+        cd ./shared && npm install --production; \
+    fi
 
-# Install gateway dependencies
 COPY gateway/package*.json ./
-RUN npm ci --only=production || npm install --only=production
+RUN npm install --production
 
-# Copy application source
-COPY gateway .
-
-ENV NODE_ENV=production
-ENV PORT=4000
+COPY gateway/src ./src
 
 EXPOSE 4000
-
 CMD ["node", "src/index.js"]

@@ -1,19 +1,17 @@
 FROM node:18-alpine
 
-WORKDIR /usr/src/app
+WORKDIR /app
 
-# Copy shared monitoring module
-COPY shared ./node_modules/soa-shared-monitoring
+COPY purchase/shared ./shared
 
-# Install shared monitoring dependencies
-RUN cd ./node_modules/soa-shared-monitoring && npm install --production
+RUN if [ -f ./shared/package.json ]; then \
+        cd ./shared && npm install --production; \
+    fi
 
-# Install purchase dependencies
 COPY purchase/package*.json ./
 RUN npm install --production
 
-# Copy application source
-COPY purchase .
+COPY purchase/src ./src
 
 EXPOSE 3004
 

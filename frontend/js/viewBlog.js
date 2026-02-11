@@ -44,7 +44,7 @@ function create(htmlStr) {
 
 
 window.onload = async function() {
-  alert("????")
+  //alert("????")
     const res = await fetch(`${BLOG_BASE}/api/touristOrAuthor/blog`, {
       headers: { 'Authorization': 'Bearer ' + token }
     });
@@ -61,9 +61,15 @@ window.onload = async function() {
     if(!data2.includes(data.results[i].userId)){
       continue;
     }
-  
+    console.log(data2)
+    for(var j in data2){
+      if(data2[j] == data.results[i].userId){
+        
+        var username = await getUsername(data.results[i])
+      }
+    }
     var image = await getImage(data.results[i])
-    var username = await getUsername(data.results[i]);
+    //var username = await getUsername(data.results[i]);
     var htmltags = '<div><h2>Title: '+data.results[i].title+'</h2><p>Description: '+data.results[i].description+'</p><p>Creator: '+username+'</p>'+
         '<p>Date: '+data.results[i].createdAt+'</p><p>Likes: '+await numberOfLikes(data.results[i].id)+'</p><img id="profileImg" src="'+image+'" alt="Avatar" /><br><button onclick="Like('+ data.results[i].id +')" class="btn btn-primary">Like</button><br>';
     htmltags = htmltags + await addComments(data.results[i])
@@ -82,7 +88,7 @@ window.onload = async function() {
 };
 
 async function getUsername(blog){
-    const res = await fetch(`${STAKEHOLDERS_BASE}/api/stakeholders/users`, {
+    const res = await fetch(`${API_BASE}/api/auth/users`, {
       headers: { 'Authorization': 'Bearer ' + token }
     });
     const data = await res.json();
@@ -124,16 +130,15 @@ async function Like(id) {
     const data1 = await res1.json();
     var found = 0
     var rating
-    for(var i in data.results){
+    for(var i in data.ratings){
         //alert(blog.ratings[i].userId +" "+ data1.id)
-        if(data.results[i].userId == data1.id){
+        if(data.ratings[i].userId == data1.id){
             found = 1
-            
             //for(var key in data.ratings[i]){
             //alert(key);
             //}
-            rating = data.results[i].id
-            alert(rating)
+            rating = data.ratings[i].id
+            //alert(rating)
         }
     }
     if(found == 0){
@@ -142,7 +147,7 @@ async function Like(id) {
     blogId: id,
     voteType: "Upvote",
     userId: data1.id
-  };
+    };
 
 
         const res = await fetch(`${BLOG_BASE}/api/blogratings`, {
@@ -166,7 +171,7 @@ async function Like(id) {
 
     }else{
 
-        alert("found")
+        //alert("found")
 
         const res = await fetch(`${BLOG_BASE}/api/blogratings/`+rating+"?id="+rating, {
       method: 'DELETE',
@@ -199,9 +204,11 @@ async function numberOfLikes(blogId){
       },
     });
     const data = await res.json();
+    console.log(data)
     var likes = 0
-    for(var i in data.results){
-        if(data.results[i].blogId == blogId){
+    for(var i in data.ratings){
+      
+        if(data.ratings[i].blogId == blogId){
             likes += 1
         }
     }
