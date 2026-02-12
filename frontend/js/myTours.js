@@ -241,13 +241,13 @@ async function archiveTour(tourId) {
       return;
     }
 
-    const res1 = await fetch(`${API_BASE}/api/purchase/carts/`+tourId, {
+    /*const res1 = await fetch(`http://localhost:4000/api/purchase/carts/`+tourId, {
       method: 'DELETE',
       headers: { 
         'Authorization': 'Bearer ' + token,
         'Content-Type': 'application/json'
       }
-    });
+    });*/
     
 
     showMessage('Tura uspješno arhivirana! 📦', 'success');

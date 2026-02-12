@@ -3,8 +3,16 @@
   "WorkspaceRootPath": "C:\\Users\\Milenko\\Desktop\\SOA\\BlogService\\src\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{6ED7DE3E-1A1F-4AD3-85E7-DA19CA73EB07}|BlogService\\BlogService.csproj|c:\\users\\milenko\\desktop\\soa\\blogservice\\src\\blogservice\\controllers\\iblogratingservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{6ED7DE3E-1A1F-4AD3-85E7-DA19CA73EB07}|BlogService\\BlogService.csproj|solutionrelative:blogservice\\controllers\\iblogratingservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{6ED7DE3E-1A1F-4AD3-85E7-DA19CA73EB07}|BlogService\\BlogService.csproj|c:\\users\\milenko\\desktop\\soa\\blogservice\\src\\blogservice\\database\\ratingdatabaserepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6ED7DE3E-1A1F-4AD3-85E7-DA19CA73EB07}|BlogService\\BlogService.csproj|solutionrelative:blogservice\\database\\ratingdatabaserepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6ED7DE3E-1A1F-4AD3-85E7-DA19CA73EB07}|BlogService\\BlogService.csproj|c:\\users\\milenko\\desktop\\soa\\blogservice\\src\\blogservice\\controllers\\blogratingservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6ED7DE3E-1A1F-4AD3-85E7-DA19CA73EB07}|BlogService\\BlogService.csproj|solutionrelative:blogservice\\controllers\\blogratingservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6ED7DE3E-1A1F-4AD3-85E7-DA19CA73EB07}|BlogService\\BlogService.csproj|c:\\users\\milenko\\desktop\\soa\\blogservice\\src\\blogservice\\controllers\\blogcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6ED7DE3E-1A1F-4AD3-85E7-DA19CA73EB07}|BlogService\\BlogService.csproj|solutionrelative:blogservice\\controllers\\blogcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{6ED7DE3E-1A1F-4AD3-85E7-DA19CA73EB07}|BlogService\\BlogService.csproj|c:\\users\\milenko\\desktop\\soa\\blogservice\\src\\blogservice\\controllers\\blogratingcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -15,12 +23,8 @@
       "RelativeMoniker": "D:0:0:{6ED7DE3E-1A1F-4AD3-85E7-DA19CA73EB07}|BlogService\\BlogService.csproj|solutionrelative:blogservice\\controllers\\proto\\rating.proto||{3B902123-F8A7-4915-9F01-361F908088D0}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{6ED7DE3E-1A1F-4AD3-85E7-DA19CA73EB07}|BlogService\\BlogService.csproj|c:\\users\\milenko\\desktop\\soa\\blogservice\\src\\blogservice\\controllers\\blogcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{6ED7DE3E-1A1F-4AD3-85E7-DA19CA73EB07}|BlogService\\BlogService.csproj|solutionrelative:blogservice\\controllers\\blogcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{6ED7DE3E-1A1F-4AD3-85E7-DA19CA73EB07}|BlogService\\BlogService.csproj|c:\\users\\milenko\\desktop\\soa\\blogservice\\src\\blogservice\\controllers\\blogratingservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{6ED7DE3E-1A1F-4AD3-85E7-DA19CA73EB07}|BlogService\\BlogService.csproj|solutionrelative:blogservice\\controllers\\blogratingservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{6ED7DE3E-1A1F-4AD3-85E7-DA19CA73EB07}|BlogService\\BlogService.csproj|c:\\users\\milenko\\desktop\\soa\\blogservice\\src\\blogservice\\controllers\\iblogratingservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6ED7DE3E-1A1F-4AD3-85E7-DA19CA73EB07}|BlogService\\BlogService.csproj|solutionrelative:blogservice\\controllers\\iblogratingservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{6ED7DE3E-1A1F-4AD3-85E7-DA19CA73EB07}|BlogService\\BlogService.csproj|c:\\users\\milenko\\desktop\\soa\\blogservice\\src\\blogservice\\controllers\\blogservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -33,10 +37,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{6ED7DE3E-1A1F-4AD3-85E7-DA19CA73EB07}|BlogService\\BlogService.csproj|c:\\users\\milenko\\desktop\\soa\\blogservice\\src\\blogservice\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{6ED7DE3E-1A1F-4AD3-85E7-DA19CA73EB07}|BlogService\\BlogService.csproj|solutionrelative:blogservice\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{6ED7DE3E-1A1F-4AD3-85E7-DA19CA73EB07}|BlogService\\BlogService.csproj|c:\\users\\milenko\\desktop\\soa\\blogservice\\src\\blogservice\\database\\ratingdatabaserepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{6ED7DE3E-1A1F-4AD3-85E7-DA19CA73EB07}|BlogService\\BlogService.csproj|solutionrelative:blogservice\\database\\ratingdatabaserepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{6ED7DE3E-1A1F-4AD3-85E7-DA19CA73EB07}|BlogService\\BlogService.csproj|c:\\users\\milenko\\desktop\\soa\\blogservice\\src\\blogservice\\controllers\\iratingrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -130,63 +130,26 @@
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 1,
               "Title": "BlogRatingService.cs",
               "DocumentMoniker": "C:\\Users\\Milenko\\Desktop\\SOA\\BlogService\\src\\BlogService\\Controllers\\BlogRatingService.cs",
               "RelativeDocumentMoniker": "BlogService\\Controllers\\BlogRatingService.cs",
-              "ToolTip": "C:\\Users\\Milenko\\Desktop\\SOA\\BlogService\\src\\BlogService\\Controllers\\BlogRatingService.cs",
-              "RelativeToolTip": "BlogService\\Controllers\\BlogRatingService.cs",
-              "ViewState": "AgIAADEAAAAAAAAAAADwv0MAAABSAAAAAAAAAA==",
+              "ToolTip": "C:\\Users\\Milenko\\Desktop\\SOA\\BlogService\\src\\BlogService\\Controllers\\BlogRatingService.cs*",
+              "RelativeToolTip": "BlogService\\Controllers\\BlogRatingService.cs*",
+              "ViewState": "AgIAADYAAAAAAAAAAAAQwEUAAAA0AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-11-19T23:40:00.938Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "BlogService.cs",
-              "DocumentMoniker": "C:\\Users\\Milenko\\Desktop\\SOA\\BlogService\\src\\BlogService\\Controllers\\BlogService.cs",
-              "RelativeDocumentMoniker": "BlogService\\Controllers\\BlogService.cs",
-              "ToolTip": "C:\\Users\\Milenko\\Desktop\\SOA\\BlogService\\src\\BlogService\\Controllers\\BlogService.cs",
-              "RelativeToolTip": "BlogService\\Controllers\\BlogService.cs",
-              "ViewState": "AgIAAAYAAAAAAAAAAAAAABwAAAAQAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-16T02:19:47.422Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 10,
-              "Title": "appsettings.json",
-              "DocumentMoniker": "C:\\Users\\Milenko\\Desktop\\SOA\\BlogService\\src\\BlogService\\appsettings.json",
-              "RelativeDocumentMoniker": "BlogService\\appsettings.json",
-              "ToolTip": "C:\\Users\\Milenko\\Desktop\\SOA\\BlogService\\src\\BlogService\\appsettings.json",
-              "RelativeToolTip": "BlogService\\appsettings.json",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAAADAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2025-11-13T00:36:06.907Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 9,
-              "Title": "IRatingRepository.cs",
-              "DocumentMoniker": "C:\\Users\\Milenko\\Desktop\\SOA\\BlogService\\src\\BlogService\\Controllers\\IRatingRepository.cs",
-              "RelativeDocumentMoniker": "BlogService\\Controllers\\IRatingRepository.cs",
-              "ToolTip": "C:\\Users\\Milenko\\Desktop\\SOA\\BlogService\\src\\BlogService\\Controllers\\IRatingRepository.cs",
-              "RelativeToolTip": "BlogService\\Controllers\\IRatingRepository.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAVAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-19T23:40:57.697Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 3,
               "Title": "BlogRatingController.cs",
               "DocumentMoniker": "C:\\Users\\Milenko\\Desktop\\SOA\\BlogService\\src\\BlogService\\Controllers\\BlogRatingController.cs",
               "RelativeDocumentMoniker": "BlogService\\Controllers\\BlogRatingController.cs",
               "ToolTip": "C:\\Users\\Milenko\\Desktop\\SOA\\BlogService\\src\\BlogService\\Controllers\\BlogRatingController.cs",
               "RelativeToolTip": "BlogService\\Controllers\\BlogRatingController.cs",
-              "ViewState": "AgIAABUAAAAAAAAAAAAywCwAAAAxAAAAAAAAAA==",
+              "ViewState": "AgIAABUAAAAAAAAAAAAywCwAAAAwAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-11-16T02:20:09.766Z",
               "EditorCaption": ""
@@ -205,7 +168,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 2,
               "Title": "BlogController.cs",
               "DocumentMoniker": "C:\\Users\\Milenko\\Desktop\\SOA\\BlogService\\src\\BlogService\\Controllers\\BlogController.cs",
               "RelativeDocumentMoniker": "BlogService\\Controllers\\BlogController.cs",
@@ -218,7 +181,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 7,
               "Title": "CommentController.cs",
               "DocumentMoniker": "C:\\Users\\Milenko\\Desktop\\SOA\\BlogService\\src\\BlogService\\Controllers\\CommentController.cs",
               "RelativeDocumentMoniker": "BlogService\\Controllers\\CommentController.cs",
@@ -231,29 +194,79 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 5,
               "Title": "IBlogRatingService.cs",
               "DocumentMoniker": "C:\\Users\\Milenko\\Desktop\\SOA\\BlogService\\src\\BlogService\\Controllers\\IBlogRatingService.cs",
               "RelativeDocumentMoniker": "BlogService\\Controllers\\IBlogRatingService.cs",
               "ToolTip": "C:\\Users\\Milenko\\Desktop\\SOA\\BlogService\\src\\BlogService\\Controllers\\IBlogRatingService.cs",
               "RelativeToolTip": "BlogService\\Controllers\\IBlogRatingService.cs",
-              "ViewState": "AgIAAAEAAAAAAAAAAAAYwBEAAAAaAAAAAAAAAA==",
+              "ViewState": "AgIAAAEAAAAAAAAAAAAYwBEAAAAZAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-11-19T23:35:27.741Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 4,
               "Title": "rating.proto",
               "DocumentMoniker": "C:\\Users\\Milenko\\Desktop\\SOA\\BlogService\\src\\BlogService\\Controllers\\proto\\rating.proto",
               "RelativeDocumentMoniker": "BlogService\\Controllers\\proto\\rating.proto",
               "ToolTip": "C:\\Users\\Milenko\\Desktop\\SOA\\BlogService\\src\\BlogService\\Controllers\\proto\\rating.proto",
               "RelativeToolTip": "BlogService\\Controllers\\proto\\rating.proto",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAADoAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAABEAAAAAAAAAAAAmwDoAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003853|",
               "WhenOpened": "2025-11-26T14:39:56.497Z",
               "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "BlogService.cs",
+              "DocumentMoniker": "C:\\Users\\Milenko\\Desktop\\SOA\\BlogService\\src\\BlogService\\Controllers\\BlogService.cs",
+              "RelativeDocumentMoniker": "BlogService\\Controllers\\BlogService.cs",
+              "ToolTip": "C:\\Users\\Milenko\\Desktop\\SOA\\BlogService\\src\\BlogService\\Controllers\\BlogService.cs",
+              "RelativeToolTip": "BlogService\\Controllers\\BlogService.cs",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAAABwAAAAQAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-16T02:19:47.422Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "RatingDatabaseRepository.cs",
+              "DocumentMoniker": "C:\\Users\\Milenko\\Desktop\\SOA\\BlogService\\src\\BlogService\\Database\\RatingDatabaseRepository.cs",
+              "RelativeDocumentMoniker": "BlogService\\Database\\RatingDatabaseRepository.cs",
+              "ToolTip": "C:\\Users\\Milenko\\Desktop\\SOA\\BlogService\\src\\BlogService\\Database\\RatingDatabaseRepository.cs",
+              "RelativeToolTip": "BlogService\\Database\\RatingDatabaseRepository.cs",
+              "ViewState": "AgIAAB0AAAAAAAAAAAAiwCsAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-19T23:48:04.056Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "IRatingRepository.cs",
+              "DocumentMoniker": "C:\\Users\\Milenko\\Desktop\\SOA\\BlogService\\src\\BlogService\\Controllers\\IRatingRepository.cs",
+              "RelativeDocumentMoniker": "BlogService\\Controllers\\IRatingRepository.cs",
+              "ToolTip": "C:\\Users\\Milenko\\Desktop\\SOA\\BlogService\\src\\BlogService\\Controllers\\IRatingRepository.cs",
+              "RelativeToolTip": "BlogService\\Controllers\\IRatingRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAVAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-19T23:40:57.697Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "C:\\Users\\Milenko\\Desktop\\SOA\\BlogService\\src\\BlogService\\appsettings.json",
+              "RelativeDocumentMoniker": "BlogService\\appsettings.json",
+              "ToolTip": "C:\\Users\\Milenko\\Desktop\\SOA\\BlogService\\src\\BlogService\\appsettings.json",
+              "RelativeToolTip": "BlogService\\appsettings.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAAADAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2025-11-13T00:36:06.907Z"
             },
             {
               "$type": "Document",
@@ -269,7 +282,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 8,
               "Title": "Program.cs",
               "DocumentMoniker": "C:\\Users\\Milenko\\Desktop\\SOA\\BlogService\\src\\BlogService\\Program.cs",
               "RelativeDocumentMoniker": "BlogService\\Program.cs",
@@ -278,18 +291,6 @@
               "ViewState": "AgIAACUAAAAAAAAAAAAiwDsAAAAoAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-11-13T00:36:05.498Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 8,
-              "Title": "RatingDatabaseRepository.cs",
-              "DocumentMoniker": "C:\\Users\\Milenko\\Desktop\\SOA\\BlogService\\src\\BlogService\\Database\\RatingDatabaseRepository.cs",
-              "RelativeDocumentMoniker": "BlogService\\Database\\RatingDatabaseRepository.cs",
-              "ToolTip": "C:\\Users\\Milenko\\Desktop\\SOA\\BlogService\\src\\BlogService\\Database\\RatingDatabaseRepository.cs",
-              "RelativeToolTip": "BlogService\\Database\\RatingDatabaseRepository.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAqwAcAAAApAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-19T23:48:04.056Z"
             },
             {
               "$type": "Document",

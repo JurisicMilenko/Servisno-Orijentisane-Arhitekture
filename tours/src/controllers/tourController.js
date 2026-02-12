@@ -168,8 +168,8 @@ exports.archiveTour = async (req, res) => {
     if (tour.authorId !== userId) {
       return res.status(403).json({ error: 'Only tour author can archive the tour' });
     }
-    
-    const updated = await tourService.archiveTour(req.params.id);
+    const token = req.headers.authorization?.split(" ")[1];
+    const updated = await tourService.archiveTour(req.params.id, token);
     res.json(updated);
   } catch (err) {
     res.status(400).json({ error: err.message });

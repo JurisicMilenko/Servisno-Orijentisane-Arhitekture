@@ -215,7 +215,7 @@ exports.publishTour = async (id) => {
 };
 
 // Archive tour
-exports.archiveTour = async (id) => {
+exports.archiveTour = async (id, token) => {
   try {
     const tour = await Tour.findById(id);
     if (!tour) return null;
@@ -225,6 +225,14 @@ exports.archiveTour = async (id) => {
       throw new Error('Only published tours can be archived');
     }
     
+    const res1 = await fetch(`http://purchase:3004/api/purchase/carts/`+id, {
+      method: 'DELETE',
+      headers: { 
+        'Authorization': 'Bearer ' + token,
+        'Content-Type': 'application/json'
+      }
+    });
+
     tour.status = 'archived';
     tour.archivedAt = new Date();
     await tour.save();
